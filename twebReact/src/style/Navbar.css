@@ -1,0 +1,16 @@
+#containerNav{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+#Navbar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 7px;
+    height: 60px;
+    background-color: rgb(241, 237, 233);
+}
