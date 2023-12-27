@@ -1,0 +1,13 @@
+#container{
+    display: flex;
+    justify-content: center;
+}
+#containerCard{
+    display: flex;
+    flex-wrap: wrap;
+    width: 70%;
+    justify-content: center;
+}
+#cardDiv{
+    margin: 25px;
+}
