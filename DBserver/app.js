@@ -11,10 +11,7 @@ var usersRouter = require('./routes/users');
 var app = express();
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://alessandromao:y2FPAXI53qEx7A9u@cluster0.8l8qzfj.mongodb.net/', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
+mongoose.connect('mongodb+srv://alessandromao:1234@cluster0.zznxw7u.mongodb.net/FootGoal')
     .then(() => {
         console.log('Connected to MongoDB');
     })

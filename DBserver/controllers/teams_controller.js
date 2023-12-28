@@ -15,9 +15,8 @@ function getAllTeams() {
             });
     });
 }
-
-
 module.exports.getAllTeams = getAllTeams;
+
 function getTeamById(team_id) {
     return new Promise((resolve, reject) => {
         Model.TeamModel.find({"team.id" : team_id})

@@ -5,10 +5,10 @@ import CardTemplate from "../components/atoms/Card";
 import "../style/Home.css";
 import ChatWindow from "../components/atoms/ChatWindow";
 import axios from "axios";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 function Home(){
     const links = [true, false, false, false, false, true, true];
-    const pages = ['News', 'Ranking', 'Teams', 'Players'];
+    const pages = ['News', 'Ranking', 'Teams', 'Players', 'Games'];
     const [newsApi, setNewsApi] = useState([]);
     useEffect(() => {
         const getApiNews = () => {
@@ -28,24 +28,24 @@ function Home(){
         };
         getApiNews();
     }, []);
+
     return (
-        <div >
-            
+        <div>
             <TopAppBar links={links} pages={pages} />
             <div id="boxTitleHome">
-                <h1 id="titleHome"><em>Welcome to FootBall GOAL</em></h1>
+                <h1 id="titleHome"><em>Welcome to FootGoal!</em></h1>
             </div>
             <div id="topNews">
             </div>
             <div id="containerBoxNews">
-    
+
             { newsApi.map((newsItem, index)  => (
                 <CardTemplate key={index} newsApi={newsItem} />
             ))}
-            
+
             </div>
             <button>More News</button>
-            <ChatWindow />
+            <ChatWindow/>
         </div>
     );
 }

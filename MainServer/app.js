@@ -1,5 +1,6 @@
 var createError = require('http-errors');
 var express = require('express');
+const cors = require("cors"); // Import the cors middleware
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -12,6 +13,7 @@ var singleTeamRouter = require('./routes/single_team');
 var playerRouter = require('./routes/player');
 var logInRouter = require('./routes/logIn');
 var signUpRouter = require('./routes/signUp');
+var gamesRouter = require('./routes/games');
 var app = express();
 
 // view engine setup
@@ -23,6 +25,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
+
 
 app.use('/', indexRouter);
 // app.use('/users', usersRouter);
@@ -33,6 +37,7 @@ app.use('/player', playerRouter);
 console.log("sono in appuse");
 app.use('/logIn', logInRouter);
 app.use('/signUp', signUpRouter);
+app.use('/games', gamesRouter);
 
 
 // catch 404 and forward to error handler

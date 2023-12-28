@@ -7,6 +7,7 @@ import Teams from "./pages/Teams";
 import Players from './pages/Players';
 import SignUp from './pages/SignUp';
 import News from './pages/News';
+import Games from "./pages/Games";
 function App() {
     
     return (
@@ -20,6 +21,7 @@ function App() {
                     <Route path="/players" element={<Players />} />
                     <Route path="/signup" element={<SignUp/>} />
                     <Route path="/news" element={<News />} />           
+                    <Route path="/games" element={<Games />} />
                     <Route path="*" element={<h1>Page not found</h1>} />
                 </Routes>
             </div>
