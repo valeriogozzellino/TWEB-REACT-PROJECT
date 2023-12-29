@@ -9,16 +9,19 @@ router.get('/', function(req, res) {
     res.sendFile(teamsFilePath);
 });
 
-router.get('/get-teams', function(req, res) {
-    // GET request to /players/all-player
-
-    axios.get('http://localhost:3000/all-teams')
+//richiesta di dati al server passando come parametri un filtro!!!!!
+router.get('/all-teams', function (req, res) {
+    console.log("ho ricevuto la richiesta dei teams")
+    const { filter } = req.query;
+    console.log("parametrooooo "+ filter)
+    axios.get(`http://localhost:8081/all-teams?filter=${filter}`)
         .then(response => {
-            res.json(response.data)
+            console.log("Sto richiedendo i teams");
+            res.json(response.data);
         })
         .catch(error => {
-            res.setHeader('Content-Type', 'application/json');
+            console.error(error);
             res.status(500).json({ error: 'Internal Server Error' });
         });
-})
+});
 module.exports = router;

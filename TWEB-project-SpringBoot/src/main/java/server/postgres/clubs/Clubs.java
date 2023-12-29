@@ -1,21 +1,45 @@
 package server.postgres.clubs;
 
+import jakarta.persistence.*;
+
+import java.math.BigDecimal;
+
+@Entity
+@Table(name= "clubs")
 public class Clubs {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "club_id")
     private int clubId;
+    @Column(name = "club_code", length = 50)
     private String clubCode;
+    @Column(name = "name", length = 255)
     private String name;
-    private int domesticCompetitionId;
-    private double totalMarketValue;
+    @Column(name = "domestic_competition_id", length = 50)
+    private String domesticCompetitionId;
+    @Column(name = "total_market_value", precision = 15, scale = 2)
+    private BigDecimal totalMarketValue;
+    @Column(name = "squad_size")
     private int squadSize;
-    private double averageAge;
+    @Column(name = "average_age", precision = 5, scale = 2)
+    private BigDecimal averageAge;
+    @Column(name = "foreigners_number")
     private int foreignersNumber;
-    private double foreignersPercentage;
+    @Column(name = "foreigners_percentage", precision = 5, scale = 2)
+    private BigDecimal foreignersPercentage;
+    @Column(name = "national_team_players")
     private int nationalTeamPlayers;
+    @Column(name = "stadium_name", length = 255)
     private String stadiumName;
+    @Column(name = "stadium_seats")
     private int stadiumSeats;
-    private double netTransferRecord;
+    @Column(name = "net_transfer_record", length = 255)
+    private String netTransferRecord;
+    @Column(name = "coach_name", length = 255)
     private String coachName;
+    @Column(name = "last_season")
     private int lastSeason;
+    @Column(name = "url", length = 255)
     private String url;
 
     // Costruttore vuoto
@@ -48,19 +72,19 @@ public class Clubs {
         this.name = name;
     }
 
-    public int getDomesticCompetitionId() {
+    public String getDomesticCompetitionId() {
         return domesticCompetitionId;
     }
 
-    public void setDomesticCompetitionId(int domesticCompetitionId) {
+    public void setDomesticCompetitionId(String domesticCompetitionId) {
         this.domesticCompetitionId = domesticCompetitionId;
     }
 
-    public double getTotalMarketValue() {
+    public BigDecimal getTotalMarketValue() {
         return totalMarketValue;
     }
 
-    public void setTotalMarketValue(double totalMarketValue) {
+    public void setTotalMarketValue(BigDecimal totalMarketValue) {
         this.totalMarketValue = totalMarketValue;
     }
 
@@ -72,11 +96,11 @@ public class Clubs {
         this.squadSize = squadSize;
     }
 
-    public double getAverageAge() {
+    public BigDecimal getAverageAge() {
         return averageAge;
     }
 
-    public void setAverageAge(double averageAge) {
+    public void setAverageAge(BigDecimal averageAge) {
         this.averageAge = averageAge;
     }
 
@@ -88,11 +112,11 @@ public class Clubs {
         this.foreignersNumber = foreignersNumber;
     }
 
-    public double getForeignersPercentage() {
+    public BigDecimal getForeignersPercentage() {
         return foreignersPercentage;
     }
 
-    public void setForeignersPercentage(double foreignersPercentage) {
+    public void setForeignersPercentage(BigDecimal foreignersPercentage) {
         this.foreignersPercentage = foreignersPercentage;
     }
 
@@ -120,11 +144,11 @@ public class Clubs {
         this.stadiumSeats = stadiumSeats;
     }
 
-    public double getNetTransferRecord() {
+    public String getNetTransferRecord() {
         return netTransferRecord;
     }
 
-    public void setNetTransferRecord(double netTransferRecord) {
+    public void setNetTransferRecord(String netTransferRecord) {
         this.netTransferRecord = netTransferRecord;
     }
 

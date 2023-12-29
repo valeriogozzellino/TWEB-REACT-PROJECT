@@ -2,6 +2,7 @@ package server.postgres.players;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 
@@ -57,10 +58,10 @@ public class Players {
     private int heightInCm;
 
     @Column(name = "market_value_in_eur", precision = 15, scale = 2)
-    private float marketValueInEur;
+    private BigDecimal marketValueInEur;
 
     @Column(name = "highest_market_value_in_eur", precision = 15, scale = 2)
-    private float highestMarketValueInEur;
+    private BigDecimal highestMarketValueInEur;
 
     @Column(name = "contract_expiration_date")
     @Temporal(TemporalType.DATE)
@@ -75,8 +76,8 @@ public class Players {
     @Column(name = "url", length = 255)
     private String url;
 
-    @Column(name = "current_club_domestic_competition_id")
-    private int currentClubDomesticCompetitionId;
+    @Column(name = "current_club_domestic_competition_id", length = 10)
+    private String currentClubDomesticCompetitionId;
 
     @Column(name = "current_club_name", length = 255)
     private String currentClubName;
@@ -205,19 +206,19 @@ public class Players {
         this.heightInCm = heightInCm;
     }
 
-    public float getMarketValueInEur() {
+    public BigDecimal getMarketValueInEur() {
         return marketValueInEur;
     }
 
-    public void setMarketValueInEur(float marketValueInEur) {
+    public void setMarketValueInEur(BigDecimal marketValueInEur) {
         this.marketValueInEur = marketValueInEur;
     }
 
-    public float getHighestMarketValueInEur() {
+    public BigDecimal getHighestMarketValueInEur() {
         return highestMarketValueInEur;
     }
 
-    public void setHighestMarketValueInEur(float highestMarketValueInEur) {
+    public void setHighestMarketValueInEur(BigDecimal highestMarketValueInEur) {
         this.highestMarketValueInEur = highestMarketValueInEur;
     }
 
@@ -253,11 +254,11 @@ public class Players {
         this.url = url;
     }
 
-    public int getCurrentClubDomesticCompetitionId() {
+    public String getCurrentClubDomesticCompetitionId() {
         return currentClubDomesticCompetitionId;
     }
 
-    public void setCurrentClubDomesticCompetitionId(int currentClubDomesticCompetitionId) {
+    public void setCurrentClubDomesticCompetitionId(String currentClubDomesticCompetitionId) {
         this.currentClubDomesticCompetitionId = currentClubDomesticCompetitionId;
     }
 

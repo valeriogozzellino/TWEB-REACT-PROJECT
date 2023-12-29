@@ -5,7 +5,7 @@ import CardTemplate from "../components/atoms/Card";
 import "../style/Home.css";
 import ChatWindow from "../components/atoms/ChatWindow";
 import axios from "axios";
-import {useEffect, useState} from "react";
+import { useState, useEffect } from "react";
 function Home(){
     const links = [true, false, false, false, false, true, true];
     const pages = ['News', 'Ranking', 'Teams', 'Players', 'Games'];
