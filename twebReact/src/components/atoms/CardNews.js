@@ -8,31 +8,27 @@ import Typography from '@mui/material/Typography';
 
 //modificare il codice in modo che possa ricevere un titolo una immagine un link e una description
 //modificare poi a propio piacimento la card
-export default function CardTemplate({index , newsApi}) {
-    console.log("sono dentro cardtemplate");
-    console.log(newsApi[index].title);
-    console.log(newsApi[index].image);
-    console.log(newsApi[index].description);
-    console.log(newsApi[index].url);
+export default function CardNews({ newsApi}) {
+    
   return (
-    <Card sx={{ maxWidth: 345, margin:2 }}>
+    <Card sx={{ maxWidth: 245, margin:2 ,maxHeight:450}}>
       <CardMedia
         sx={{ height: 140 }}
-        image={newsApi[0].image}
-        title="green iguana"
+        image={newsApi.image}
+        title={newsApi.title}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          Lizard
+          {newsApi.title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Lizards are a widespread group of squamate reptiles, with over 6,000
-          species, ranging across all continents except Antarctica
+           {newsApi.description}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Share</Button>
-        <Button size="small">Learn More</Button>
+       <Button size="small" href={newsApi.url} target="_blank" rel="noopener noreferrer">
+          Learn More
+        </Button>
       </CardActions>
     </Card>
   );

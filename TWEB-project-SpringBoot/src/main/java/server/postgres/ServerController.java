@@ -21,9 +21,10 @@ public class ServerController {
         this.clubsService = clubsService;
     }
 
-    @GetMapping("/all-players")
-    public List<String> getAllPlayers() {
-        List<String> playersList = playersService.getAllPlayers();
+    @GetMapping("/get-player-by-team")
+    public List<Players> getAllPlayers(@RequestParam(name = "filter") String filter) {
+        System.out.println("Stampo il filtro: " + filter);
+        List<Players> playersList = playersService.getAllPlayers(filter);
         if(playersList.isEmpty()){
             System.out.println("LISTA VUOTA");
         }else{

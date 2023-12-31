@@ -9,11 +9,11 @@ router.get('/', function(req, res) {
     res.sendFile(teamsFilePath);
 });
 
-//richiesta di dati al server passando come parametri un filtro!!!!!
+//richiesta di dati al server passando come parametri un filtro sulla nazionalità!!!!!
 router.get('/all-teams', function (req, res) {
     console.log("ho ricevuto la richiesta dei teams")
     const { filter } = req.query;
-    console.log("parametrooooo "+ filter)
+    console.log("parametrooooo " + filter)
     axios.get(`http://localhost:8081/all-teams?filter=${filter}`)
         .then(response => {
             console.log("Sto richiedendo i teams");

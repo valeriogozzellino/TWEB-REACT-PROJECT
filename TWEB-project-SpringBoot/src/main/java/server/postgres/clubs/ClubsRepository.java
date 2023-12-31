@@ -13,5 +13,5 @@ public interface ClubsRepository  extends JpaRepository<Clubs, String> {
             "WHERE c2.country_name=:filter ",
 //            "AND g.date BETWEEN :startDate AND :endDate",
             nativeQuery = true)
-    List<Clubs> findByPlayersAndClubs(String filter);
+    List<Clubs> findByCompetitionsAndClubs(String filter);
 }

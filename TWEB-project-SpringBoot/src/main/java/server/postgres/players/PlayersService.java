@@ -14,8 +14,8 @@ public class PlayersService {
         this.playerRepository = playerRepository;
     }
 
-    public List<String> getAllPlayers() {
-        List<String> playersList = playerRepository.findByPlayersAndClubs();
+    public List<Players> getAllPlayers(String filter) {
+        List<Players> playersList = playerRepository.findPlayersByClubs(filter);
         return playersList;
     }
 }
