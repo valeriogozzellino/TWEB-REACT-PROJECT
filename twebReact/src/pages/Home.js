@@ -20,12 +20,9 @@ function Home(){
             axios.get(apiUrl)
                 .then(response => {
                     setNewsApi(response.data.articles);
-                    console.log(response.data.articles);
-                    console.log(arrayNewsApi);
                     setLoading(false); // Imposta lo stato di caricamento su false quando la chiamata API è completata
                 })
                 .catch(error => {
-                    console.log(error);
                     setLoading(false); // Assicurati di gestire anche gli errori
                 });
         };

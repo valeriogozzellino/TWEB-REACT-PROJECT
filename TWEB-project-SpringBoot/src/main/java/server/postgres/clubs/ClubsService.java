@@ -13,7 +13,12 @@ public class ClubsService {
         this.clubsRepository = clubsRepository;
     }
     public List<Clubs> getAllTeams(String filter) {
-        List<Clubs> clubsList = clubsRepository.findByCompetitionsAndClubs(filter);
+        List<Clubs> clubsList = null;
+        if(filter.equals("All")){
+            clubsList = clubsRepository.getAllClubs();
+        }else{
+            clubsList = clubsRepository.findByCompetitionsAndClubs(filter);
+        }
         return clubsList;
     }
 }

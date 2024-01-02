@@ -36,7 +36,7 @@ public class ServerController {
         List<String> countryList = competitionsService.getCountry();
         if(countryList.isEmpty()){
         }else{
-            System.out.println("LA LISTA HA " + countryList.size()+ " giocatori");
+            System.out.println("LA LISTA HA " + countryList.size()+ " country");
         }
         return countryList;
     }

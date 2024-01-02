@@ -17,9 +17,12 @@ import Button from '@mui/material/Button';
 //non devo accedere a props. page perchè in questo modo è già destrutturato con le {}
 export default function DrawerVault({ open, onClose, pages }) {
   const page = pages;
-  console.log(pages + " in DRAWERVAULt");
   const redirectToPage = (page) => () => {
-    window.location.href = `/${page.toLowerCase()}`;
+    if (page === "Home") {
+      window.location.href = "/";
+    } else {
+      window.location.href = `/${page.toLowerCase()}`;
+    }
   };
   //if you want to insert more page in drawervault you can add a new element in the array below
   return (
@@ -34,7 +37,7 @@ export default function DrawerVault({ open, onClose, pages }) {
         },
       }}
       color="primary"
-      variant="solid"
+      variant="temporary"
       size="sm"
       anchor="left"
           open={open}

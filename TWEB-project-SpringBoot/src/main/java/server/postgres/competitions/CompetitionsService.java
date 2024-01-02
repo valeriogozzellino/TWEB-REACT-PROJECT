@@ -24,6 +24,7 @@ public class CompetitionsService {
 
     public List<String> getCountry() {
         List<String> countryList = competitionsRepository.getCountry();
+        countryList.add("All");
         return countryList;
     }
 

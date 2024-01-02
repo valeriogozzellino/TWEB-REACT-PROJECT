@@ -12,9 +12,7 @@ export default function TopAppBar(props) {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const links = props.links;
   const pages = props.pages;
-  console.log(pages+ " in TOPAPPBAR");
   const getLoginPage = () => {
-    //indirizzamento diretto alla pagina utilizzadno la specifica all'interno della componente APP.js
      window.location.href = '/logIn';
   }
   const getSignUpPage = () => {

@@ -14,4 +14,9 @@ public interface ClubsRepository  extends JpaRepository<Clubs, String> {
 //            "AND g.date BETWEEN :startDate AND :endDate",
             nativeQuery = true)
     List<Clubs> findByCompetitionsAndClubs(String filter);
+    @Query(value = "SELECT DISTINCT c1.* " +
+            "FROM clubs c1",
+//            "AND g.date BETWEEN :startDate AND :endDate",
+            nativeQuery = true)
+    List<Clubs> getAllClubs();
 }

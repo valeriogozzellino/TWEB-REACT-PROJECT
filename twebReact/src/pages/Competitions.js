@@ -2,16 +2,18 @@ import TopAppBar from "../components/atoms/TopAppBar";
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import InputLabel from '@mui/material/InputLabel';
+//import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import DataGridElement from "../components/atoms/DataGrid";
 import Select from '@mui/material/Select';
 import "../style/Competitions.css";
 
 const Competitions = () => {
-    const links = [false, false, false, false, false, true, true];
-    const pages = ['Home', 'News', 'Ranking', 'Teams', 'Players'];
-    const [filter, setFilter] = useState("All");  // Imposta il valore di default a "All"
+  const links = [false, false, false, false, false, true, true];
+  const followClick = "/teams"; // Imposta il valore di default a "/teams
+  const pages = ['Home', 'News', 'Ranking', 'Teams', 'Players'];
+  const [country, setCountry] = useState([]); 
+    const [filter, setFilter] = useState('All');  // Imposta il valore di default a "All"
     const [gridData, setGridData] = useState({
     rows: [],
     columns: [
@@ -24,19 +26,31 @@ const Competitions = () => {
   const handleChangeFilter = (event) => {
     setFilter(event.target.value);
   }
+  useEffect(() => {
+    const getAllCountry = () => {
+      const apiUrl = `http://localhost:3001/competitions/get-competitions-country`;
+      axios
+        .get(apiUrl)
+        .then((response) => {
+          setCountry(response.data);
+        })
+        .catch((error) => {
+          alert(JSON.stringify(error));
+        });
+    };
+      getAllCountry();
+  }, []); 
 const getAllCompetitions = (filter) => {
     const apiUrl = `http://localhost:3001/competitions/all-competitions?filter=${filter}`;
     axios
       .get(apiUrl)
       .then((response) => {
-        console.log(response.data);
         const newRows = response.data.map((competitions) => ({
           id: competitions.competitionId,
           name: competitions.name,
           subType: competitions.subType,
           confederation: competitions.confederation,
         }));
-        console.log(newRows);
         setGridData((prevGridData) => ({
           ...prevGridData,
           rows: newRows,
@@ -48,7 +62,7 @@ const getAllCompetitions = (filter) => {
   };
 
     useEffect(() => {
-        getAllCompetitions(filter);
+      getAllCompetitions(filter);
     }, [filter]);
   
     return (
@@ -58,24 +72,21 @@ const getAllCompetitions = (filter) => {
           <h1>Competitions</h1>
         </div>
         <div id="blockid">
-          <InputLabel id="demo-simple-select-label">Country</InputLabel>
           <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
+            sx={{ width: 100, height: 50 }}
             value={filter}
             label="Country"
             onChange={handleChangeFilter}
           >
-            <MenuItem value={"All"}>All</MenuItem>
-            <MenuItem value={"Italy"}>Italy</MenuItem>
-            <MenuItem value={"Russia"}>Russia</MenuItem>
-            <MenuItem value={"Other"}>Other</MenuItem>
-            <MenuItem value={"France"}>France</MenuItem>
-            <MenuItem value={"Spain"}>Spain</MenuItem>
+            {country.map((country) => (
+              <MenuItem key={country} value={country}>
+                {country}
+              </MenuItem>
+            ))}
           </Select>
         </div>
             <div id="containerData">
-                <DataGridElement gridData={gridData} />
+                <DataGridElement gridData={gridData} followClick={followClick} />
             </div>
     </div>
         
