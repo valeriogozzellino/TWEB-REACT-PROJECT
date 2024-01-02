@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 
 
-export default function DataGridTeams({ gridData }) {
+export default function DataGridElement({ gridData }) {
   console.log("grid data:  ", gridData);
   console.log("grid data row:  ", gridData.rows);
   console.log("grid data colums:  ", gridData.columns);

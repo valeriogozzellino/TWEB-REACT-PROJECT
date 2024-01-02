@@ -8,8 +8,8 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 
 function Home(){
-    const links = [true, false, false, false, false, true, true];
-    const pages = ['News', 'Ranking', 'Teams', 'Players', 'Games'];
+    const links = [true, false, false, false, false, false, true, true];
+    const pages = ['News', 'Ranking', 'Teams', 'Players', 'Games', 'Competitions'];
     const [arrayNewsApi, setNewsApi] = useState([]);
    const [loading, setLoading] = useState(true);
 

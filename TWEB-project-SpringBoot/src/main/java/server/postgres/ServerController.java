@@ -3,6 +3,7 @@ package server.postgres;
 import org.springframework.web.bind.annotation.*;
 import server.postgres.clubs.Clubs;
 import server.postgres.clubs.ClubsService;
+import server.postgres.competitions.Competitions;
 import server.postgres.competitions.CompetitionsService;
 import server.postgres.players.Players;
 import server.postgres.players.PlayersService;
@@ -23,14 +24,37 @@ public class ServerController {
 
     @GetMapping("/get-player-by-team")
     public List<Players> getAllPlayers(@RequestParam(name = "filter") String filter) {
-        System.out.println("Stampo il filtro: " + filter);
         List<Players> playersList = playersService.getAllPlayers(filter);
         if(playersList.isEmpty()){
-            System.out.println("LISTA VUOTA");
         }else{
             System.out.println("LA LISTA HA " + playersList.size()+ " giocatori");
         }
         return playersList;
+    }
+    @GetMapping("/get-competitions-country")
+    public List<String> getCountry() {
+        List<String> countryList = competitionsService.getCountry();
+        if(countryList.isEmpty()){
+        }else{
+            System.out.println("LA LISTA HA " + countryList.size()+ " giocatori");
+        }
+        return countryList;
+    }
+
+    @GetMapping("/all-competitions")
+    public List<Competitions> getCompetitionsByCountry(@RequestParam(name = "filter") String filter) {
+        System.out.println("Stampo il filtro: " + filter);
+        List<Competitions> competitionsList= null;
+        if(filter.equals("All")){
+            competitionsList = competitionsService.getAllCompetition();
+        }else{
+            competitionsList = competitionsService.getCompetitionsByCountry(filter);
+        }
+        if( competitionsList.isEmpty()){
+        }else{
+            System.out.println("LA LISTA HA " +  competitionsList.size()+ " giocatori");
+        }
+        return  competitionsList;
     }
     @GetMapping("/all-teams")
     public List<Clubs> getAllTeams(@RequestParam(name = "filter") String filter) {

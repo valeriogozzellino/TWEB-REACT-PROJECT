@@ -1,6 +1,9 @@
 package server.postgres.competitions;
 
 import org.springframework.stereotype.Service;
+import server.postgres.clubs.Clubs;
+
+import java.util.List;
 
 @Service
 public class CompetitionsService {
@@ -10,5 +13,18 @@ public class CompetitionsService {
         this.competitionsRepository = competitionsRepository;
     }
 
-    //inserire le funzioni che gestiscono in DB
+    public List<Competitions> getCompetitionsByCountry(String filter) {
+        List<Competitions> competitionsList = competitionsRepository.findByCountry(filter);
+        return competitionsList;
+    }
+    public List<Competitions> getAllCompetition() {
+        List<Competitions> competitionsList = competitionsRepository.getAllCompetition();
+        return competitionsList;
+    }
+
+    public List<String> getCountry() {
+        List<String> countryList = competitionsRepository.getCountry();
+        return countryList;
+    }
+
 }

@@ -14,6 +14,8 @@ var playerRouter = require('./routes/player');
 var logInRouter = require('./routes/logIn');
 var signUpRouter = require('./routes/signUp');
 var gamesRouter = require('./routes/games');
+var competitionRouter = require('./routes/competitions');
+
 var app = express();
 
 // view engine setup
@@ -32,7 +34,7 @@ app.use('/teams', teamsRouter);
 app.use('/ranking', rankingRouter);
 app.use('/singe_team', singleTeamRouter);
 app.use('/player', playerRouter);
-console.log("sono in appuse");
+app.use('/competitions', competitionRouter);
 app.use('/logIn', logInRouter);
 app.use('/signUp', signUpRouter);
 app.use('/games', gamesRouter);

@@ -1,0 +1,20 @@
+#blockid{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-color: #b21b1b;
+    height: 100px;
+}
+#title{
+    color: rgb(23, 13, 13);
+    font-size: 40px;
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+#container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+}

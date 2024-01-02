@@ -5,8 +5,8 @@ const axios = require("axios");
 
 
 router.get('/', function(req, res) {
-    const teamsFilePath = path.join(__dirname, '../public/player.html');
-    res.sendFile(teamsFilePath);
+    const playerFilePath = path.join(__dirname, '../public/player.html');
+    res.sendFile(playerFilePath);
 });
 
 //per ora questa funzione mi restituisce tutti i players

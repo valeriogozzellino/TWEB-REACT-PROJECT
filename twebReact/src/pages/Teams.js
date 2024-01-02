@@ -4,7 +4,7 @@ import AppBarUser from "../components/atoms/AppBarUser";
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import DataGridTeams from "../components/atoms/DataGrid";
+import DataGridElement from "../components/atoms/DataGrid";
 import "../style/Teams.css";
 function Teams() {
   const [filteredClubs, setFilteredClubs] = useState([]); // Stato dei club filtrati
@@ -55,7 +55,7 @@ function Teams() {
         <h1>Teams</h1>
       </div> 
       <div id="containerData">
-        <DataGridTeams gridData={gridData} />  
+        <DataGridElement gridData={gridData} />  
       </div>
     
     </div>

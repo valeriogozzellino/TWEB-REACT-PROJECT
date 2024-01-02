@@ -67,8 +67,13 @@ export default function TopAppBar(props) {
               Players
             </Typography>
           )}
-          {links[5] && <Button color="inherit" onClick={getLoginPage}>Login</Button>}
-          {links[6] && <Button color="inherit" onClick={getSignUpPage}>SignUp</Button>}
+          {links[5] && (
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              Competitions
+            </Typography>
+          )}
+          {links[6] && <Button color="inherit" onClick={getLoginPage}>Login</Button>}
+          {links[7] && <Button color="inherit" onClick={getSignUpPage}>SignUp</Button>}
         </Toolbar>
       </AppBar>
       <DrawerVault open={drawerOpen} onClose={handleDrawerClose} pages={pages} /> {/* Passa lo stato del Drawer al componente DrawerVault */}

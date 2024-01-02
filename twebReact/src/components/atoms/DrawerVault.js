@@ -24,6 +24,7 @@ export default function DrawerVault({ open, onClose, pages }) {
   //if you want to insert more page in drawervault you can add a new element in the array below
   return (
     <Drawer
+      
       sx={{
         width: 240,
         flexShrink: 0,
@@ -32,7 +33,9 @@ export default function DrawerVault({ open, onClose, pages }) {
           boxSizing: 'border-box',
         },
       }}
-      variant="persistent"
+      color="primary"
+      variant="solid"
+      size="sm"
       anchor="left"
           open={open}
             onClose={onClose}

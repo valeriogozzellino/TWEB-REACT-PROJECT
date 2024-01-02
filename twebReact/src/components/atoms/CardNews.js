@@ -16,6 +16,7 @@ export default function CardNews({ newsApi}) {
         sx={{ height: 140 }}
         image={newsApi.image}
         title={newsApi.title}
+        wrap="wrap"
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
