@@ -27,5 +27,10 @@ public class CompetitionsService {
         countryList.add("All");
         return countryList;
     }
+    public List<String> getCompetitionsId() {
+        List<String> competitionIdList = competitionsRepository.getCompetitionsId();
+        competitionIdList.add("All");
+        return competitionIdList;
+    }
 
 }

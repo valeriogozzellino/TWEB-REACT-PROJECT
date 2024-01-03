@@ -21,4 +21,9 @@ public class ClubsService {
         }
         return clubsList;
     }
+    public List<String> getCountry() {
+        List<String> countryList =clubsRepository.getCountry();
+        countryList.add("All");
+        return countryList;
+    }
 }

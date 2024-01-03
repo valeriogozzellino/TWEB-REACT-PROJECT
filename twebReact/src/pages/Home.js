@@ -30,12 +30,12 @@ function Home(){
     }, []); // L'array vuoto come dipendenza fa sì che l'effetto venga eseguito solo al montaggio
 
     return (
-        <div>
-            <TopAppBar links={links} pages={pages} />
-            <div id="boxTitleHome">
-                <h1 id="titleHome"><em>Welcome to FootGoal!</em></h1>
-            </div>
-            <div id="topNews">
+        <div id='container'>
+            <div id="topContainer">
+                <TopAppBar links={links} pages={pages} />
+                <div id="boxTitleHome">
+                    <h1 id="titleHome"><em>Welcome to FootGoal!</em></h1>
+                </div>
             </div>
             <div id="containerBoxNews">
                 {loading ? (
@@ -47,8 +47,10 @@ function Home(){
                 )}
 
             </div>
-            <button>More News</button>
-            <ChatWindow/>
+            <div id="bottomContainer">
+                <h4>Contact : Valerio Gozzellino ,    tel: 3313421000<br/>  Alessandro Mao ,    tel: 3313421000 </h4>
+                <ChatWindow />
+            </div>
         </div>
     );
 }

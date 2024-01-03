@@ -32,8 +32,26 @@ public class ServerController {
         return playersList;
     }
     @GetMapping("/get-competitions-country")
-    public List<String> getCountry() {
+    public List<String> getCompetitionsCountry() {
         List<String> countryList = competitionsService.getCountry();
+        if(countryList.isEmpty()){
+        }else{
+            System.out.println("LA LISTA HA " + countryList.size()+ " country");
+        }
+        return countryList;
+    }
+    @GetMapping("/get-competitions-id")
+    public List<String> getCompetitionsId() {
+        List<String> competitionsIdList = competitionsService.getCompetitionsId();
+        if(competitionsIdList.isEmpty()){
+        }else{
+            System.out.println("LA LISTA HA " + competitionsIdList.size()+ " id");
+        }
+        return competitionsIdList;
+    }
+    @GetMapping("/get-teams-country")
+    public List<String> getTeamsCountry() {
+        List<String> countryList = clubsService.getCountry();
         if(countryList.isEmpty()){
         }else{
             System.out.println("LA LISTA HA " + countryList.size()+ " country");
@@ -56,8 +74,9 @@ public class ServerController {
         }
         return  competitionsList;
     }
-    @GetMapping("/all-teams")
-    public List<Clubs> getAllTeams(@RequestParam(name = "filter") String filter) {
+
+    @GetMapping("/get-teams-by-competition")
+    public List<Clubs> getAllTeams(@RequestParam(name = "filterCompetition") String filter) {
         System.out.println("Stampo il filtro: " + filter);
 
         List<Clubs> clubsList = clubsService.getAllTeams(filter);

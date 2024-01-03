@@ -2,7 +2,6 @@ import TopAppBar from "../components/atoms/TopAppBar";
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-//import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import DataGridElement from "../components/atoms/DataGrid";
 import Select from '@mui/material/Select';

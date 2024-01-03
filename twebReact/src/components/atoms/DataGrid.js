@@ -6,7 +6,7 @@ import { DataGrid } from '@mui/x-data-grid';
 export default function DataGridElement({ gridData, followClick }) {
   const handleCellClick = (params, event) => {
     const rowId = params.id;
-    window.location.href = `${followClick}?competitionId=${rowId}`;;
+    window.location.href = `${followClick}?props=${rowId}`;;
       console.log("Riga selezionata:", rowId);
   };
   return (

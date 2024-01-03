@@ -8,8 +8,7 @@ import { useLocation } from 'react-router-dom'; // Importa useLocation da react-
 import "../style/Teams.css";
 function Teams() {
   const followClick = "/players"; // Imposta il valore di default a "/players"  
-  const [competitionId, setCompetitionId] = useState(null);
-  const [filter, setFilter] = useState("All"); // Stato dei club filtrati
+  //const [competitionId, setCompetitionId] = useState(null);
   const [clubs, setClubs] = useState([]);
   const [gridData, setGridData] = useState({
     rows: [],
@@ -21,13 +20,49 @@ function Teams() {
       { field: 'stadiumSeats', headerName: 'Stadium Seats', width: 200 },
     ],
   });
-
-  const handleChangeFilter = (event) => {
-    setFilter(event.target.value);
+  
+  const handleFilterCompetitions = (event) => {
+    setCompetitionId(event.target.value);
   }
+  const handleFilterCountry = (event) => {
+    setFilterCountry(event.target.value);
+  }
+  //get all the countries of the teams
+  const [filterCountry, setFilterCountry] = useState([]); 
+  useEffect(() => {
+    const getAllCountry = () => {
+      const apiUrl = `http://localhost:3001/teams/get-teams-country`;
+      axios
+      .get(apiUrl)
+      .then((response) => {
+        setFilterCountry(response.data);
+        })
+        .catch((error) => {
+          alert(JSON.stringify(error));
+        });
+      };
+      getAllCountry();
+    }, []); 
+    
+  const [filterCompetition, setCompetitionId] = useState([]); // Stato dei club filtrati
+  useEffect(() => {
+    const getAllCompetitions = () => {
+      const apiUrl = `http://localhost:3001/teams/get-competitions-id`;
+      axios
+        .get(apiUrl)
+        .then((response) => {
+          setCompetitionId(response.data);
+        })
+        .catch((error) => {
+          alert(JSON.stringify(error));
+        });
+    };
+      getAllCompetitions();
+  }, []); 
 
-  const getAllTeams = (filter) => {
-    const apiUrl = `http://localhost:3001/teams/all-teams?filter=${filter}`;
+//get all teams and filter by country
+  const getTeamsByCompetition = (filterCompetition) => {
+    const apiUrl = `http://localhost:3001/teams/get-teams-by-competition?filterCompetition=${filterCompetition}`;
     axios
       .get(apiUrl)
       .then((response) => {
@@ -51,8 +86,8 @@ function Teams() {
   };
 
     useEffect(() => {
-        getAllTeams(filter);
-    }, [filter]);
+      getTeamsByCompetition(filterCompetition);
+    }, [filterCompetition]);
         
   
   
@@ -60,11 +95,11 @@ function Teams() {
 
   useEffect(() => {
     // Estrai il competitionId dai parametri dell'URL
-    const params = new URLSearchParams(location.search);
-    const competitionIdFromURL = params.get('competitionId');
-    setCompetitionId(competitionIdFromURL);
-    getAllTeams(filter);
-  }, [filter, location.search]);
+    // const params = new URLSearchParams(location.search);
+    // const competitionIdFromURL = params.get('props');
+    // setCompetitionId(competitionIdFromURL);
+    getTeamsByCompetition(filterCompetition);
+  }, [filterCompetition, location.search]);
   
   return (
     <div>
@@ -73,18 +108,29 @@ function Teams() {
         <h1>Teams</h1>
       </div> 
       <div id="blockid">
+           <Select
+            sx={{ width: 100, height: 50 }}
+            value={filterCompetition}
+            label="BY Competition"
+            onChange={handleFilterCompetitions}
+          >
+            {filterCompetition.map((competition) => (
+              <MenuItem key={competition} value={competition}>
+                {competition}
+              </MenuItem>
+            ))}
+          </Select>
           <Select
             sx={{ width: 100, height: 50 }}
-            value={filter}
+            value={filterCountry}
             label="Country"
-            onChange={handleChangeFilter}
+            onChange={handleFilterCountry}
           >
-            <MenuItem value={"All"}>All</MenuItem>
-            <MenuItem value={"Italy"}>Italy</MenuItem>
-            <MenuItem value={"Russia"}>Russia</MenuItem>
-            <MenuItem value={"Other"}>Other</MenuItem>
-            <MenuItem value={"France"}>France</MenuItem>
-            <MenuItem value={"Spain"}>Spain</MenuItem>
+            {filterCountry.map((country) => (
+              <MenuItem key={country} value={country}>
+                {country}
+              </MenuItem>
+            ))}
           </Select>
         </div>
       <div id="containerData">
