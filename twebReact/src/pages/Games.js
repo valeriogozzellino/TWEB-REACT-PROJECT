@@ -1,30 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AppBarUser from "../components/atoms/AppBarUser";
-import axios from "axios"; // Import Axios for making HTTP requests
+import axios from "axios";
+import GameCard from "../components/atoms/GameCard";
 
 export default function Games() {
-    const [responseData, setResponseData] = useState(null);
+    const [games, setGames] = useState(null);
     const [error, setError] = useState(null);
 
     const handleGetAllGames = () => {
-        axios.get("http://localhost:3001/games/get-games") // Make a GET request to your server endpoint
+        axios.get("http://localhost:3001/games/get-games")
             .then((response) => {
-                setResponseData(response.data);
-                setError(null); // Reset error if there was one
+                setGames(response.data);
+                setError(null);
             })
             .catch((err) => {
                 setError(err);
-                setResponseData(null); // Reset response data if there was an error
+                setGames(null);
             });
     };
+
+    useEffect(() => {
+        handleGetAllGames();
+    }, []);
 
     return (
         <div>
             <AppBarUser />
             <h1>Games</h1>
-            <button onClick={handleGetAllGames}>Get All Games</button>
-            {/* You can display response data or error message here */}
-            {responseData && <pre>{JSON.stringify(responseData, null, 2)}</pre>}
+            {/* Button removed since we're fetching games on init */}
+            {games && games.map(game => <GameCard key={game._id} game={game} />)}
             {error && <p>Error: {error.message}</p>}
         </div>
     );

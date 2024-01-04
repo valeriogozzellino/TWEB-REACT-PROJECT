@@ -34,3 +34,20 @@ function getAllGamesEvents(game_id) {
 }
 
 module.exports.getAllGamesEvents = getAllGamesEvents;
+
+function getGameById(game_id) {
+    console.log("+++ SINGLE GAME");
+    return new Promise((resolve, reject) => {
+        GameEventModel.find({ game_id: game_id } )
+            .then(result => {
+                console.log("RES: ", result);
+                resolve(result);
+            })
+            .catch(error => {
+                console.error("Error in getGamesEvent:", error);
+                reject(error);
+            });
+    });
+}
+
+module.exports.getGameById = getGameById;

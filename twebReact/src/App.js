@@ -9,6 +9,7 @@ import SignUp from './pages/SignUp';
 import News from './pages/News';
 import Games from "./pages/Games";
 import Competitions from "./pages/Competitions";
+import SingleGame from "./pages/SingleGame";
 function App() {
     
     return (
@@ -24,6 +25,7 @@ function App() {
                     <Route path="/news" element={<News />} /> 
                     <Route path="/competitions" element={<Competitions />} />
                     <Route path="/games" element={<Games />} />
+                    <Route path="/single-game/:gameId" element={<SingleGame />} />
                     <Route path="*" element={<h1>Page not found</h1>} />
                 </Routes>
             </div>
