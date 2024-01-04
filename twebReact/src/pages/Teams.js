@@ -4,12 +4,14 @@ import AppBarUser from "../components/atoms/AppBarUser";
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import DataGridElement from "../components/atoms/DataGrid";
-import { useLocation } from 'react-router-dom'; // Importa useLocation da react-router-dom
 import "../style/Teams.css";
 function Teams() {
-  const followClick = "/players"; // Imposta il valore di default a "/players"  
-  //const [competitionId, setCompetitionId] = useState(null);
   const [clubs, setClubs] = useState([]);
+  const [filterSeason, setSeason] = useState(0); // return all competition and set them for the filter
+  const [filterCountry, setFilterCountry] = useState("All"); // return all country and set them for the filter
+  const [arrayCountry, setArrayCountry] = useState([]); // return all country and set them for the filter
+  const [arraySeason, setArraySeason] = useState([]); // return all country and set them for the filter
+  const [clickedTeam, setClickedTeam] = useState(false); //set on click of the row in dataGrid
   const [gridData, setGridData] = useState({
     rows: [],
     columns: [
@@ -21,48 +23,49 @@ function Teams() {
     ],
   });
   
-  const handleFilterCompetitions = (event) => {
-    setCompetitionId(event.target.value);
+  const handleFilterSeason = (event) => {
+    setSeason(event.target.value);
   }
   const handleFilterCountry = (event) => {
     setFilterCountry(event.target.value);
   }
-  //get all the countries of the teams
-  const [filterCountry, setFilterCountry] = useState([]); 
+  
   useEffect(() => {
-    const getAllCountry = () => {
-      const apiUrl = `http://localhost:3001/teams/get-teams-country`;
-      axios
+  const getAllCountry = () => {
+    const apiUrl = `http://localhost:3001/teams/get-teams-country`;
+    axios
       .get(apiUrl)
       .then((response) => {
-        setFilterCountry(response.data);
-        })
-        .catch((error) => {
-          alert(JSON.stringify(error));
-        });
-      };
-      getAllCountry();
-    }, []); 
-    
-  const [filterCompetition, setCompetitionId] = useState([]); // Stato dei club filtrati
-  useEffect(() => {
-    const getAllCompetitions = () => {
-      const apiUrl = `http://localhost:3001/teams/get-competitions-id`;
-      axios
-        .get(apiUrl)
-        .then((response) => {
-          setCompetitionId(response.data);
-        })
-        .catch((error) => {
-          alert(JSON.stringify(error));
-        });
-    };
-      getAllCompetitions();
-  }, []); 
+        setArrayCountry(response.data);
+      })
+      .catch((error) => {
+        alert(JSON.stringify(error));
+      });
+  };
 
-//get all teams and filter by country
-  const getTeamsByCompetition = (filterCompetition) => {
-    const apiUrl = `http://localhost:3001/teams/get-teams-by-competition?filterCompetition=${filterCompetition}`;
+  const getAllSeason = () => {
+    const apiUrl = `http://localhost:3001/teams/get-club-season`;
+    axios
+      .get(apiUrl)
+      .then((response) => {
+        console.log(response.data);
+        setArraySeason(response.data);
+      })
+      .catch((error) => {
+        alert(JSON.stringify(error));
+      });
+  };
+
+  getAllCountry();
+  getAllSeason();
+  
+}, []);
+  
+/** filter Teams by Competitions, return data  */
+  const getTeamsByCountry = (filterCountry, filterSeason) => {
+    console.log("filterCountry and filterSeason");
+    console.log(filterSeason, filterCountry);
+    const apiUrl = `http://localhost:3001/teams/get-teams-by-season-and-country?filterCountry=${filterCountry}&filterSeason=${filterSeason}`;
     axios
       .get(apiUrl)
       .then((response) => {
@@ -84,39 +87,29 @@ function Teams() {
       alert(JSON.stringify(error));
       });
   };
-
-    useEffect(() => {
-      getTeamsByCompetition(filterCompetition);
-    }, [filterCompetition]);
-        
-  
-  
-  const location = useLocation();
-
   useEffect(() => {
-    // Estrai il competitionId dai parametri dell'URL
-    // const params = new URLSearchParams(location.search);
-    // const competitionIdFromURL = params.get('props');
-    // setCompetitionId(competitionIdFromURL);
-    getTeamsByCompetition(filterCompetition);
-  }, [filterCompetition, location.search]);
+    getTeamsByCountry(filterCountry, filterSeason);
+  }, [filterCountry, filterSeason]);
   
-  return (
-    <div>
-      <AppBarUser />
+
+        
+  if (clickedTeam === false) {
+    return (
       <div>
-        <h1>Teams</h1>
-      </div> 
-      <div id="blockid">
-           <Select
+        <AppBarUser />
+        <div>
+          <h1>Teams</h1>
+        </div>
+        <div id="blockid">
+          <Select
             sx={{ width: 100, height: 50 }}
-            value={filterCompetition}
+            value={filterSeason}
             label="BY Competition"
-            onChange={handleFilterCompetitions}
+            onChange={handleFilterSeason}
           >
-            {filterCompetition.map((competition) => (
-              <MenuItem key={competition} value={competition}>
-                {competition}
+            {arraySeason.map((season) => (
+              <MenuItem key={season} value={season}>
+                {season}
               </MenuItem>
             ))}
           </Select>
@@ -126,19 +119,37 @@ function Teams() {
             label="Country"
             onChange={handleFilterCountry}
           >
-            {filterCountry.map((country) => (
+            {arrayCountry.map((country) => (
               <MenuItem key={country} value={country}>
                 {country}
               </MenuItem>
             ))}
           </Select>
+          <button onClick={() => setClickedTeam(true)}>Click me</button>
         </div>
-      <div id="containerData">
-        <DataGridElement gridData={gridData} followClick={followClick} />  
-      </div>
+        <div id="containerData">
+          <DataGridElement gridData={gridData} />
+        </div>
     
-    </div>
-  );
+      </div>
+    );
+  } else {
+     return (
+      <div>
+        <AppBarUser />
+        <div>
+          <h1>Team</h1>
+        </div>
+         <div id="blockid">
+           <p>ciaoooneeee ho solo un team</p>
+           <button onClick={() => setClickedTeam(false)}>Click me</button>
+        </div>
+
+      </div>
+    );
+  }
+
 }
+
 
 export default Teams;

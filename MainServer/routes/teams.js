@@ -9,12 +9,30 @@ router.get('/', function(req, res) {
     res.sendFile(teamsFilePath);
 });
 
-//richiesta di dati al server passando come parametri un filtro sulla competitions!!!!!
-router.get('/get-teams-by-competition', function (req, res) {
-    console.log("ho ricevuto la richiesta dei teams")
-    const { filterCompetition } = req.query;
-    console.log("parametrooooo " + filterCompetition)
-    axios.get(`http://localhost:8081/get-teams-by-competition?filterCompetition=${filterCompetition}`)
+/*request Teams using Competitions filter */
+// router.get('/get-teams-by-competition', function (req, res) {
+//     console.log("ho ricevuto la richiesta dei teams")
+//     const { filterCompetition } = req.query;
+//     console.log("parametrooooo " + filterCompetition)
+//     axios.get(`http://localhost:8081/get-teams-by-competition?filterCompetition=${filterCompetition}`)
+//         .then(response => {
+//             console.log("Sto richiedendo i teams");
+//             res.json(response.data);
+//         })
+//         .catch(error => {
+//             console.error(error);
+//             res.status(500).json({ error: 'Internal Server Error' });
+//         });
+// });
+/*request Teams using Country filter and Competition filter */
+router.get('/get-teams-by-season-and-country', function (req, res) {
+    console.log("Ho ricevuto la richiesta dei teams");
+
+    const { filterCountry, filterSeason } = req.query;
+    console.log("Parametro 1: " + filterCountry);
+    console.log("Parametro 2: " + filterSeason);
+
+    axios.get(`http://localhost:8081/get-teams-by-season-and-country?filterCountry=${filterCountry}&filterSeason=${filterSeason}`)
         .then(response => {
             console.log("Sto richiedendo i teams");
             res.json(response.data);
@@ -24,6 +42,7 @@ router.get('/get-teams-by-competition', function (req, res) {
             res.status(500).json({ error: 'Internal Server Error' });
         });
 });
+/*request ALL Teams country  */
 router.get('/get-teams-country', function(req, res) {
     axios.get(`http://localhost:8081/get-teams-country`)
         .then(response => {
@@ -34,9 +53,11 @@ router.get('/get-teams-country', function(req, res) {
             res.status(500).json({ error: 'Internal Server Error' });
         });
 })
-router.get('/get-competitions-id', function(req, res) {
-    axios.get(`http://localhost:8081/get-competitions-id`)
+/*request ALL Teams Season */
+router.get('/get-club-season', function(req, res) {
+    axios.get(`http://localhost:8081/get-club-season`)
         .then(response => {
+            console.log("richiesto le season")
             res.json(response.data)
         })
         .catch(error => {

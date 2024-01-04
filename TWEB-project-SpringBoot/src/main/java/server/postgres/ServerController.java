@@ -40,14 +40,14 @@ public class ServerController {
         }
         return countryList;
     }
-    @GetMapping("/get-competitions-id")
-    public List<String> getCompetitionsId() {
-        List<String> competitionsIdList = competitionsService.getCompetitionsId();
-        if(competitionsIdList.isEmpty()){
+    @GetMapping("/get-club-season")
+    public List<Integer> getClubSeason() {
+        List<Integer> clubsSeason = clubsService.getClubsSeason();
+        if(clubsSeason.isEmpty()){
         }else{
-            System.out.println("LA LISTA HA " + competitionsIdList.size()+ " id");
+            System.out.println("LA LISTA HA " + clubsSeason.size()+ " id");
         }
-        return competitionsIdList;
+        return clubsSeason;
     }
     @GetMapping("/get-teams-country")
     public List<String> getTeamsCountry() {
@@ -58,7 +58,21 @@ public class ServerController {
         }
         return countryList;
     }
+    @GetMapping("/get-teams-by-season-and-country")
+    public List<Clubs> getTeamsBySeasonAndCountry(
+            @RequestParam(name = "filterCountry") String filterCountry,
+            @RequestParam(name = "filterSeason") int filterSeason) {
+        System.out.println("Stampo il filtro della season: " + filterSeason);
+        System.out.println("Stampo il filtro del paese: " + filterCountry);
 
+        List<Clubs> clubsList = clubsService.getAllTeams(filterSeason ,filterCountry);
+        if (clubsList.isEmpty()) {
+            System.out.println("LISTA VUOTA");
+        } else {
+            System.out.println("LA LISTA HA " + clubsList.size() + " squadre");
+        }
+        return clubsList;
+    }
     @GetMapping("/all-competitions")
     public List<Competitions> getCompetitionsByCountry(@RequestParam(name = "filter") String filter) {
         System.out.println("Stampo il filtro: " + filter);
@@ -75,8 +89,8 @@ public class ServerController {
         return  competitionsList;
     }
 
-    @GetMapping("/get-teams-by-competition")
-    public List<Clubs> getAllTeams(@RequestParam(name = "filterCompetition") String filter) {
+   /* @GetMapping("/get-teams-by-competition")
+    public List<Clubs> getTeamsByCompetitions(@RequestParam(name = "filterCompetition") String filter) {
         System.out.println("Stampo il filtro: " + filter);
 
         List<Clubs> clubsList = clubsService.getAllTeams(filter);
@@ -86,7 +100,7 @@ public class ServerController {
             System.out.println("LA LISTA HA " + clubsList.size()+ " squadre");
         }
         return clubsList;
-    }
+    }*/
     record Query (
             int year,
             String playerName

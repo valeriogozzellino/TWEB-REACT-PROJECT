@@ -2,12 +2,11 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 
-
-export default function DataGridElement({ gridData, followClick }) {
+//capire come pasare la riga selezionata alla componente che la contiene
+export default function DataGridElement({ gridData }) {
   const handleCellClick = (params, event) => {
     const rowId = params.id;
-    window.location.href = `${followClick}?props=${rowId}`;;
-      console.log("Riga selezionata:", rowId);
+    console.log("Riga selezionata:", rowId);
   };
   return (
     <Box sx={{ height: 520, width: '70%' }}>

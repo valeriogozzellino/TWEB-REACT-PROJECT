@@ -9,10 +9,10 @@ import "../style/Competitions.css";
 
 const Competitions = () => {
   const links = [false, false, false, false, false, true, true];
-  const followClick = "/teams"; // Imposta il valore di default a "/teams
   const pages = ['Home', 'News', 'Ranking', 'Teams', 'Players'];
   const [country, setCountry] = useState([]); 
-    const [filter, setFilter] = useState('All');  // Imposta il valore di default a "All"
+  const [filter, setFilter] = useState('All');  // Imposta il valore di default a "All"
+  const [clickedCompetitions, setClickedCompetitions] = useState(false); //set on click of the row in dataGrid
     const [gridData, setGridData] = useState({
     rows: [],
     columns: [
@@ -22,6 +22,7 @@ const Competitions = () => {
       { field: 'confederation', headerName: 'conferderations', width: 200 },
     ],
     });
+  
   const handleChangeFilter = (event) => {
     setFilter(event.target.value);
   }
@@ -64,6 +65,8 @@ const getAllCompetitions = (filter) => {
       getAllCompetitions(filter);
     }, [filter]);
   
+  
+  if (clickedCompetitions === false){
     return (
         <div id="container">
         <TopAppBar links={links} pages={pages} />
@@ -83,12 +86,27 @@ const getAllCompetitions = (filter) => {
               </MenuItem>
             ))}
           </Select>
+          <button onClick={() => setClickedCompetitions(true)}>Click me</button>
         </div>
             <div id="containerData">
-                <DataGridElement gridData={gridData} followClick={followClick} />
+                <DataGridElement gridData={gridData} />
             </div>
-    </div>
-        
+    </div>   
     )
+    } else {
+     return (
+      <div>
+        <TopAppBar links={links} pages={pages} />
+        <div>
+          <h1>Team</h1>
+        </div>
+         <div id="blockid">
+           <p>ciaoooneeee ho solo un team</p>
+           <button onClick={() => setClickedCompetitions(false)}>Click me</button>
+        </div>
+
+      </div>
+    );
+  }
 }
 export default Competitions;

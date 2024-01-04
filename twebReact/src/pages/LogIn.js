@@ -23,6 +23,7 @@ function LogIn() {
         user.password = document.getElementById("password").value;
         console.log(user);
     }
+    
     return (
         <div>
             <TopAppBar links={links} pages={pages} />
