@@ -14,7 +14,7 @@ router.get('/get-games', function(req, res) {
             res.json(response.data)
         })
         .catch(error => {
-            console.log("++++ CATCH GET GAMES")
+            console.log("++++ CATCH GAMES")
             res.setHeader('Content-Type', 'application/json');
             res.status(500).json({ error: 'Internal Server Error' });
         });

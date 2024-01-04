@@ -4,13 +4,13 @@ const { GameEventModel } = require('../models/game_events_model'); // Destructur
 function getAllGames() {
     console.log("+++ GAMES");
     return new Promise((resolve, reject) => {
-        GameModel.find({ season: { $gte: 2022 } }) // Use GameModel directly
+        GameModel.find({ season: { $gte: 2022 } })
             .then(result => {
                 console.log("RES: ", result);
                 resolve(result);
             })
             .catch(error => {
-                console.error("Error in getAllGames:", error); // More specific error log
+                console.error("Error in getAllGames:", error);
                 reject(error);
             });
     });
