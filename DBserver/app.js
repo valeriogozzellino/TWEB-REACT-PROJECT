@@ -11,7 +11,7 @@ var usersRouter = require('./routes/users');
 var app = express();
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://alessandromao:1234@cluster0.zznxw7u.mongodb.net/FootGoal')
+mongoose.connect('mongodb://localhost:27017/FootGoal')
     .then(() => {
         console.log('Connected to MongoDB');
     })

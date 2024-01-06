@@ -5,6 +5,7 @@ router.use( bodyParser.json() );
 const Player = require('../models/player_model');
 const players_controller = require('../controllers/player_controller.js')
 const teams_controller = require('../controllers/teams_controller.js')
+const games_controller = require('../controllers/games_controller.js')
 
 
 // TODO: Rendere questo file un controller generale dell'applicazione che reindirizza a /teams, /players, etc..
@@ -80,6 +81,40 @@ router.get('/get-players-by-team-id/:team_id', async function(req, res, next) {
 
   try {
     const team = await teams_controller.getPlayerByTeamId(teamId);
+    if (!team) {
+      return res.status(404).json({ error: 'Team not found' });
+    }
+    res.json(team);
+  } catch (error) {
+    console.error('Error retrieving team:', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+module.exports = router;
+
+
+router.get('/all-games', async function(req, res, next) {
+  console.log("RICEVUTO RICHIESTA GAMES")
+  try {
+    const games = await games_controller.getAllGames();
+    res.json(games);
+  } catch (error) {
+    console.error('Error retrieving games:', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+module.exports = router;
+
+
+router.get('/get-game-by-id/:game_id', async function(req, res, next) {
+  const game_id = req.params.game_id;
+  console.log("++++++++++++RICEVUTO RICHIESTA GAME con id:", game_id);
+
+  try {
+    const team = await games_controller.getGameById(game_id);
     if (!team) {
       return res.status(404).json({ error: 'Team not found' });
     }
