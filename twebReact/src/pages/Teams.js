@@ -11,7 +11,8 @@ function Teams() {
   const [filterCountry, setFilterCountry] = useState("All"); // return all country and set them for the filter
   const [arrayCountry, setArrayCountry] = useState([]); // return all country and set them for the filter
   const [arraySeason, setArraySeason] = useState([]); // return all country and set them for the filter
-  const [clickedTeam, setClickedTeam] = useState(false); //set on click of the row in dataGrid
+  const [detailsTeam, setDetailsTeam] = useState(false); //set on click of the row in dataGrid
+  const [clickedTeam, setClickedTeam] = useState(); //set on click of the row in dataGrid
   const [gridData, setGridData] = useState({
     rows: [],
     columns: [
@@ -36,6 +37,7 @@ function Teams() {
     axios
       .get(apiUrl)
       .then((response) => {
+        console.log(response.data);
         setArrayCountry(response.data);
       })
       .catch((error) => {
@@ -91,9 +93,15 @@ function Teams() {
     getTeamsByCountry(filterCountry, filterSeason);
   }, [filterCountry, filterSeason]);
   
-
+  const handleRowClick = (rowId, newState) => {
+    console.log("Riga selezionata:", rowId);  
+    const club = clubs.find((club) => club.clubId === rowId);
+    setClickedTeam(club);
+    setDetailsTeam(newState);
+    console.log("clickedTeam", detailsTeam);
+  }
         
-  if (clickedTeam === false) {
+  if (detailsTeam === false) {
     return (
       <div>
         <AppBarUser />
@@ -125,10 +133,10 @@ function Teams() {
               </MenuItem>
             ))}
           </Select>
-          <button onClick={() => setClickedTeam(true)}>Click me</button>
+          <button onClick={() => setDetailsTeam(true)}>Click me</button>
         </div>
         <div id="containerData">
-          <DataGridElement gridData={gridData} />
+          <DataGridElement gridData={gridData} onRowClick= {handleRowClick} />
         </div>
     
       </div>
@@ -138,11 +146,17 @@ function Teams() {
       <div>
         <AppBarUser />
         <div>
-          <h1>Team</h1>
+           <h1>Team Name : {clickedTeam.name}</h1>
         </div>
          <div id="blockid">
            <p>ciaoooneeee ho solo un team</p>
-           <button onClick={() => setClickedTeam(false)}>Click me</button>
+           <p>Stadium Name : {clickedTeam.stadiumName}</p>
+           <p>Stadium Seats : {clickedTeam.stadiumSeats}</p>
+           <p>Squad Size : {clickedTeam.squadSize}</p>
+           <p>Team Id : {clickedTeam.clubId}</p>
+           <p>Team Name : {clickedTeam.name}</p>
+           <p>net Trasfer Record: {clickedTeam.netTrasferRecord}</p>
+           <button onClick={() => setDetailsTeam(false)}>Click me</button>
         </div>
 
       </div>

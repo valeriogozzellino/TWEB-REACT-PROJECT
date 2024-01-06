@@ -12,7 +12,7 @@ const Competitions = () => {
   const pages = ['Home', 'News', 'Ranking', 'Teams', 'Players'];
   const [country, setCountry] = useState([]); 
   const [filter, setFilter] = useState('All');  // Imposta il valore di default a "All"
-  const [clickedCompetitions, setClickedCompetitions] = useState(false); //set on click of the row in dataGrid
+  const [detailsCompetitions, setDetailsCompetitions] = useState(false); //set on click of the row in dataGrid
     const [gridData, setGridData] = useState({
     rows: [],
     columns: [
@@ -26,6 +26,13 @@ const Competitions = () => {
   const handleChangeFilter = (event) => {
     setFilter(event.target.value);
   }
+
+    const handleRowClick = (rowId, newState) => {
+    console.log("Riga selezionata:", rowId);  
+    setDetailsCompetitions(newState);
+    console.log("clickedTeam", detailsCompetitions);
+    }
+  
   useEffect(() => {
     const getAllCountry = () => {
       const apiUrl = `http://localhost:3001/competitions/get-competitions-country`;
@@ -66,7 +73,8 @@ const getAllCompetitions = (filter) => {
     }, [filter]);
   
   
-  if (clickedCompetitions === false){
+  
+  if (detailsCompetitions === false){
     return (
         <div id="container">
         <TopAppBar links={links} pages={pages} />
@@ -86,10 +94,10 @@ const getAllCompetitions = (filter) => {
               </MenuItem>
             ))}
           </Select>
-          <button onClick={() => setClickedCompetitions(true)}>Click me</button>
+          <button onClick={() => setDetailsCompetitions(true)}>Click me</button>
         </div>
             <div id="containerData">
-                <DataGridElement gridData={gridData} />
+                <DataGridElement gridData={gridData} onRowClick={handleRowClick}/>
             </div>
     </div>   
     )
@@ -102,7 +110,7 @@ const getAllCompetitions = (filter) => {
         </div>
          <div id="blockid">
            <p>ciaoooneeee ho solo un team</p>
-           <button onClick={() => setClickedCompetitions(false)}>Click me</button>
+           <button onClick={() => setDetailsCompetitions(false)}>Click me</button>
         </div>
 
       </div>
