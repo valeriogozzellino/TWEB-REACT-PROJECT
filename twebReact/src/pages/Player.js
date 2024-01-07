@@ -9,7 +9,7 @@ export default function Player() {
   console.log("playerId: ", player_Id);
 
   const getPlayer = (filter) => {
-    console.log("getPlayers i'm inside: filter:: " + filter);
+    console.log("1111111 " + filter);
     const apiUrl = `http://localhost:3001/player/get-player-by-playerId?filter=${filter}`;
     axios.get(apiUrl)
       .then(response => {
@@ -22,18 +22,33 @@ export default function Player() {
   }
   useEffect(() => {
     getPlayer(player_Id);
-  }, []);
+  }, [player_Id]);
+
+
+  if (!player) {
+    // Se player è ancora null, mostra un caricamento o un messaggio
+    return (
+      <div>
+      <AppBarUser />
+      Loading...
+    </div>
+    );
+  }
 
   return (
       <div>
-        <AppBarUser />
+      <AppBarUser />
+      <div>
+        <h1>{player.firstName} {player.lastName}</h1>
+      </div>
         <div>
         <img src={player.imageUrl} alt="player" />
-        <h1>{player.firstName} {player.lastName}</h1>
+      </div>
+      <div>
         <h2>{player.position}</h2>
         <h3>{player.countryOfBirth}</h3>
         <h3>{player.dateOfBirth}</h3>
-        </div>
+      </div>
       {/* <button onClick={getPlayers}>getPlayersfrom db</button> */}
     </div>
   );
