@@ -35,7 +35,7 @@ function getAllGamesEvents(game_id) {
 
 module.exports.getAllGamesEvents = getAllGamesEvents;
 
-function getGameById(game_id) {
+function getGameEventById(game_id) {
     console.log("+++ SINGLE GAME");
     return new Promise((resolve, reject) => {
         GameEventModel.find({ game_id: game_id } )
@@ -50,4 +50,4 @@ function getGameById(game_id) {
     });
 }
 
-module.exports.getGameById = getGameById;
+module.exports.getGameEventById = getGameEventById;

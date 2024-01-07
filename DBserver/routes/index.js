@@ -109,12 +109,12 @@ router.get('/all-games', async function(req, res, next) {
 module.exports = router;
 
 
-router.get('/get-game-by-id/:game_id', async function(req, res, next) {
+router.get('/get-game-events-by-id/:game_id', async function(req, res, next) {
   const game_id = req.params.game_id;
-  console.log("++++++++++++RICEVUTO RICHIESTA GAME con id:", game_id);
+  console.log("++++++++++++RICEVUTO RICHIESTA GAME EVENTS con id:", game_id);
 
   try {
-    const team = await games_controller.getGameById(game_id);
+    const team = await games_controller.getGameEventById(game_id);
     if (!team) {
       return res.status(404).json({ error: 'Team not found' });
     }
