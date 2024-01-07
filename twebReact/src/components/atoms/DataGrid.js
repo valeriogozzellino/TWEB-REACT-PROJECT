@@ -2,24 +2,31 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 
-//capire come pasare la riga selezionata alla componente che la contiene
 export default function DataGridElement({ gridData, onRowClick }) {
-  const handleCellClick = (params, event) => {
-    const rowId = params.id;
-    console.log("Riga selezionata:", rowId);
-    onRowClick(rowId, true);
-  };
-  return (
-    <Box sx={{ height: 520, width: '80%' }}>
-      <DataGrid
-        rows={gridData.rows}  // Passa i dati delle righe come props
-        columns={gridData.columns}  // Passa i dati delle colonne come props
-        loading={gridData.rows.length === 0}
-        pageSizeOptions={[gridData.rows.length]}
-        rowHeight={38}
-        onCellClick={handleCellClick}
-      />
-    </Box>
-  );
+    const handleCellClick = (params, event) => {
+        const rowId = params.id;
+        console.log("Riga selezionata:", rowId);
+        onRowClick(rowId, true);
+    };
+
+    // Assuming equal width for all columns
+    const columnsWithWidth = gridData.columns.map(column => ({
+        ...column,
+        width: 300,
+    }));
+
+    return (
+        <Box sx={{ height: 520, width: '100%' }}>
+            <DataGrid
+                rows={gridData.rows}
+                columns={columnsWithWidth}
+                loading={gridData.rows.length === 0}
+                pageSizeOptions={[gridData.rows.length]}
+                rowHeight={38}
+                onCellClick={handleCellClick}
+                autoHeight
+                viewportPageSize={gridData.rows.length}
+            />
+        </Box>
+    );
 }
- 

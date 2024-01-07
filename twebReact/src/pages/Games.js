@@ -23,7 +23,8 @@ export default function Games() {
     const handleGetAllGames = () => {
         axios.get("http://localhost:3001/games/get-games")
             .then((response) => {
-                const newRows = response.data.map((game, index) => ({
+                const sortedGames = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
+                const newRows = sortedGames.map((game, index) => ({
                     id: index,
                     gameDate: new Date(game.date).toDateString(),
                     homeTeam: game.home_club_name,
@@ -31,6 +32,7 @@ export default function Games() {
                     awayTeam: game.away_club_name,
                     game_id: game.game_id
                 }));
+
                 setGridData(prevGridData => ({
                     ...prevGridData,
                     rows: newRows,
@@ -43,9 +45,9 @@ export default function Games() {
             });
     };
 
-    const handleClick = (rowId) => {
+    const handleClick = (roww) => {
         // Find the game using the rowId
-        const game = gridData.rows.find(row => row.rowId === rowId);
+        const game = gridData.rows.find(row => row.id === roww);        console.log("GAME ID: ", game.game_id)
         if (game) {
             console.log("Game ID: ", game.game_id);
             navigate(`/single-game/${game.game_id}`);
@@ -65,7 +67,7 @@ export default function Games() {
             <AppBarUser />
             <h1>Games</h1>
             <div id="containerData">
-                <DataGridElement gridData={gridData} onRowClick={(row) => handleClick(row.rowId)} />
+                <DataGridElement gridData={gridData} onRowClick={(row) => handleClick(row)} />
             </div>
             {error && <p>Error: {error.message}</p>}
         </div>

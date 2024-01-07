@@ -6,7 +6,7 @@ function getAllGames() {
     return new Promise((resolve, reject) => {
         GameModel.find({ season: { $gte: 2022 } })
             .then(result => {
-                console.log("RES: ", result);
+                // console.log("RES: ", result);
                 resolve(result);
             })
             .catch(error => {
@@ -17,6 +17,24 @@ function getAllGames() {
 }
 
 module.exports.getAllGames = getAllGames;
+
+function getGameByID(game_id) {
+    console.log("+++ GAMEEEEEEEEE");
+    return new Promise((resolve, reject) => {
+        GameModel.find({ game_id: game_id })
+            .then(result => {
+                // console.log("RES: ", result);
+                resolve(result);
+            })
+            .catch(error => {
+                console.error("Error in getGameByID:", error);
+                reject(error);
+            });
+    });
+}
+
+module.exports.getGameByID = getGameByID;
+
 
 function getAllGamesEvents(game_id) {
     console.log("+++ GAMES EVENT");
@@ -36,11 +54,11 @@ function getAllGamesEvents(game_id) {
 module.exports.getAllGamesEvents = getAllGamesEvents;
 
 function getGameEventById(game_id) {
-    console.log("+++ SINGLE GAME");
+    console.log("+++ GAME EVENTS");
     return new Promise((resolve, reject) => {
         GameEventModel.find({ game_id: game_id } )
             .then(result => {
-                console.log("RES: ", result);
+                // console.log("RES: ", result);
                 resolve(result);
             })
             .catch(error => {
