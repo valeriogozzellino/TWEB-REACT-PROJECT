@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 
 function Home(){
     const links = [true, false, false, false, false, false, true, true];
-    const pages = ['News', 'Ranking', 'Teams', 'Players', 'Games', 'Competitions'];
+    const pages = ['News', 'Ranking', 'Teams', 'Player', 'Games', 'Competitions'];
     const [arrayNewsApi, setNewsApi] = useState([]);
    const [loading, setLoading] = useState(true);
 

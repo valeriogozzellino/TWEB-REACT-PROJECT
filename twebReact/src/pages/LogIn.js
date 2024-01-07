@@ -5,7 +5,7 @@ import TopAppBar from "../components/atoms/TopAppBar";
 function LogIn() {
 
     const links = [false, true, true, true, true, true, true];
-    const pages = ['Home', 'News', 'Ranking', 'Teams', 'Players'];
+    const pages = ['Home', 'News', 'Ranking', 'Teams', 'Player'];
     class User {
         constructor(name, surname, email, password) {
             this.name = name;

@@ -7,8 +7,12 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface PlayersRepository extends JpaRepository<Players, String> {
-    @Query(value = "SELECT DISTINCT p1.* " +
-            "FROM players p1 " + "WHERE p1.current_club_name = :filter ",
+    @Query(value = "SELECT DISTINCT * " +
+            "FROM players " + "WHERE current_club_id = :filter ",
             nativeQuery = true)
-    List<Players> findPlayersByClubs(String filter);
+    List<Players> findPlayersByClubs(int filter);
+    @Query(value = "SELECT DISTINCT * " +
+            "FROM players " + "WHERE player_id = :filter ",
+            nativeQuery = true)
+    Players findPlayerByID(int filter);
 }

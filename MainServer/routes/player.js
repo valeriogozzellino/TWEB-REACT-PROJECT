@@ -12,10 +12,24 @@ router.get('/', function(req, res) {
 //per ora questa funzione mi restituisce tutti i players
 //router.get('/get-player-by-id/:playerId', function(req, res) {
 router.get('/get-player-by-team', function(req, res) {
-    console.log("ho ricevuto la richiesta dei teams")
+    console.log("ho ricevuto la richiesta dei players")
     const { filter } = req.query;
     console.log("sono nella get, filter: "+ filter);
     axios.get(`http://localhost:8081/get-player-by-team?filter=${filter}`)
+        .then(response => {
+            console.log("ho richiesto players");
+            res.json(response.data)
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        });
+})
+router.get('/get-player-by-playerId', function(req, res) {
+    console.log("ho ricevuto la richiesta dei players")
+    const { filter } = req.query;
+    console.log("sono nella get, filter: "+ filter);
+    axios.get(`http://localhost:8081/get-player-by-playerId?filter=${filter}`)
         .then(response => {
             console.log("ho richiesto players");
             res.json(response.data)

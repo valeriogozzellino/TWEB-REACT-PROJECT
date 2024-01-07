@@ -12,7 +12,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 
 // pages is an array of strings of the pages you want to show in the drawer, 
-// for example: ['Home', 'News', 'Ranking', 'Teams', 'Players', 'LogIn', 'SignUp']
+// for example: ['Home', 'News', 'Ranking', 'Teams', 'Player', 'LogIn', 'SignUp']
 //its very importanto to dont forget it
 //non devo accedere a props. page perchè in questo modo è già destrutturato con le {}
 export default function DrawerVault({ open, onClose, pages }) {

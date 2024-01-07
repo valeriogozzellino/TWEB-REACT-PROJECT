@@ -3,3 +3,18 @@
     flex-direction: row;
     justify-content: center;
 }
+#blockDetails{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    margin: 0 10px;
+}
+#containerGridPlayer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}

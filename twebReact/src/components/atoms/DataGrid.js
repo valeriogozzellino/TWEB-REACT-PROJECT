@@ -10,7 +10,7 @@ export default function DataGridElement({ gridData, onRowClick }) {
     onRowClick(rowId, true);
   };
   return (
-    <Box sx={{ height: 520, width: '70%' }}>
+    <Box sx={{ height: 520, width: '80%' }}>
       <DataGrid
         rows={gridData.rows}  // Passa i dati delle righe come props
         columns={gridData.columns}  // Passa i dati delle colonne come props

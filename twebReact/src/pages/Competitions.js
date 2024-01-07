@@ -11,8 +11,10 @@ const Competitions = () => {
   const links = [false, false, false, false, false, true, true];
   const pages = ['Home', 'News', 'Ranking', 'Teams', 'Players'];
   const [country, setCountry] = useState([]); 
+  const [competitions, setCompetitions] = useState([]);
   const [filter, setFilter] = useState('All');  // Imposta il valore di default a "All"
   const [detailsCompetitions, setDetailsCompetitions] = useState(false); //set on click of the row in dataGrid
+  const [clickedCompetition, setClickedCompetition] = useState(); //set on click of the row in dataGrid
     const [gridData, setGridData] = useState({
     rows: [],
     columns: [
@@ -28,8 +30,10 @@ const Competitions = () => {
   }
 
     const handleRowClick = (rowId, newState) => {
-    console.log("Riga selezionata:", rowId);  
-    setDetailsCompetitions(newState);
+      console.log("Riga selezionata:", rowId);  
+      const competition = competitions.find((competition) => competition.clubId === rowId);
+      setClickedCompetition(competition);
+      setDetailsCompetitions(newState);
     console.log("clickedTeam", detailsCompetitions);
     }
   
@@ -47,6 +51,7 @@ const Competitions = () => {
     };
       getAllCountry();
   }, []); 
+
 const getAllCompetitions = (filter) => {
     const apiUrl = `http://localhost:3001/competitions/all-competitions?filter=${filter}`;
     axios
@@ -62,6 +67,7 @@ const getAllCompetitions = (filter) => {
           ...prevGridData,
           rows: newRows,
         }));
+        setCompetitions(response.data);
       })
       .catch((error) => {
       alert(JSON.stringify(error));
@@ -106,7 +112,7 @@ const getAllCompetitions = (filter) => {
       <div>
         <TopAppBar links={links} pages={pages} />
         <div>
-          <h1>Team</h1>
+          <h1>Competition</h1>
         </div>
          <div id="blockid">
            <p>ciaoooneeee ho solo un team</p>

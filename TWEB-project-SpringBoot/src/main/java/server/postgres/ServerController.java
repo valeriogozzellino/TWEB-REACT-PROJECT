@@ -27,13 +27,22 @@ public class ServerController {
     }
 
     @GetMapping("/get-player-by-team")
-    public List<Players> getAllPlayers(@RequestParam(name = "filter") String filter) {
+    public List<Players> getAllPlayers(@RequestParam(name = "filter") int filter) {
+        System.out.println("------FILTRO PLAYERs"+ filter);
         List<Players> playersList = playersService.getAllPlayers(filter);
         if(playersList.isEmpty()){
+            System.out.println("-----LISTA PLAYERS VUOTA");
         }else{
             System.out.println("LA LISTA HA " + playersList.size()+ " giocatori");
         }
         return playersList;
+    }
+    @GetMapping("/get-player-by-playerId")
+    public Players getPlayerByID(@RequestParam(name = "filter") int filter) {
+        System.out.println("------FILTRO PLAYERs"+ filter);
+        Players player = playersService.getPlayerByID(filter);
+
+        return player;
     }
     @GetMapping("/get-competitions-country")
     public List<String> getCompetitionsCountry() {

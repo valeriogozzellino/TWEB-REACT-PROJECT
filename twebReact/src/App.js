@@ -4,7 +4,7 @@ import Home from './pages/Home';
 import LogIn from './pages/LogIn';
 import Ranking from "./pages/Ranking";
 import Teams from "./pages/Teams";
-import Players from './pages/Players';
+import Player from './pages/Player';
 import SignUp from './pages/SignUp';
 import News from './pages/News';
 import Games from "./pages/Games";
@@ -20,7 +20,7 @@ function App() {
                     <Route path="/ranking" element={<Ranking />} />
                     <Route path="/teams" element={<Teams />} />
                     <Route path="/logIn" element={<LogIn />} />
-                    <Route path="/players" element={<Players />} />
+                    <Route path="/player/:player_Id" element={<Player />} />
                     <Route path="/signup" element={<SignUp/>} />
                     <Route path="/news" element={<News />} /> 
                     <Route path="/competitions" element={<Competitions />} />

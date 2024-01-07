@@ -62,7 +62,7 @@ export default function TopAppBar(props) {
           )}
           {links[4] && (
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Players
+              Player
             </Typography>
           )}
           {links[5] && (
