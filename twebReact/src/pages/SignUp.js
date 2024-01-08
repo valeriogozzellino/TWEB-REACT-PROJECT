@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Stepper, Step, StepLabel, Button, TextField, IconButton } from '@mui/material';
 import { PhotoCamera } from '@mui/icons-material';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Avatar from '@mui/material/Avatar';
-//import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
+import axios from "axios";
+import Autocomplete from '@mui/material/Autocomplete';
 import SensorOccupiedTwoToneIcon from '@mui/icons-material/SensorOccupiedTwoTone';
-function SubscriptionForm() {
+
+function SignUp() {
   const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState({
     nome: '',
@@ -20,21 +22,41 @@ function SubscriptionForm() {
     squadraCalcioPreferita: '',
     giocatorePreferito: ''
   });
-
+  const [clubs, setClubs] = useState([]);
   const steps = ['Informazioni Personali', 'Preferenze Calcistiche', 'Credenziali'];
 
+  
   const handleNext = (e) => {
     // Chiamare handleChange solo quando si preme "Avanti" o "Iscriviti"
     handleChange(e);
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    console.log('Updating form data 2:', e.target.name, e.target.value);
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
+  const getTeamsByCountry = (filterCountry, filterSeason) => {
+    console.log("filterCountry and filterSeason");
+    console.log(filterSeason, filterCountry);
+    const apiUrl = `http://localhost:3001/teams/get-teams-by-season-and-country?filterCountry=${filterCountry}&filterSeason=${filterSeason}`;
+    axios
+      .get(apiUrl)
+      .then((response) => {
+        setClubs(response.data);
+      })
+      .catch((error) => {
+      alert(JSON.stringify(error));
+      });
+    
+  };
+  useEffect(() => {
+    getTeamsByCountry("All", 0);
+  }, []);
   const handleChange = (e) => {
     // Settare i parametri del formData solo quando si preme "Avanti" o "Iscriviti"
+    console.log('Updating form data:', e.target.name, e.target.value);
     if (activeStep === 0) {
       console.log(formData);
       const { name, value } = e.target;
@@ -75,7 +97,7 @@ function SubscriptionForm() {
             <Container sx={{ display: 'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center', width: '60%' }}>
             <Grid container spacing={2}>
               <Grid item xs={6}>
-                <TextField label="Nome" name="nome"  value={formData.nome} onChange={handleChange}  margin="normal" />
+                <TextField label="Nome" name="nome" value={formData.nome} onChange={handleChange}   margin="normal" />
                </Grid>
               <Grid item xs={6}>
                 <TextField label="Cognome" name="cognome"  value={formData.cognome} onChange={handleChange}  fullWidth margin="normal" />
@@ -84,10 +106,10 @@ function SubscriptionForm() {
                 <TextField label="Anno di Nascita" name="annoDiNascita" value={formData.annoDiNascita} onChange={handleChange}  type='date' fullWidth margin="normal" />
               </Grid>
               <Grid item xs={8}>
-                <TextField label="Paese di Provenienza" name="paeseDiProvenienza" value={formData.paeseDiProvenienza} onChange={handleChange} fullWidth margin="normal" />
+                <TextField label="Paese di Provenienza" name="paeseDiProvenienza"  value={formData.paeseDiProvenienza} onChange={handleChange} fullWidth margin="normal" />
               </Grid>
             </Grid>
-              <input accept="image/*" style={{ display: 'none' }} id="icon-button-file" type="file" onChange={handleFileChange} />  
+              <input accept="image/*" style={{ display: 'none' }} id="icon-button-file" type="file" />  
               <label htmlFor="icon-button-file">
                 <IconButton color="primary" aria-label="upload picture" component="span">
                   <PhotoCamera />
@@ -99,9 +121,13 @@ function SubscriptionForm() {
       case 1:
         return (
           <>
-            <Container sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '60%' }}>
-              
-            <TextField label="Squadra di Calcio Preferita" name="squadraCalcioPreferita" value={formData.squadraCalcioPreferita} onChange={handleChange}  fullWidth margin="normal" />
+            <Container sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '60%' }}>  
+               <Autocomplete
+                disablePortal
+                options={clubs.map((club) => club.name)} // Mappare solo i nomi dei club
+                sx={{ width: 300 }}
+                renderInput={(params) => <TextField {...params} label="Favourite Team" name="squadraCalcioPreferita"  value={formData.squadraCalcioPreferita} onChange={handleChange} fullWidth margin="normal" />}
+              />
             <TextField label="Giocatore Preferito" name="giocatorePreferito" value={formData.giocatorePreferito} onChange={handleChange} fullWidth margin="normal" />
             </Container>
             
@@ -112,8 +138,8 @@ function SubscriptionForm() {
           <>
             <Container sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '60%' }}>
               
-            <TextField label="Email" name="email" type="email"  fullWidth margin="normal" />
-            <TextField label="Password" name="password" type="password"  fullWidth margin="normal" />
+            <TextField label="Email" name="email" type="email" value={formData.email} onChange={handleChange} fullWidth margin="normal" />
+            <TextField label="Password" name="password" type="password" value={formData.password} onChange={handleChange} fullWidth margin="normal" />
             </Container>
           </>
         );
@@ -165,4 +191,4 @@ function SubscriptionForm() {
   );
 }
 
-export default SubscriptionForm;
+export default SignUp;

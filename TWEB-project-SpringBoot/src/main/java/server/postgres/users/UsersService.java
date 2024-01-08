@@ -14,4 +14,10 @@ public class UsersService {
         assert newUsers!=null;
         usersRepository.save(newUsers);
     }
+    public String checkCredentials(String email, String password){
+        if(usersRepository.checkCredentials(email, password).size()==1){
+            return "OK";
+        }
+        return "ERROR";
+    }
 }

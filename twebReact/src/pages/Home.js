@@ -7,12 +7,11 @@ import ChatWindow from "../components/atoms/ChatWindow";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-function Home(){
+function Home() {
     const links = [true, false, false, false, false, false, true, true];
     const pages = ['News', 'Ranking', 'Teams', 'Player', 'Games', 'Competitions'];
     const [arrayNewsApi, setNewsApi] = useState([]);
-   const [loading, setLoading] = useState(true);
-
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
         const getApiNews = () => {
             const apiKey = "62563bbc4e9e5b4871a03be615443210";
@@ -27,8 +26,9 @@ function Home(){
                 });
         };
         getApiNews();
-    }, []); // L'array vuoto come dipendenza fa sì che l'effetto venga eseguito solo al montaggio
 
+    }, []); // L'array vuoto come dipendenza fa sì che l'effetto venga eseguito solo al montaggio
+    
     return (
         <div id='container'>
             <div id="topContainer">

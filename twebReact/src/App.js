@@ -17,17 +17,18 @@ function App() {
         <BrowserRouter>
             <div>
                 <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/ranking" element={<Ranking />} />
-                    <Route path="/teams" element={<Teams />} />
+                        <Route path="/" element={<Home />} />
+                        <Route path="/ranking" element={<Ranking />} />
+                        <Route path="/teams" element={<Teams />} />
+                        <Route path="/player/:player_Id" element={<Player />} />
+                        <Route path="/news" element={<News />} /> 
+                        <Route path="/competitions" element={<Competitions />} />
+                        <Route path="/games" element={<Games />} />
+                        <Route path="/single-game/:gameId" element={<SingleGame />} />
+                        <Route path="/single-team/:clubId" element={<SingleTeam />} />
+                
                     <Route path="/logIn" element={<LogIn />} />
-                    <Route path="/player/:player_Id" element={<Player />} />
                     <Route path="/signup" element={<SignUp/>} />
-                    <Route path="/news" element={<News />} /> 
-                    <Route path="/competitions" element={<Competitions />} />
-                    <Route path="/games" element={<Games />} />
-                    <Route path="/single-game/:gameId" element={<SingleGame />} />
-                    <Route path="/single-team/:clubId" element={<SingleTeam />} />
                     <Route path="*" element={<h1>Page not found</h1>} />
                 </Routes>
             </div>

@@ -94,6 +94,13 @@ public class ServerController {
         System.out.println("Stampo il filtro della season: " + newUser.getFirstName());
         usersService.saveUserDB(newUser);
     }
+    @GetMapping("/check-credentials")
+    public String  checkCredentials(@RequestParam(name = "email") String email,
+                                  @RequestParam(name = "password") String password) {
+        System.out.println("Stampo password: " + password);
+        System.out.println("Stampo email: " + email);
+        return usersService.checkCredentials(email, password);
+    }
     @GetMapping("/all-competitions")
     public List<Competitions> getCompetitionsByCountry(@RequestParam(name = "filter") String filter) {
         System.out.println("Stampo il filtro: " + filter);

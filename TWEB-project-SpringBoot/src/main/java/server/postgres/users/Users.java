@@ -28,11 +28,11 @@ public class Users {
     @Column(name = "image_url", length = 255)
     private String imageUrl;
 
-    @Column(name = "preferred_club", length = 255)
-    private String preferredClub;
+    @Column(name = "favourite_club", length = 255)
+    private String favouriteClub;
 
-    @Column(name = "preferred_player", length = 255)
-    private String preferredPlayer;
+    @Column(name = "favourite_player", length = 255)
+    private String favouritePlayer;
 
     @Column(name = "email", length = 255)
     private String email;
@@ -51,21 +51,7 @@ public class Users {
         this.userId = userId;
     }
 
-    public String getPreferredClub() {
-        return preferredClub;
-    }
 
-    public void setPreferredClub(String preferredClub) {
-        this.preferredClub = preferredClub;
-    }
-
-    public String getPreferredPlayer() {
-        return preferredPlayer;
-    }
-
-    public void setPreferredPlayer(String preferredPlayer) {
-        this.preferredPlayer = preferredPlayer;
-    }
 
     public String getEmail() {
         return email;
@@ -81,6 +67,22 @@ public class Users {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getFavouriteClub() {
+        return favouriteClub;
+    }
+
+    public void setFavouriteClub(String favouriteClub) {
+        this.favouriteClub = favouriteClub;
+    }
+
+    public String getFavouritePlayer() {
+        return favouritePlayer;
+    }
+
+    public void setFavouritePlayer(String favouritePlayer) {
+        this.favouritePlayer = favouritePlayer;
     }
 
     public String getFirstName() {

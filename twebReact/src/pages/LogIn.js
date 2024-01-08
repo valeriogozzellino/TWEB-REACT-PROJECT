@@ -1,66 +1,5 @@
-// import React from "react";
-// import 'bootstrap'
-// import TopAppBar from "../components/atoms/TopAppBar";
-
-// function LogIn() {
-
-//     const links = [false, true, true, true, true, true, true];
-//     const pages = ['Home', 'News', 'Ranking', 'Teams', 'Player'];
-//     class User {
-//         constructor(name, surname, email, password) {
-//             this.name = name;
-//             this.surname = surname;
-//             this.email = email;
-//             this.password = password;
-//         }
-//     }
-//     const user = new User();
-
-//     function getUser() {
-//         user.name = document.getElementById("name").value;
-//         user.surname = document.getElementById("surname").value;
-//         user.email = document.getElementById("email").value;
-//         user.password = document.getElementById("password").value;
-//         console.log(user);
-//     }
-    
-//     return (
-//         <div>
-//             <TopAppBar links={links} pages={pages} />
-//         <div id="containerHeader">
-//             <div className="headerDiv" id="headerDiv">
-//                 {/*<img src="/images/logo.jpeg" alt="application logo" id="logo">*/}
-//             </div>
-//             <div><h3>insert your data to log in your account</h3></div>
-//         </div>
-//         <form id="form">
-//             <div className="form-row">
-//                 <div className="form-group col-md-6">
-//                     <label htmlFor="name">Name</label>
-//                     <input type="text" className="form-control" id="name" name="name"/>
-//                 </div>
-//                 <div className="form-group col-md-6">
-//                     <label htmlFor="surname">Surname</label>
-//                     <input type="text" className="form-control" id="surname" name="surname"/>
-//                 </div>
-//             </div>
-//             <div className="form-row">
-//                 <div className="form-group col-md-6">
-//                     <label htmlFor="email">Email</label>
-//                     <input type="email" className="form-control" id="email" name="email"/>
-//                 </div>
-//                 <div className="form-group col-md-6">
-//                     <label for="password">Password</label>
-//                     <input type="password" className="form-control" id="password" name="password"/>
-//                 </div>
-//             </div>
-//             <button type="button" className="btn btn-primary" onClick={getUser}>Sign in</button>    
-//         </form>
-//     </div>
-// );
-// }
-// export default LogIn;
 import * as React from 'react';
+import { useState, useEffect, useContext, createContext } from "react";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -68,13 +7,13 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { Link } from 'react-router-dom';
-
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from 'axios';
 
 function Copyright(props) {
   return (
@@ -94,13 +33,28 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function LogIn() {
+  const [checkCredentials, setCheckCredentials] = useState(false);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const email = data.get('email'),
+    password = data.get('password');
+    const apiUrl = `http://localhost:3001/logIn/check-credentials?email=${email}&password=${password}`;
+    axios.get(apiUrl, {
       email: data.get('email'),
       password: data.get('password'),
-    });
+    })
+      .then((response) => {
+        console.log(response.data);
+        if(response.data === "OK"){
+          setCheckCredentials(true);
+        }else{
+          alert("Wrong credentials");
+        }
+      }, (error) => {
+        console.log(error);
+      });
   };
   const handleSignUP = (event) => {
     event.preventDefault();
@@ -123,7 +77,7 @@ export default function LogIn() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Log In
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
