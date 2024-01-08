@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const axios = require("axios");
+const {log} = require("debug");
 
 
 router.get('/', function(req, res) {
@@ -10,11 +11,12 @@ router.get('/', function(req, res) {
 });
 
 module.exports = router;
-router.get('/get-team-by-id/:teamCode', function(req, res) {
-    // GET request to /players/all-player
-    const teamCode = req.params.teamCode;
 
-    axios.get(`http://localhost:3000/get-team-by-id/${teamCode}`)
+router.get('/get-team-by-id/:clubId', function(req, res) {
+    const teamCode = req.params.clubId;
+    console.log("++++++ AOOOOOOOOO ")
+
+    axios.get(`http://localhost:8081/get-team-by-id/${teamCode}`)
         .then(response => {
             res.json(response.data)
         })

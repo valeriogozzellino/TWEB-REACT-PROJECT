@@ -7,12 +7,15 @@ import DataGridElement from "../components/atoms/DataGrid";
 import { useNavigate } from 'react-router-dom';
 import "../style/Teams.css";
 import { useParams } from 'react-router-dom';
+import TopAppBar from "../components/atoms/TopAppBar";
+
 
 export default function SingleTeam() {
     const navigate = useNavigate();
     const { clubId } = useParams();
     const [players, setPlayers] = useState(null);
     const [clubGames, setClubGames] = useState(null);
+    const [team, setTeam] = useState(null);
     const [currentView, setCurrentView] = useState('players'); // State to track current view
 
     const [gridDataPlayers, setGridDataPlayers] = useState({
@@ -98,9 +101,20 @@ export default function SingleTeam() {
             });
     }
 
+    const getTeamById = (clubId) => {
+        axios.get(`http://localhost:3001/single-team/get-team-by-id/${clubId}`)
+            .then(response => {
+                setTeam(response.data);
+            })
+            .catch(error => {
+                console.error("Error fetching team: ", error);
+            });
+    };
+
     useEffect(() => {
         getPlayers(clubId);
         getClubGames(clubId);
+        getTeamById(clubId);
     }, [clubId]);
 
     const handleViewChange = (event) => {
@@ -120,7 +134,11 @@ export default function SingleTeam() {
         <div>
             <AppBarUser />
             <div>
-                <h1>Team Name.....</h1>
+                <h1>{team ? team.name : 'Loading...'}</h1>
+                <p>Stadium: {team ? team.stadiumName : 'Loading...'} </p>
+                <p>Stadium Seats: {team ? team.stadiumSeats : 'Loading...'} </p>
+                <p>Transfer Record: {team ? team.netTransferRecord : 'Loading...'} </p>
+
                 <Select
                     value={currentView}
                     onChange={handleViewChange}

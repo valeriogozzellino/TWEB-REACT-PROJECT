@@ -16,7 +16,6 @@ export default function Games() {
             { field: 'aggregate', headerName: 'Aggregate', width: 150 },
             { field: 'awayTeam', headerName: 'Away Team', width: 150 },
             { field: 'game_id', headerName: 'Game ID', width: 150 }
-            // Add more columns as needed
         ],
     });
 
@@ -47,7 +46,8 @@ export default function Games() {
 
     const handleClick = (roww) => {
         // Find the game using the rowId
-        const game = gridData.rows.find(row => row.id === roww);        console.log("GAME ID: ", game.game_id)
+        const game = gridData.rows.find(row => row.id === roww);
+        console.log("GAME ID: ", game.game_id)
         if (game) {
             console.log("Game ID: ", game.game_id);
             navigate(`/single-game/${game.game_id}`);

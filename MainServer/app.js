@@ -33,7 +33,7 @@ app.use('/', indexRouter);
 // app.use('/users', usersRouter);
 app.use('/teams', teamsRouter);
 app.use('/ranking', rankingRouter);
-app.use('/singe_team', singleTeamRouter);
+app.use('/single-team', singleTeamRouter);
 app.use('/player', playerRouter);
 app.use('/competitions', competitionRouter);
 app.use('/logIn', logInRouter);

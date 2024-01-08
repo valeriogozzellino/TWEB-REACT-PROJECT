@@ -13,19 +13,14 @@ public class ClubsService {
         this.clubsRepository = clubsRepository;
     }
     public List<Clubs> getAllTeams(int filterSeason, String filterCountry) {
-        System.out.println("Sono in Get All Teams");
         List<Clubs> clubsList = null;
         if(filterSeason == 0 && filterCountry.equals("All") ){
-            System.out.println("-------> 1");
             clubsList = clubsRepository.getAllClubs();
         }else if (filterSeason == 0 ){
-            System.out.println("-------> 2");
             clubsList = clubsRepository.findByCountry(filterCountry);
         }else if(filterCountry.equals("All")){
-            System.out.println("-------> 3");
             clubsList = clubsRepository.findBySeason(filterSeason);
         }else{
-            System.out.println("-------> 4");
             clubsList = clubsRepository.findBySeasonAndClubs(filterSeason, filterCountry);
         }
         return clubsList;
@@ -39,5 +34,9 @@ public class ClubsService {
         List<Integer> seasonList = clubsRepository.getClubsSeason();
         seasonList.add(0);
         return seasonList;
+    }
+
+    public Clubs getTeamById(int clubId) {
+        return clubsRepository.getTeamById(clubId);
     }
 }

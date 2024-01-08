@@ -110,6 +110,15 @@ public class ServerController {
         return  competitionsList;
     }
 
+    @GetMapping("/get-team-by-id/{clubId}")
+    public Clubs getTeamById(@PathVariable int clubId) {
+        System.out.println("++++++++ Fetching team with ID: " + clubId);
+        return clubsService.getTeamById(clubId);
+    }
+
+
+
+
    /* @GetMapping("/get-teams-by-competition")
     public List<Clubs> getTeamsByCompetitions(@RequestParam(name = "filterCompetition") String filter) {
         System.out.println("Stampo il filtro: " + filter);

@@ -36,4 +36,6 @@ public interface ClubsRepository  extends JpaRepository<Clubs, String> {
             "FROM clubs "+"ORDER BY last_season",
             nativeQuery = true)
     List<Integer> getClubsSeason();
+    @Query(value = "SELECT * FROM clubs WHERE club_id = :clubId", nativeQuery = true)
+    Clubs getTeamById(int clubId);
 }
