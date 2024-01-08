@@ -13,7 +13,6 @@ function Teams() {
   const [filterCountry, setFilterCountry] = useState("All"); // return all country and set them for the filter
   const [arrayCountry, setArrayCountry] = useState([]); // return all country and set them for the filter
   const [arraySeason, setArraySeason] = useState([]); // return all country and set them for the filter
-  const [detailsTeam, setDetailsTeam] = useState(false); //set on click of the row in dataGrid
   const [clickedTeam, setClickedTeam] = useState(); //set on click of the row in dataGrid
   const navigate = useNavigate();
   const [gridData, setGridData] = useState({
@@ -26,19 +25,7 @@ function Teams() {
       { field: 'stadiumSeats', headerName: 'Stadium Seats', width: 200 },
     ],
   });
-  
-  const [gridDataPlayers, setGridDataPlayers] = useState({
-    rows: [],
-    columns: [
-      { field: 'id', headerName: 'ID', width: 200 },
-      { field: 'imageUrl', headerName: 'Image', width: 200 },
-      { field: 'firstName', headerName: 'First Name', width: 200 },
-      { field: 'lastName', headerName: 'Last Name', width: 200 },
-      { field: 'countryOfBirth', headerName: 'Coutry of birth', width: 200 },
-      { field: 'dateOfBirth', headerName: 'DOB', width: 200 },
-      { field: 'position', headerName: 'Stadium Name', width: 200 },
-    ],
-  });
+
   
   const handleFilterSeason = (event) => {
     setSeason(event.target.value);
@@ -112,41 +99,10 @@ function Teams() {
   const handleRowClick = (rowId, newState) => {
     const club = clubs.find((club) => club.clubId === rowId);
     setClickedTeam(club);
-    getPlayers(club.clubId);
-    setDetailsTeam(newState);
+    navigate(`/single-team/${club.clubId}`);
   }
   
-  const getPlayers = (filter) => {
-    console.log("getPlayers i'm inside: filter:: "+filter);
-    const apiUrl = `http://localhost:3001/player/get-player-by-team?filter=${filter}`;
-    axios.get(apiUrl)
-    .then(response => {
-      const newRows = response.data.map((players) => ({
-          id: players.playerId,
-          imageUrl: players.imageUrl,
-          firstName: players.firstName,
-          lastName: players.stadiumName,
-          countryOfBirth: players.countryOfBirth,
-          dateOfBirth: players.dateOfBirth,
-          position: players.position,
-        }));
-        setGridDataPlayers((prevGridData) => ({
-          ...prevGridData,
-          rows: newRows,
-        }));
-      setPlayers(response.data);
-      })
-      .catch(response => {
-        alert(JSON.stringify(response));
-      });
-    }
-    const handleRowClickPlayers = (rowId, newState) => {
-      const player = players.find((player) => player.playerId === rowId);
-      console.log(player.playerId);
-       navigate(`/player/${player.playerId}`);
-    }
-    
-  if (detailsTeam === false) {
+
     return (
       <div>
         <AppBarUser />
@@ -178,7 +134,7 @@ function Teams() {
               </MenuItem>
             ))}
           </Select>
-          <button onClick={() => setDetailsTeam(true)}>Click me</button>
+          
         </div>
         <div id="containerData">
           <DataGridElement gridData={gridData} onRowClick= {handleRowClick} />
@@ -186,33 +142,7 @@ function Teams() {
     
       </div>
     );
-  } else {
-     return (
-      <div>
-        <AppBarUser />
-        <div>
-           <h1>Team Name : {clickedTeam.name}</h1>
-        </div>
-        <div id="blockDetails">
-            <div>
-              <p>ciaoooneeee ho solo un team</p>
-              <p>Stadium Name : {clickedTeam.stadiumName}</p>
-              <p>Stadium Seats : {clickedTeam.stadiumSeats}</p>
-              <p>Squad Size : {clickedTeam.squadSize}</p>
-              <p>Team Id : {clickedTeam.clubId}</p>
-              <p>Team Name : {clickedTeam.name}</p>
-              <p>net Trasfer Record: {clickedTeam.netTrasferRecord}</p>
-            </div>
-            <div id="containerGridPlayer">
-              <DataGridElement gridData={gridDataPlayers} onRowClick = {handleRowClickPlayers} />
-            </div>
-           
-           <button onClick={() => setDetailsTeam(false)}>Click me</button>
-        </div>
 
-      </div>
-    );
-  }
 
 }
 
