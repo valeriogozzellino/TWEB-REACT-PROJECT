@@ -6,7 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
+import { useAuth } from '../components/atoms/AuthContext';
 
 function Copyright(props) {
   return (
@@ -32,33 +33,42 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function LogIn() {
-  const [checkCredentials, setCheckCredentials] = useState(false);
+export default function LogIn({handleLogIN}) {
+  //const [checkCredentials, setCheckCredentials] = useState(false);
+  const { checkCredentials, login } = useAuth();
+  const navigate = useNavigate();
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const email = data.get('email'),
     password = data.get('password');
-    const apiUrl = `http://localhost:3001/logIn/check-credentials?email=${email}&password=${password}`;
-    axios.get(apiUrl, {
-      email: data.get('email'),
-      password: data.get('password'),
-    })
-      .then((response) => {
-        console.log(response.data);
-        if(response.data === "OK"){
-          setCheckCredentials(true);
-        }else{
-          alert("Wrong credentials");
-        }
-      }, (error) => {
-        console.log(error);
-      });
+    login(email, password);
+    if(checkCredentials){
+      console.log("isUserLogged LogIn--->" , checkCredentials);
+      navigate('/'); //modificare e iserire la pagina che l'ha chiamato
+    }
+    // const apiUrl = `http://localhost:3001/logIn/check-credentials?email=${email}&password=${password}`;
+    // axios.get(apiUrl, {
+      //   email: data.get('email'),
+    //   password: data.get('password'),
+    // })
+    //   .then((response) => {
+    //     console.log(response.data);
+    //     if(response.data === "OK"){
+    //       console.log("isUserLogged LogIn--->" , checkCredentials);
+    //       navigate('/');
+    //     } else {
+    //       alert("Wrong credentials");
+    //     }
+    //   }, (error) => {
+    //     console.log(error);
+    //   });
   };
   const handleSignUP = (event) => {
     event.preventDefault();
-    window.location.href = "/signUp";
+     navigate('/signUp');
   };
 
   return (

@@ -8,21 +8,32 @@ import { useNavigate } from 'react-router-dom';
 import "../style/Teams.css";
 import { useParams } from 'react-router-dom';
 import TopAppBar from "../components/atoms/TopAppBar";
+import { useAuth } from '../components/atoms/AuthContext';
+import "../style/Single-Team.css";
+import Footer from "../components/atoms/Footer";
 
+
+
+
+const CustomImageCell = ({ value }) => (
+  <img src={value} alt="Player" style={{ width: '40px', height: '40px' }} />
+);
 
 export default function SingleTeam() {
+     const links = [true, false, false, false, false, false, true, true];
+    const pages = ['News', 'Ranking', 'Teams', 'Player', 'Games', 'Competitions'];
     const navigate = useNavigate();
     const { clubId } = useParams();
     const [players, setPlayers] = useState(null);
     const [clubGames, setClubGames] = useState(null);
     const [team, setTeam] = useState(null);
     const [currentView, setCurrentView] = useState('players'); // State to track current view
-
+    const { checkCredentials } = useAuth();
     const [gridDataPlayers, setGridDataPlayers] = useState({
         rows: [],
         columns: [
             { field: 'id', headerName: 'ID', width: 200 },
-            { field: 'imageUrl', headerName: 'Image', width: 200 },
+            { field: 'imageUrl', headerName: 'Image', width: 200, renderCell: (params) => <CustomImageCell value={params.value} />, },
             { field: 'firstName', headerName: 'First Name', width: 200 },
             { field: 'lastName', headerName: 'Last Name', width: 200 },
             { field: 'countryOfBirth', headerName: 'Country of Birth', width: 200 },
@@ -124,40 +135,50 @@ export default function SingleTeam() {
     if (!players) {
         return (
             <div>
-                <AppBarUser />
+                {checkCredentials ? (
+                    <AppBarUser   pages={pages}/>
+                ) : (     
+                    <TopAppBar links={links} pages={pages} />
+                )}
                 Loading...
             </div>
         );
     }
 
     return (
-        <div>
-            <AppBarUser />
-            <div>
-                <h1>{team ? team.name : 'Loading...'}</h1>
+    <div>
+        {checkCredentials ? (
+                <AppBarUser pages={pages}/>
+            ) : (     
+                <TopAppBar links={links} pages={pages} />
+            )}
+        <div className="team-header">
+            <h1>{team ? team.name : 'Loading...'}</h1>
+            <div className="team-stats">
                 <p>Stadium: {team ? team.stadiumName : 'Loading...'} </p>
                 <p>Stadium Seats: {team ? team.stadiumSeats : 'Loading...'} </p>
                 <p>Transfer Record: {team ? team.netTransferRecord : 'Loading...'} </p>
-
-                <Select
-                    value={currentView}
-                    onChange={handleViewChange}
-                    displayEmpty
-                    inputProps={{ 'aria-label': 'Without label' }}
-                >
-                    <MenuItem value="players">Players</MenuItem>
-                    <MenuItem value="games">Games</MenuItem>
-                </Select>
-            </div>
-            <div id="blockDetails">
-                <div id="containerGridPlayer">
-                    {currentView === 'players' ? (
-                        <DataGridElement gridData={gridDataPlayers} onRowClick={handleRowClickPlayers} />
-                    ) : (
-                        <DataGridElement gridData={gridDataGames} onRowClick={(row) => handleRowClickGames(row)}/>
-                    )}
-                </div>
             </div>
         </div>
-    );
+        <div>
+            <Select
+                value={currentView}
+                onChange={handleViewChange}
+                displayEmpty
+                inputProps={{ 'aria-label': 'Without label' }}
+            >
+                <MenuItem value="players">Players</MenuItem>
+                <MenuItem value="games">Games</MenuItem>
+            </Select>
+        </div>
+        <div className="data-grid-container">
+            {currentView === 'players' ? (
+                <DataGridElement gridData={gridDataPlayers} onRowClick={handleRowClickPlayers} />
+            ) : (
+                <DataGridElement gridData={gridDataGames} onRowClick={(row) => handleRowClickGames(row)}/>
+            )}
+        </div>
+        <Footer/>    
+    </div>
+);
 }

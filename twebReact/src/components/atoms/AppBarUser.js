@@ -12,14 +12,15 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import DrawerVault from './DrawerVault';
 
-const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-function AppBarUser() {
+function AppBarUser(props) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const pages = props.pages;
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -35,9 +36,27 @@ function AppBarUser() {
     setAnchorElUser(null);
   };
 
+   const handleDrawerOpen = () => {
+    setDrawerOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setDrawerOpen(false);
+  };
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
+        <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+            onClick={handleDrawerOpen} // Aggiungi l'evento onClick per aprire il DrawerVault
+          >
+            <MenuIcon />
+          </IconButton>
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
@@ -155,6 +174,7 @@ function AppBarUser() {
             </Menu>
           </Box>
         </Toolbar>
+        <DrawerVault open={drawerOpen} onClose={handleDrawerClose} pages={pages} /> {/* Passa lo stato del Drawer al componente DrawerVault */}
       </Container>
     </AppBar>
   );

@@ -6,6 +6,10 @@ import MenuItem from '@mui/material/MenuItem';
 import DataGridElement from "../components/atoms/DataGrid";
 import Select from '@mui/material/Select';
 import "../style/Competitions.css";
+import { useAuth } from '../components/atoms/AuthContext';
+import AppBarUser from "../components/atoms/AppBarUser";
+
+
 
 const Competitions = () => {
   const links = [false, false, false, false, false, true, true];
@@ -15,7 +19,8 @@ const Competitions = () => {
   const [filter, setFilter] = useState('All');  // Imposta il valore di default a "All"
   const [detailsCompetitions, setDetailsCompetitions] = useState(false); //set on click of the row in dataGrid
   const [clickedCompetition, setClickedCompetition] = useState(); //set on click of the row in dataGrid
-    const [gridData, setGridData] = useState({
+  const { checkCredentials } = useAuth();  
+  const [gridData, setGridData] = useState({
     rows: [],
     columns: [
       { field: 'id', headerName: 'ID', width: 200 },
@@ -83,7 +88,11 @@ const getAllCompetitions = (filter) => {
   if (detailsCompetitions === false){
     return (
         <div id="container">
-        <TopAppBar links={links} pages={pages} />
+        {checkCredentials ? (
+                    <AppBarUser pages={pages}/>
+                ) : (     
+                    <TopAppBar links={links} pages={pages} />
+                )}
         <div id="title">
           <h1>Competitions</h1>
         </div>

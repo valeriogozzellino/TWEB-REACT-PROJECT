@@ -11,13 +11,17 @@ import Games from "./pages/Games";
 import Competitions from "./pages/Competitions";
 import SingleGame from "./pages/SingleGame";
 import SingleTeam from './pages/SingleTeam';
+import { AuthProvider } from './components/atoms/AuthContext';
+
+
 function App() {
-    
     return (
-        <BrowserRouter>
-            <div>
-                <Routes>
-                        <Route path="/" element={<Home />} />
+
+        <AuthProvider>
+            <BrowserRouter>
+                <div>
+                    <Routes>
+                        <Route path="/" element={<Home  />} />
                         <Route path="/ranking" element={<Ranking />} />
                         <Route path="/teams" element={<Teams />} />
                         <Route path="/player/:player_Id" element={<Player />} />
@@ -25,14 +29,14 @@ function App() {
                         <Route path="/competitions" element={<Competitions />} />
                         <Route path="/games" element={<Games />} />
                         <Route path="/single-game/:gameId" element={<SingleGame />} />
-                        <Route path="/single-team/:clubId" element={<SingleTeam />} />
-                
-                    <Route path="/logIn" element={<LogIn />} />
-                    <Route path="/signup" element={<SignUp/>} />
-                    <Route path="*" element={<h1>Page not found</h1>} />
-                </Routes>
-            </div>
-        </BrowserRouter>
+                        <Route path="/single-team/:clubId" element={<SingleTeam />} />        
+                        <Route path="/logIn" element={<LogIn  />} />
+                        <Route path="/signup" element={<SignUp/>} />
+                        <Route path="*" element={<h1>Page not found</h1>} />
+                    </Routes>
+                </div>
+            </BrowserRouter>
+        </AuthProvider>
     );
 }
 

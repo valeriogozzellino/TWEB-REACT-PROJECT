@@ -5,7 +5,13 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import DataGridElement from "../components/atoms/DataGrid";
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../components/atoms/AuthContext';
 import "../style/Teams.css";
+import TopAppBar from "../components/atoms/TopAppBar";
+
+
+
+
 function Teams() {
   const [clubs, setClubs] = useState([]);
   const [players, setPlayers] = useState([]);
@@ -15,6 +21,9 @@ function Teams() {
   const [arraySeason, setArraySeason] = useState([]); // return all country and set them for the filter
   const [clickedTeam, setClickedTeam] = useState(); //set on click of the row in dataGrid
   const navigate = useNavigate();
+  const links = [true, false, false, false, false, false, true, true];
+    const pages = ['News', 'Ranking', 'Teams', 'Player', 'Games', 'Competitions'];
+  const { checkCredentials } = useAuth();
   const [gridData, setGridData] = useState({
     rows: [],
     columns: [
@@ -105,7 +114,11 @@ function Teams() {
 
     return (
       <div>
-        <AppBarUser />
+        {checkCredentials ? (
+                    <AppBarUser  pages={pages}/>
+                ) : (     
+                    <TopAppBar links={links} pages={pages} />
+                )}
         <div>
           <h1>Teams</h1>
         </div>

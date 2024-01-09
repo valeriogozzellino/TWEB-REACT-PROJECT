@@ -1,0 +1,24 @@
+.data-grid {
+    --data-grid-header-bg: #0052cc;
+    /* Blue */
+    --data-grid-header-color: #ffffff;
+    /* White */
+    --data-grid-row-hover: #cce0ff;
+    /* Lighter Blue */
+    --data-grid-row-selected: #99bfff;
+    /* Selected Row Blue */
+}
+
+/* Esempio di override degli stili MUI DataGrid */
+.css-1u3bzj6-MuiDataGrid-columnHeaders {
+    background-color: var(--data-grid-header-bg);
+    color: var(--data-grid-header-color);
+}
+
+.css-1kz4h0n-MuiDataGrid-row:hover {
+    background-color: var(--data-grid-row-hover);
+}
+
+.css-1kz4h0n-MuiDataGrid-row.Mui-selected {
+    background-color: var(--data-grid-row-selected);
+}

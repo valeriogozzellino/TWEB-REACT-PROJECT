@@ -1,0 +1,41 @@
+.player-container {
+    font-family: 'Arial', sans-serif;
+    color: #fff;
+    background-color: #141758;
+    height: 1000px;
+}
+
+.player-header {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.player-stats {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+}
+
+.player-image {
+    display: flex;
+    justify-content: center;
+}
+
+.player-image img {
+    border-radius: 50%;
+    width: 150px;
+    /* regola questa dimensione a seconda delle tue esigenze */
+    height: auto;
+}
+
+.player-info {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.player-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}

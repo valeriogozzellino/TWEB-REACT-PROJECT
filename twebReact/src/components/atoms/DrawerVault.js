@@ -10,18 +10,20 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
-
+import { useNavigate } from 'react-router-dom';
 // pages is an array of strings of the pages you want to show in the drawer, 
 // for example: ['Home', 'News', 'Ranking', 'Teams', 'Player', 'LogIn', 'SignUp']
 //its very importanto to dont forget it
 //non devo accedere a props. page perchè in questo modo è già destrutturato con le {}
 export default function DrawerVault({ open, onClose, pages }) {
   const page = pages;
+  const navigate = useNavigate();
+
   const redirectToPage = (page) => () => {
     if (page === "Home") {
-      window.location.href = "/";
+      navigate("/");
     } else {
-      window.location.href = `/${page.toLowerCase()}`;
+      navigate(`/${page.toLowerCase()}`);
     }
   };
   //if you want to insert more page in drawervault you can add a new element in the array below

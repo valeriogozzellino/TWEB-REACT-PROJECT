@@ -80,13 +80,17 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import DataGridElement from "../components/atoms/DataGrid";
-
+import { useAuth } from '../components/atoms/AuthContext';
+import AppBarUser from "../components/atoms/AppBarUser";
+import TopAppBar from "../components/atoms/TopAppBar";
 const SingleGame = () => {
     const { gameId } = useParams();
     const [gameData, setGameData] = useState([]);
     const [gameInfo, setGameInfo] = useState(null);
     const [error, setError] = useState(null);
-
+    const links = [true, false, false, false, false, false, true, true];
+    const pages = ['News', 'Ranking', 'Teams', 'Player', 'Games', 'Competitions'];
+    const { checkCredentials } = useAuth();
     // Define columns for your game events data grid
     const columns = [
         { field: 'minute', headerName: 'Minute', width: 130 },
@@ -134,6 +138,11 @@ const SingleGame = () => {
     return (
         <div style={{ textAlign: 'center' }}>
             <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', marginBottom: '20px' }}>
+                {checkCredentials ? (
+                    <AppBarUser  pages={pages} />
+                ) : (     
+                    <TopAppBar links={links} pages={pages} />
+                )}
                 <div style={{ textAlign: 'center' }}>
                     <p>{gameInfo.home_club_name}</p>
                 </div>

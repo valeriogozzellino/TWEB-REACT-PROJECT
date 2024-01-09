@@ -6,10 +6,14 @@ import "../style/Home.css";
 import ChatWindow from "../components/atoms/ChatWindow";
 import axios from "axios";
 import { useState, useEffect } from "react";
-
+import AppBarUser from "../components/atoms/AppBarUser";
+import { useAuth } from '../components/atoms/AuthContext';
+import Footer from "../components/atoms/Footer";
 function Home() {
     const links = [true, false, false, false, false, false, true, true];
     const pages = ['News', 'Ranking', 'Teams', 'Player', 'Games', 'Competitions'];
+    const { checkCredentials } = useAuth();
+    console.log("isUserLogged HOme--->" , checkCredentials);
     const [arrayNewsApi, setNewsApi] = useState([]);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
@@ -32,7 +36,11 @@ function Home() {
     return (
         <div id='container'>
             <div id="topContainer">
-                <TopAppBar links={links} pages={pages} />
+                {checkCredentials ? (
+                    <AppBarUser pages={pages} />
+                ) : (     
+                    <TopAppBar links={links} pages={pages} />
+                )}
                 <div id="boxTitleHome">
                     <h1 id="titleHome"><em>Welcome to FootGoal!</em></h1>
                 </div>
@@ -48,8 +56,9 @@ function Home() {
 
             </div>
             <div id="bottomContainer">
-                <h4>Contact : Valerio Gozzellino ,    tel: 3313421000<br/>  Alessandro Mao ,    tel: 3313421000 </h4>
+                
                 <ChatWindow />
+                <Footer />
             </div>
         </div>
     );
