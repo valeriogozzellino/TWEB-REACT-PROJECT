@@ -25,7 +25,7 @@ export default function SingleTeam() {
     const navigate = useNavigate();
     const { clubId } = useParams();
     const [players, setPlayers] = useState(null);
-    const [clubGames, setClubGames] = useState(null);
+    const [setClubGames] = useState(null);
     const [team, setTeam] = useState(null);
     const [currentView, setCurrentView] = useState('players'); // State to track current view
     const { checkCredentials } = useAuth();
@@ -92,7 +92,7 @@ export default function SingleTeam() {
     }
 
     const getClubGames = (clubId) => {
-        const clubGamesApiUrl = `http://localhost:3000/get-club-games-by-id/${clubId}`;
+        const clubGamesApiUrl = `http://localhost:3001/games/get-club-games-by-id/${clubId}`;
         axios.get(clubGamesApiUrl)
             .then(response => {
                 const newRows = response.data.map((game) => ({

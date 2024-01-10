@@ -1,5 +1,6 @@
-const { GameModel } = require('../models/games_model'); // Destructure GameModel for direct use
-const { GameEventModel } = require('../models/game_events_model'); // Destructure GameModel for direct use
+const { GameModel } = require('../models/games_model');
+const { GameEventModel } = require('../models/game_events_model');
+const { ClubGamesModel } = require('../models/club_games_model');
 
 function getAllGames() {
     console.log("+++ GAMES");
@@ -34,6 +35,23 @@ function getGameByID(game_id) {
 }
 
 module.exports.getGameByID = getGameByID;
+
+
+function getClubGameByID(club_id) {
+    console.log("+++ CLUB GAMEEEEEEEEE");
+    return new Promise((resolve, reject) => {
+        ClubGamesModel.find({ club_id: club_id })
+            .then(result => {
+                resolve(result);
+            })
+            .catch(error => {
+                console.error("Error in getClubGameByID:", error);
+                reject(error);
+            });
+    });
+}
+
+module.exports.getClubGameByID = getClubGameByID;
 
 
 function getAllGamesEvents(game_id) {

@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import AppBarUser from "../components/atoms/AppBarUser";
 import axios from "axios";
 import DataGridElement from "../components/atoms/DataGrid";
-import { useNavigate } from 'react-router-dom';
-
+import {useNavigate} from 'react-router-dom';
 
 export default function Games() {
-    const [ setGames] = useState([]);
+    const [setGames] = useState([]); // This state is declared but not used in the current context
     const [error, setError] = useState(null);
+    const pages = ['News', 'Ranking', 'Teams', 'Player', 'Games', 'Competitions'];
     const [gridData, setGridData] = useState({
         rows: [],
         columns: [
-            { field: 'gameDate', headerName: 'Game Date', width: 150 },
-            { field: 'homeTeam', headerName: 'Home Team', width: 150 },
-            { field: 'aggregate', headerName: 'Aggregate', width: 150 },
-            { field: 'awayTeam', headerName: 'Away Team', width: 150 },
-            { field: 'game_id', headerName: 'Game ID', width: 150 }
+            {field: 'gameDate', headerName: 'Game Date', width: 150},
+            {field: 'homeTeam', headerName: 'Home Team', width: 150},
+            {field: 'aggregate', headerName: 'Aggregate', width: 150},
+            {field: 'awayTeam', headerName: 'Away Team', width: 150},
+            {field: 'game_id', headerName: 'Game ID', width: 150}
         ],
     });
 
@@ -40,7 +40,7 @@ export default function Games() {
             })
             .catch((err) => {
                 setError(err);
-                setGames(null);
+                setGames(null); // This might not be necessary if 'games' state is not used elsewhere
             });
     };
 
@@ -58,16 +58,18 @@ export default function Games() {
 
     const navigate = useNavigate();
 
+
+
     useEffect(() => {
         handleGetAllGames();
     }, []);
 
     return (
         <div>
-            <AppBarUser />
+            <AppBarUser pages={pages}/>
             <h1>Games</h1>
             <div id="containerData">
-                <DataGridElement gridData={gridData} onRowClick={(row) => handleClick(row)} />
+                <DataGridElement gridData={gridData} onRowClick={handleClick}/>
             </div>
             {error && <p>Error: {error.message}</p>}
         </div>
