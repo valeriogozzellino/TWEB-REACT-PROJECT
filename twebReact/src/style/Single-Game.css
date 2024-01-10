@@ -1,0 +1,22 @@
+.game-header {
+    background-color: #0052cc;
+    /* Blue */
+    color: #ffffff;
+    /* White */
+    padding: 1em;
+    border-radius: 8px;
+    margin: 1em 0;
+}
+
+.team-header h1 {
+    margin: 0.5em 0;
+}
+
+.game-stats {
+    background-color: #e6f7ff;
+    /* Light Blue */
+    padding: 1em;
+    color: black;
+    border-radius: 8px;
+    margin-bottom: 1em;
+}

@@ -66,3 +66,18 @@ router.get('/get-club-season', function(req, res) {
         });
 })
 module.exports = router;
+
+router.get('/get-name-by-club-id/:clubId', function(req, res) {
+    const clubId = req.params.clubId;
+    axios.get(`http://localhost:3000/get-name-by-club-id/${clubId}`)
+        .then(response => {
+            const clubName = response.data.clubName;
+            res.json({ clubName });
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        });
+});
+
+module.exports = router;

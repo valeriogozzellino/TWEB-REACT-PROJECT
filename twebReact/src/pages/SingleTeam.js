@@ -112,6 +112,12 @@ export default function SingleTeam() {
             });
     }
 
+    // todo: check if this is correct
+    // const getNameByClubId = async (clubId) => {
+    //     const response = await axios.get(`http://localhost:3001/teams/get-name-by-club-id/${clubId}`);
+    //     return response.data.clubName;
+    // }
+
     const getTeamById = (clubId) => {
         axios.get(`http://localhost:3001/single-team/get-team-by-id/${clubId}`)
             .then(response => {

@@ -5,7 +5,7 @@ import DataGridElement from "../components/atoms/DataGrid";
 import {useNavigate} from 'react-router-dom';
 
 export default function Games() {
-    const [setGames] = useState([]); // This state is declared but not used in the current context
+    const [setGames] = useState([]);
     const [error, setError] = useState(null);
     const pages = ['News', 'Ranking', 'Teams', 'Player', 'Games', 'Competitions'];
     const [gridData, setGridData] = useState({
