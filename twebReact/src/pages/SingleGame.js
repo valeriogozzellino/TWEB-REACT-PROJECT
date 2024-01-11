@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import axios from 'axios';
 import DataGridElement from "../components/atoms/DataGrid";
 import "../style/Single-Game.css";
@@ -7,17 +7,28 @@ import AppBarUser from "../components/atoms/AppBarUser";
 
 const SingleGame = () => {
     const {gameId} = useParams();
-    const [gameData, setGameData] = useState([]);
     const [gameInfo, setGameInfo] = useState(null);
     const [error, setError] = useState(null);
     const pages = ['News', 'Ranking', 'Teams', 'Player', 'Games', 'Competitions'];
+    const [players, setPlayers] = useState(null);
     // const { checkCredentials } = useAuth();
+    const navigate = useNavigate();
 
-    const columns = [
-        {field: 'minute', headerName: 'Minute', width: 130},
-        {field: 'eventType', headerName: 'Event Type', width: 130},
-        {field: 'player', headerName: 'Player Name', width: 200},
-    ];
+    const [gameData, setGameData] = useState({
+        rows: [],
+        columns: [
+            {field: 'minute', headerName: 'Minute', width: 130},
+            {field: 'eventType', headerName: 'Event Type', width: 130},
+            {field: 'player', headerName: 'Player Name', width: 200},
+        ]
+    });
+
+
+    const handleRowClickPlayers = (rowId, newState) => {
+        console.log("Game data", gameData)
+        const player = gameData.rows.find(player => player.id === rowId)
+        navigate(`/player/${player.player}`);
+    }
 
     useEffect(() => {
         // Fetch game events
@@ -30,7 +41,11 @@ const SingleGame = () => {
                     eventType: event.type,
                     player: event.player_id
                 }));
-                setGameData(newRows);
+                setGameData(prevState => ({
+                    ...prevState,
+                    rows: newRows
+                }));
+                setPlayers(response.data);
             })
             .catch(err => {
                 console.error('Error fetching game events:', err);
@@ -79,7 +94,7 @@ const SingleGame = () => {
 
             </div>
             <div id="containerData">
-                <DataGridElement gridData={{rows: gameData, columns: columns}}/>
+                <DataGridElement gridData={gameData} onRowClick={handleRowClickPlayers}/>
             </div>
         </div>
     );
