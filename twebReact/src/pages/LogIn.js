@@ -49,22 +49,6 @@ export default function LogIn({handleLogIN}) {
       console.log("isUserLogged LogIn--->" , checkCredentials);
       navigate('/'); //modificare e iserire la pagina che l'ha chiamato
     }
-    // const apiUrl = `http://localhost:3001/logIn/check-credentials?email=${email}&password=${password}`;
-    // axios.get(apiUrl, {
-      //   email: data.get('email'),
-    //   password: data.get('password'),
-    // })
-    //   .then((response) => {
-    //     console.log(response.data);
-    //     if(response.data === "OK"){
-    //       console.log("isUserLogged LogIn--->" , checkCredentials);
-    //       navigate('/');
-    //     } else {
-    //       alert("Wrong credentials");
-    //     }
-    //   }, (error) => {
-    //     console.log(error);
-    //   });
   };
   const handleSignUP = (event) => {
     event.preventDefault();

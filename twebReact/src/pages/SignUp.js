@@ -8,6 +8,10 @@ import Typography from '@mui/material/Typography';
 import axios from "axios";
 import Autocomplete from '@mui/material/Autocomplete';
 import SensorOccupiedTwoToneIcon from '@mui/icons-material/SensorOccupiedTwoTone';
+import "../style/SignUp.css"
+import imagePlayers from "../Images/messiVSRonaldo.jpeg"
+import { Link, useNavigate } from 'react-router-dom';
+import Box from '@mui/material/Box';
 
 function SignUp() {
   const [activeStep, setActiveStep] = useState(0);
@@ -54,15 +58,22 @@ function SignUp() {
   useEffect(() => {
     getTeamsByCountry("All", 0);
   }, []);
+
   const handleChange = (e) => {
-    // Settare i parametri del formData solo quando si preme "Avanti" o "Iscriviti"
-    console.log('Updating form data:', e.target.name, e.target.value);
+    e.preventDefault();
+    console.log('Updating form data 1:', e.target.name, e.target.value);
     if (activeStep === 0) {
-      console.log(formData);
-      const { name, value } = e.target;
+      const data = new FormData(e.currentTarget);
+      const name = data.get('name');
+      const cognome = data.get('cognome');
+      const annoDiNascita = data.get('annoDiNascita');
+      const paeseDiProvenienza = data.get('paeseDiProvenienza');
       setFormData((prevFormData) => ({
         ...prevFormData,
-        [name]: value,
+        nome: name,
+        cognome: cognome,
+        annoDiNascita: annoDiNascita,
+        paeseDiProvenienza: paeseDiProvenienza
       }));
       
     } else if (activeStep === 1) {
@@ -94,53 +105,42 @@ function SignUp() {
       case 0:
         return (
           <>
-            <Container sx={{ display: 'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center', width: '60%' }}>
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
-                <TextField label="Nome" name="nome" value={formData.nome} onChange={handleChange}   margin="normal" />
-               </Grid>
-              <Grid item xs={6}>
-                <TextField label="Cognome" name="cognome"  value={formData.cognome} onChange={handleChange}  fullWidth margin="normal" />
-              </Grid>
-              <Grid item xs={8}>
-                <TextField label="Anno di Nascita" name="annoDiNascita" value={formData.annoDiNascita} onChange={handleChange}  type='date' fullWidth margin="normal" />
-              </Grid>
-              <Grid item xs={8}>
-                <TextField label="Paese di Provenienza" name="paeseDiProvenienza"  value={formData.paeseDiProvenienza} onChange={handleChange} fullWidth margin="normal" />
-              </Grid>
-            </Grid>
+              <Box component="form"  noValidate sx={{ mt: 1 }} >          
+            <TextField margin="normal" required fullWidth id="email" label="Email Address" name="email" autoComplete="email" autoFocus />
+            <TextField
+              margin="normal" required fullWidth name="password" label="Password" type="password" id="password" autoComplete="current-password"
+            />
               <input accept="image/*" style={{ display: 'none' }} id="icon-button-file" type="file" />  
               <label htmlFor="icon-button-file">
                 <IconButton color="primary" aria-label="upload picture" component="span">
                   <PhotoCamera />
                 </IconButton>
-              </label>
-            </Container>
+                </label>
+                </Box>
           </>
         );
       case 1:
         return (
           <>
-            <Container sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '60%' }}>  
+            <Box component="form"  noValidate sx={{ mt: 1 }} >          
                <Autocomplete
                 disablePortal
                 options={clubs.map((club) => club.name)} // Mappare solo i nomi dei club
                 sx={{ width: 300 }}
                 renderInput={(params) => <TextField {...params} label="Favourite Team" name="squadraCalcioPreferita"  value={formData.squadraCalcioPreferita} onChange={handleChange} fullWidth margin="normal" />}
               />
-            <TextField label="Giocatore Preferito" name="giocatorePreferito" value={formData.giocatorePreferito} onChange={handleChange} fullWidth margin="normal" />
-            </Container>
+                <TextField label="Giocatore Preferito" name="giocatorePreferito" value={formData.giocatorePreferito} onChange={handleChange} fullWidth margin="normal" />
+            </Box>
             
           </>
         );
       case 2:
         return (
           <>
-            <Container sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '60%' }}>
-              
-            <TextField label="Email" name="email" type="email" value={formData.email} onChange={handleChange} fullWidth margin="normal" />
-            <TextField label="Password" name="password" type="password" value={formData.password} onChange={handleChange} fullWidth margin="normal" />
-            </Container>
+            <Box component="form"  noValidate sx={{ mt: 1 }} >            
+              <TextField label="Email" name="email" type="email" value={formData.email} onChange={handleChange} fullWidth margin="normal" />
+                <TextField label="Password" name="password" type="password" value={formData.password} onChange={handleChange} fullWidth margin="normal" />
+            </Box>
           </>
         );
       default:
@@ -149,7 +149,9 @@ function SignUp() {
   };
 
   return (
-    <div>
+    <div id='containerSignUp'>
+      <div id='containerForm'>
+
       <Container sx={{ alignItems: 'center', display: 'flex', flexDirection:'column', alignItems:'stretch' }}>
         <Container sx={{display: 'flex', flexDirection:'column', alignItems:'center'}}>
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
@@ -158,14 +160,14 @@ function SignUp() {
           <Typography component="h1" variant="h5">
             Sign Up
           </Typography>
-        </Container>        
+          </Container>       
           <Stepper sx={{ marginTop:'20px'}} activeStep={activeStep}>
             {steps.map((label) => (
-              <Step key={label}>
-              <StepLabel>{label}</StepLabel>
+              <Step  key={label}>
+              <StepLabel >{label}</StepLabel>
             </Step>
             ))}
-          </Stepper>        
+            </Stepper>  
       </Container>
       <div>
         
@@ -181,11 +183,20 @@ function SignUp() {
               <div>
                 <Container sx={{ display: 'flex', flexDirection:'row', justifyContent: 'center', alignItems: 'center', width: '60%' }}>
                   <Button disabled={activeStep === 0} onClick={handleBack}>Indietro</Button>
-                  <Button variant="contained" color="primary" onClick={(e) => handleNext(e)}>{activeStep === steps.length - 1 ? 'Iscriviti' : 'Avanti'}</Button>
+                  <Button variant="contained" type="submit" color="primary" onClick={(e) => handleNext(e)}>{activeStep === steps.length - 1 ? 'Iscriviti' : 'Avanti'}</Button>
                 </Container>
             </div>
           </div>
         )}
+        </div>
+        
+        <Link to="/logIn" variant="body2">
+          {"Do you already have an account? Log In"}
+        </Link>
+
+      </div>
+      <div id='containerImage'>
+        <img src={imagePlayers} alt="Messi vs Ronaldo" style={{ width: '100%', height: '535px', borderRadius:'10px', boxShadow:' 0 4px 8px 0 rgba(0, 0, 0, 0.2)'}} />
       </div>
     </div>
   );

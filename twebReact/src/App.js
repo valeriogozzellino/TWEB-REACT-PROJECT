@@ -18,8 +18,7 @@ function App() {
     return (
 
         <AuthProvider>
-            <BrowserRouter>
-                <div>
+            <BrowserRouter> 
                     <Routes>
                         <Route path="/" element={<Home  />} />
                         <Route path="/ranking" element={<Ranking />} />
@@ -34,7 +33,6 @@ function App() {
                         <Route path="/signup" element={<SignUp/>} />
                         <Route path="*" element={<h1>Page not found</h1>} />
                     </Routes>
-                </div>
             </BrowserRouter>
         </AuthProvider>
     );
