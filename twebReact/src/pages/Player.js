@@ -1,48 +1,79 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useParams } from 'react-router-dom';
+import axios from "axios";
+import DataGridElement from "../components/atoms/DataGrid";
 import AppBarUser from "../components/atoms/AppBarUser";
-import { useAuth } from '../components/atoms/AuthContext';
 import TopAppBar from "../components/atoms/TopAppBar";
+import { useAuth } from '../components/atoms/AuthContext';
 import '../style/Player.css';
-
-
 
 export default function Player() {
   const { player_Id } = useParams();
   const [player, setPlayer] = useState(null);
+  const [playerAppearances, setPlayerAppearances] = useState([]);
   const links = [true, false, false, false, false, false, true, true];
   const pages = ['News', 'Ranking', 'Teams', 'Player', 'Games', 'Competitions'];
   const { checkCredentials } = useAuth();
-  
 
+  const columns = [
+    { field: 'date', headerName: 'Date', width: 20 },
+    { field: 'competition_id', headerName: 'Competition', width: 20 },
+    { field: 'yellow_cards', headerName: 'Yellow Cards', width: 130 },
+    { field: 'red_cards', headerName: 'Red Cards', width: 130 },
+    { field: 'goals', headerName: 'Goals', width: 130 },
+    { field: 'assists', headerName: 'Assists', width: 130 },
+    { field: 'minutes_played', headerName: 'Minutes Played', width: 130 },
+  ];
+
+  useEffect(() => {
     const getPlayer = (filter) => {
-    console.log("1111111 " + filter);
-    const apiUrl = `http://localhost:3001/player/get-player-by-playerId?filter=${filter}`;
-    axios.get(apiUrl)
-      .then(response => {
-      console.log("response.data: ", response.data);
-      setPlayer(response.data);
-    })
-    .catch(response => {
-      alert(JSON.stringify(response));
-    });
+      const apiUrl = `http://localhost:3001/player/get-player-by-playerId?filter=${filter}`;
+      axios.get(apiUrl)
+          .then(response => {
+            setPlayer(response.data);
+          })
+          .catch(response => {
+            alert(JSON.stringify(response));
+          });
     }
-  
-    useEffect(() => {
-     getPlayer(player_Id);
-    }, [player_Id]);
+
+    const getPlayerAppearances = (player_Id) => {
+      const apiUrl = `http://localhost:3001/player/get-player-appearances-by-player-id/${player_Id}`;
+      axios.get(apiUrl)
+          .then(response => {
+            const appearancesData = response.data.map((appearance, index) => ({
+              id: index,
+              date: new Date(appearance.date).toDateString(),
+              competition_id: appearance.competition_id,
+              yellow_cards: appearance.yellow_cards,
+              red_cards: appearance.red_cards,
+              goals: appearance.goals,
+              assists: appearance.assists,
+              minutes_played: appearance.minutes_played,
+
+            }));
+            setPlayerAppearances(appearancesData);
+          })
+          .catch(response => {
+            alert(JSON.stringify(response));
+          });
+    }
+
+    getPlayer(player_Id);
+    getPlayerAppearances(player_Id);
+  }, [player_Id]);
 
   if (!player) {
     return (
-      <div className="player-loading">
-        {checkCredentials ? <AppBarUser pages={pages} /> : <TopAppBar links={links} pages={pages} />}
-        Loading...
-      </div>
+        <div className="player-loading">
+          {checkCredentials ? <AppBarUser pages={pages} /> : <TopAppBar links={links} pages={pages} />}
+          Loading...
+        </div>
     );
   }
 
-  return (
+
+    return (
     <div className="player-container">
       {checkCredentials ? <AppBarUser pages={pages} /> : <TopAppBar links={links} pages={pages} />}
       <div className="player-header">
@@ -60,6 +91,9 @@ export default function Player() {
       <div className="player-info">
         <h2>Position: {player.position}</h2>
         <h3>{player.currentClubName}</h3>
+      </div>
+      <div id="playerAppearancesGrid" style={{ height: '300px' }}>
+        <DataGridElement gridData={{ rows: playerAppearances, columns: columns }} />
       </div>
     </div>
   );

@@ -40,3 +40,20 @@ router.get('/get-player-by-playerId', function(req, res) {
         });
 })
 module.exports = router;
+
+
+router.get('/get-player-appearances-by-player-id/:player_id', function(req, res) {
+    console.log("ho ricevuto la richiesta dei players APPEARANCES")
+    const player_id = req.params.player_id;
+    const { filter } = req.query;
+    axios.get(`http://localhost:3000/get-player-appearances-by-player-id/${player_id}`)
+        .then(response => {
+            console.log("ho richiesto players appearances");
+            res.json(response.data)
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        });
+})
+module.exports = router;

@@ -38,6 +38,21 @@ router.get('/all-player', async function(req, res, next) {
 module.exports = router;
 
 
+router.get('/get-player-appearances-by-player-id/:player_id', async function(req, res, next) {
+  console.log("RICEVUTO RICHIESTA PLAYER APPEARANCES")
+  const player_id = req.params.player_id;
+  try {
+    const players = await players_controller.getAllPlayerAppearances(player_id);
+    res.json(players);
+  } catch (error) {
+    console.error('Error retrieving players appearances:', error.message);
+    res.status(500).json({ error: 'Internal Server Error appearances' });
+  }
+});
+
+module.exports = router;
+
+
 router.get('/get-team-by-id/:team_id', async function(req, res, next) {
   const teamId = req.params.team_id;
   console.log("RICEVUTO RICHIESTA SINGLE TEAM CON ID:", teamId);

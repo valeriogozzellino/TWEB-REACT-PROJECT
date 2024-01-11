@@ -10,10 +10,9 @@ const SingleGame = () => {
     const [gameData, setGameData] = useState([]);
     const [gameInfo, setGameInfo] = useState(null);
     const [error, setError] = useState(null);
-    const links = [true, false, false, false, false, false, true, true];
     const pages = ['News', 'Ranking', 'Teams', 'Player', 'Games', 'Competitions'];
     // const { checkCredentials } = useAuth();
-    // Define columns for your game events data grid
+
     const columns = [
         {field: 'minute', headerName: 'Minute', width: 130},
         {field: 'eventType', headerName: 'Event Type', width: 130},
