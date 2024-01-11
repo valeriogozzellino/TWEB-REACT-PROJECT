@@ -15,26 +15,21 @@ import Box from '@mui/material/Box';
 
 function SignUp() {
   const [activeStep, setActiveStep] = useState(0);
-  const [formData, setFormData] = useState({
-    nome: '',
-    cognome: '',
-    annoDiNascita: '',
-    fotoProfilo: null,
-    paeseDiProvenienza: '',
-    email: '',
-    password: '',
-    squadraCalcioPreferita: '',
-    giocatorePreferito: ''
-  });
+  const [nome, setNome] = useState(null);
+  const [surname, setSurname] = useState("");
+  const [annoDiNascita, setAnnoDiNascita] = useState("");
+  const [paeseDiProvenienza, setPaeseDiProvenienza] = useState("");
+  const [squadraCalcioPreferita, setSquadraCalcioPreferita] = useState("");
+  const [giocatorePreferito, setGiocatorePreferito] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [fotoProfilo, setFotoProfilo] = useState("");
   const [clubs, setClubs] = useState([]);
   const steps = ['Informazioni Personali', 'Preferenze Calcistiche', 'Credenziali'];
 
   
-  const handleNext = (e) => {
-    // Chiamare handleChange solo quando si preme "Avanti" o "Iscriviti"
-    handleChange(e);
+  const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    console.log('Updating form data 2:', e.target.name, e.target.value);
   };
 
   const handleBack = () => {
@@ -55,97 +50,70 @@ function SignUp() {
       });
     
   };
+  
   useEffect(() => {
     getTeamsByCountry("All", 0);
   }, []);
 
-  const handleChange = (e) => {
-    e.preventDefault();
-    console.log('Updating form data 1:', e.target.name, e.target.value);
-    if (activeStep === 0) {
-      const data = new FormData(e.currentTarget);
-      const name = data.get('name');
-      const cognome = data.get('cognome');
-      const annoDiNascita = data.get('annoDiNascita');
-      const paeseDiProvenienza = data.get('paeseDiProvenienza');
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        nome: name,
-        cognome: cognome,
-        annoDiNascita: annoDiNascita,
-        paeseDiProvenienza: paeseDiProvenienza
-      }));
-      
-    } else if (activeStep === 1) {
-      const { name, value } = e.target;
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        [name]: value,
-      }));
-      
-    } else if (activeStep === 2) {
-      const { name, value } = e.target;
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        [name]: value,
-      }));
+  const handleInputChange = (e) => {
+    console.log(e.target.value);
+    const { name, value } = e.target;
+    switch (name) {
+      case "nome":
+        setNome(value);
+        break;
+      case "surname":
+        setSurname(value);
+        break;
+      case "annoDiNascita":
+        setAnnoDiNascita(value);
+        break;
+      case "paeseDiProvenienza":
+        setPaeseDiProvenienza(value);
+        break;
+      case "squadraCalcioPreferita":
+        setSquadraCalcioPreferita(value);
+        break;
+      case "giocatorePreferito":
+        setGiocatorePreferito(value);
+        break;
+      case "email":
+        setEmail(value);
+        break;
+      case "password":
+        setPassword(value);
+        break;
+      default:
+        break;
     }
   };
 
-  const handleFileChange = (event) => {
-    setFormData({ ...formData, fotoProfilo: event.target.files[0] });
+  const handleFileChange = (e) => {
+    //insert image
   };
 
   const handleSubmit = () => {
-    console.log(formData);
-  };
-
-  const StepContent = ({ step }) => {
-    switch (step) {
-      case 0:
-        return (
-          <>
-              <Box component="form"  noValidate sx={{ mt: 1 }} >          
-            <TextField margin="normal" required fullWidth id="email" label="Email Address" name="email" autoComplete="email" autoFocus />
-            <TextField
-              margin="normal" required fullWidth name="password" label="Password" type="password" id="password" autoComplete="current-password"
-            />
-              <input accept="image/*" style={{ display: 'none' }} id="icon-button-file" type="file" />  
-              <label htmlFor="icon-button-file">
-                <IconButton color="primary" aria-label="upload picture" component="span">
-                  <PhotoCamera />
-                </IconButton>
-                </label>
-                </Box>
-          </>
-        );
-      case 1:
-        return (
-          <>
-            <Box component="form"  noValidate sx={{ mt: 1 }} >          
-               <Autocomplete
-                disablePortal
-                options={clubs.map((club) => club.name)} // Mappare solo i nomi dei club
-                sx={{ width: 300 }}
-                renderInput={(params) => <TextField {...params} label="Favourite Team" name="squadraCalcioPreferita"  value={formData.squadraCalcioPreferita} onChange={handleChange} fullWidth margin="normal" />}
-              />
-                <TextField label="Giocatore Preferito" name="giocatorePreferito" value={formData.giocatorePreferito} onChange={handleChange} fullWidth margin="normal" />
-            </Box>
-            
-          </>
-        );
-      case 2:
-        return (
-          <>
-            <Box component="form"  noValidate sx={{ mt: 1 }} >            
-              <TextField label="Email" name="email" type="email" value={formData.email} onChange={handleChange} fullWidth margin="normal" />
-                <TextField label="Password" name="password" type="password" value={formData.password} onChange={handleChange} fullWidth margin="normal" />
-            </Box>
-          </>
-        );
-      default:
-        return 'Unknown step';
-    }
+    const data = {
+      nome: nome,
+      surname: surname,
+      annoDiNascita: annoDiNascita,
+      paeseDiProvenienza: paeseDiProvenienza,
+      squadraCalcioPreferita: squadraCalcioPreferita,
+      giocatorePreferito: giocatorePreferito,
+      email: email,
+      password: password,
+      fotoProfilo: fotoProfilo,
+    };
+    console.log(data);
+    // axios
+    //   .post("http://localhost:3001/users/signUp", data)
+    //   .then((response) => {
+    //     alert("Utente registrato con successo");
+    //     navigate("/logIn");
+    //   })
+    //   .catch((error) => {
+    //     alert(JSON.stringify(error));
+    //   });
   };
 
   return (
@@ -161,35 +129,79 @@ function SignUp() {
             Sign Up
           </Typography>
           </Container>       
-          <Stepper sx={{ marginTop:'20px'}} activeStep={activeStep}>
-            {steps.map((label) => (
-              <Step  key={label}>
-              <StepLabel >{label}</StepLabel>
-            </Step>
-            ))}
-            </Stepper>  
+          
       </Container>
-      <div>
-        
-        {activeStep === steps.length ? (
-          <div>
-            <p>Tutte le informazioni sono state inserite. Puoi procedere con l'iscrizione.</p>
-            <Button onClick={handleBack}>Indietro</Button>
-            <Button variant="contained" color="primary" onClick={handleSubmit}>Iscriviti</Button>
+        {activeStep === 0 ? (
+
+          <div id='containerLabel'>
+            <h3>Informazioni Personali</h3>
+
+            <Grid sx={{ marginLeft: "10px" }} xs={6}>
+              <TextField label="Nome" name="nome" value={nome} onChange={handleInputChange} margin="normal" />
+            </Grid>
+            <Grid xs={6}>
+              <TextField label="Surname" name="surname" value={surname} onChange={handleInputChange} fullWidth margin="surname" />
+            </Grid>
+            <Grid xs={8}>
+              <TextField label="Anno di Nascita" name="annoDiNascita" value={annoDiNascita} onChange={handleInputChange} type='date' fullWidth margin="normal" />
+            </Grid>
+            <Grid sx={{ margin: "5px" }} xs={6}>
+              <TextField label="Paese di Provenienza" name="paeseDiProvenienza" value={paeseDiProvenienza} onChange={handleInputChange} fullWidth margin="normal" />
+            </Grid>
+            <Grid xs={8}>
+              <input accept="image/*" style={{ display: 'none' }} id="icon-button-file" type="file" onChange={handleFileChange} />
+              <label htmlFor="icon-button-file">
+                <IconButton color="primary" aria-label="upload picture" component="span">
+                  <PhotoCamera />
+                </IconButton>
+              </label>
+            </Grid>
           </div>
-        ) : (
-          <div>
-            <StepContent step={activeStep} />
-              <div>
-                <Container sx={{ display: 'flex', flexDirection:'row', justifyContent: 'center', alignItems: 'center', width: '60%' }}>
-                  <Button disabled={activeStep === 0} onClick={handleBack}>Indietro</Button>
-                  <Button variant="contained" type="submit" color="primary" onClick={(e) => handleNext(e)}>{activeStep === steps.length - 1 ? 'Iscriviti' : 'Avanti'}</Button>
-                </Container>
-            </div>
+
+        ) : activeStep === 1 ? (
+          <div id='containerFavourite'>
+              <h3>Preferenze Calcistiche</h3>
+
+            <Grid xs={8}>
+              <Autocomplete
+                id="combo-box-demo"
+                options={clubs}
+                getOptionLabel={(option) => option.name}
+                style={{ width: 300 }}
+                renderInput={(params) => <TextField {...params} label="Squadra di Calcio Preferita" />}
+              />
+            </Grid>
+            <Grid sx={{marginTop:'15px'}} xs={8}>
+              <Autocomplete
+                id="combo-box-demo"
+                options={clubs}
+                getOptionLabel={(option) => option.name}
+                style={{ width: 300 }}
+                renderInput={(params) => <TextField {...params} label="Giocatore Preferito" />}
+              />
+            </Grid>
           </div>
+           
+          ) : (
+              <div id='contaninerCredentials'>
+              <h3>Credenziali</h3>
+                <Grid  xs={8}>
+              <TextField label="Email" name="email" type="email" value={email} onChange={handleInputChange} fullWidth margin="normal" />
+            </Grid>
+            <Grid xs={8}>
+              <TextField label="Password" name="password" type="password" value={password} onChange={handleInputChange} fullWidth margin="normal" />
+            </Grid>
+          </div>
+      
         )}
+        <div id='containerButton'>
+          <Button disabled={activeStep === 0} onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
+            Back
+          </Button>
+          <Button variant="contained" onClick={activeStep === steps.length - 1 ? handleSubmit : handleNext} sx={{ mt: 3, ml: 1 }}>
+            {activeStep === steps.length - 1 ? "Submit" : "Next"}
+          </Button>
         </div>
-        
         <Link to="/logIn" variant="body2">
           {"Do you already have an account? Log In"}
         </Link>
