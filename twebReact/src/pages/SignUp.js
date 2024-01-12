@@ -26,7 +26,7 @@ function SignUp() {
   const [fotoProfilo, setFotoProfilo] = useState("");
   const [clubs, setClubs] = useState([]);
   const steps = ['Informazioni Personali', 'Preferenze Calcistiche', 'Credenziali'];
-
+  const navigate = useNavigate();
   
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -48,7 +48,6 @@ function SignUp() {
       .catch((error) => {
       alert(JSON.stringify(error));
       });
-    
   };
   
   useEffect(() => {
@@ -105,15 +104,15 @@ function SignUp() {
       fotoProfilo: fotoProfilo,
     };
     console.log(data);
-    // axios
-    //   .post("http://localhost:3001/users/signUp", data)
-    //   .then((response) => {
-    //     alert("Utente registrato con successo");
-    //     navigate("/logIn");
-    //   })
-    //   .catch((error) => {
-    //     alert(JSON.stringify(error));
-    //   });
+    axios
+      .post("http://localhost:3001/users/signUp", data)
+      .then((response) => {
+        alert("Utente registrato con successo");
+        navigate("/");
+      })
+      .catch((error) => {
+        alert(JSON.stringify(error));
+      });
   };
 
   return (

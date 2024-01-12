@@ -6,6 +6,10 @@ import AppBarUser from "../components/atoms/AppBarUser";
 import TopAppBar from "../components/atoms/TopAppBar";
 import { useAuth } from '../components/atoms/AuthContext';
 import '../style/Player.css';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Box from '@mui/material/Box';
+
 
 export default function Player() {
   const { player_Id } = useParams();
@@ -14,6 +18,8 @@ export default function Player() {
   const links = [true, false, false, false, false, false, true, true];
   const pages = ['News', 'Ranking', 'Teams', 'Player', 'Games', 'Competitions'];
   const { checkCredentials } = useAuth();
+  const [view, setView] = useState(0);
+
 
   const columns = [
     { field: 'date', headerName: 'Date', width: 20 },
@@ -63,6 +69,27 @@ export default function Player() {
     getPlayerAppearances(player_Id);
   }, [player_Id]);
 
+
+
+  const handleChangeTab = (e) => {
+    const id = e.target.id;
+    switch (id) {
+      case 'tabOne':
+        setView(0);
+        break;
+      case 'tabTwo':
+        setView(1);
+        break;
+      case 'tabThree':
+        setView(2);
+        break;
+      default:
+        break;
+    }
+  }
+
+
+
   if (!player) {
     return (
         <div className="player-loading">
@@ -78,22 +105,37 @@ export default function Player() {
       {checkCredentials ? <AppBarUser pages={pages} /> : <TopAppBar links={links} pages={pages} />}
       <div className="player-header">
         <h1>{player.firstName} {player.lastName}</h1>
-        <div className="player-stats">
-          <span>Player position: {player.position}</span>
-          <span>countryOfBirth: {player.countryOfBirth}</span>
-          <span>Heigth: {player.heightInCm}</span>
-          <span>dateOfBirth: {player.dateOfBirth}</span>
-        </div>
       </div>
       <div className="player-image">
         <img src={player.imageUrl} alt={`${player.firstName} ${player.lastName}`} />
       </div>
-      <div className="player-info">
-        <h2>Position: {player.position}</h2>
-        <h3>{player.currentClubName}</h3>
-      </div>
-      <div id="playerAppearancesGrid" style={{ height: '300px' }}>
-        <DataGridElement gridData={{ rows: playerAppearances, columns: columns }} />
+      <div id="containerData">
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <Tabs  aria-label="basic tabs example">
+            <Tab label="Item One" id="tabOne" onClick={handleChangeTab}  />
+            <Tab label="Item Two" id="tabTwo" onClick={handleChangeTab} />
+            <Tab label="Item Three" id="tabThree"onClick={handleChangeTab} />
+         </Tabs>
+          </Box>
+          {view === 0 ? (
+            <div className="player-stats">
+              <span>Player position: {player.position}</span>
+              <span>countryOfBirth: {player.countryOfBirth}</span>
+              <span>Heigth: {player.heightInCm}</span>
+              <span>dateOfBirth: {player.dateOfBirth}</span>
+            </div>
+
+          ) : view === 1 ? (
+              
+            <div className="player-info">
+              <h2>Position: {player.position}</h2>
+              <h3>{player.currentClubName}</h3>
+            </div>
+          ) : (
+            <div id="playerAppearancesGrid" style={{ height: '300px' }}>
+              <DataGridElement gridData={{ rows: playerAppearances, columns: columns }} />
+            </div>
+          )}
       </div>
     </div>
   );

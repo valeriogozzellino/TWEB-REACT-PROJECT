@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../components/atoms/AuthContext';
 import "../style/Teams.css";
 import TopAppBar from "../components/atoms/TopAppBar";
-
+import Footer from "../components/atoms/Footer";
 
 
 
@@ -21,8 +21,8 @@ function Teams() {
   const [arraySeason, setArraySeason] = useState([]); // return all country and set them for the filter
   const [clickedTeam, setClickedTeam] = useState(); //set on click of the row in dataGrid
   const navigate = useNavigate();
-  const links = [true, false, false, false, false, false, true, true];
-    const pages = ['News', 'Ranking', 'Teams', 'Player', 'Games', 'Competitions'];
+  const links = [false, false, false, true, false, false, true, true];
+  const pages = ['News', 'Ranking', 'Teams', 'Player', 'Games', 'Competitions'];
   const { checkCredentials } = useAuth();
   const [gridData, setGridData] = useState({
     rows: [],
@@ -113,47 +113,46 @@ function Teams() {
   
 
     return (
-      <div>
-        {checkCredentials ? (
-                    <AppBarUser  pages={pages}/>
-                ) : (     
-                    <TopAppBar links={links} pages={pages} />
-                )}
-        <div>
-          <h1>Teams</h1>
-        </div>
-        <div id="blockid">
-          <Select
-            sx={{ width: 100, height: 50 }}
-            value={filterSeason}
-            label="BY Competition"
-            onChange={handleFilterSeason}
-          >
-            {arraySeason.map((season) => (
-              <MenuItem key={season} value={season}>
-                {season}
-              </MenuItem>
-            ))}
-          </Select>
-          <Select
-            sx={{ width: 100, height: 50 }}
-            value={filterCountry}
-            label="Country"
-            onChange={handleFilterCountry}
-          >
-            {arrayCountry.map((country) => (
-              <MenuItem key={country} value={country}>
-                {country}
-              </MenuItem>
-            ))}
-          </Select>
-          
-        </div>
-        <div id="containerData">
-          <DataGridElement gridData={gridData} onRowClick= {handleRowClick} />
-        </div>
-    
+      <div className="teams-container">
+      {checkCredentials ? (
+        <AppBarUser pages={pages}/>
+      ) : (
+        <TopAppBar links={links} pages={pages} />
+      )}
+      <div className="header-container">
+        <h1 className="page-title">Teams</h1>
       </div>
+      <div id="middleContainer">
+      <div className="filters-container">
+        <Select
+          className="season-select"
+          value={filterSeason}
+          onChange={handleFilterSeason}
+        >
+          {arraySeason.map((season) => (
+            <MenuItem key={season} value={season}>
+              {season}
+            </MenuItem>
+          ))}
+        </Select>
+        <Select
+          className="country-select"
+          value={filterCountry}
+          onChange={handleFilterCountry}
+        >
+          {arrayCountry.map((country) => (
+            <MenuItem key={country} value={country}>
+              {country}
+            </MenuItem>
+          ))}
+        </Select>
+      </div>
+      <div className="data-grid-container">
+        <DataGridElement gridData={gridData} onRowClick={handleRowClick} />
+      </div>
+      </div>
+          <Footer />
+    </div>
     );
 
 

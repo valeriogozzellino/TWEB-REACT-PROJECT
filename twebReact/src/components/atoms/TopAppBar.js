@@ -7,6 +7,8 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import DrawerVault from './DrawerVault'; // Assicurati di importare correttamente il componente DrawerVault
+import HomeIcon from '@mui/icons-material/Home';
+
 
 export default function TopAppBar(props) {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
@@ -27,8 +29,8 @@ export default function TopAppBar(props) {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+    <Box sx={{ flexGrow: 1}}>
+      <AppBar position="static" style={{backgroundColor:'#2a4d69', height:'70px'}}>
         <Toolbar>
           <IconButton
             size="large"
@@ -44,6 +46,7 @@ export default function TopAppBar(props) {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Home
             </Typography>
+            
           )}
           {links[1] && (
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -70,8 +73,8 @@ export default function TopAppBar(props) {
               Competitions
             </Typography>
           )}
-          {links[6] && <Button color="inherit" onClick={getLoginPage}>Login</Button>}
-          {links[7] && <Button color="inherit" onClick={getSignUpPage}>SignUp</Button>}
+          {links[6] && <Button color="inherit" variant='outlined'  sx={{marginRight:'5px'}} onClick={getLoginPage}>Login</Button>}
+          {links[7] && <Button color="inherit" variant='outlined' onClick={getSignUpPage}>SignUp</Button>}
         </Toolbar>
       </AppBar>
       <DrawerVault open={drawerOpen} onClose={handleDrawerClose} pages={pages} /> {/* Passa lo stato del Drawer al componente DrawerVault */}

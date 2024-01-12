@@ -1,9 +1,9 @@
 .data-grid {
-    --data-grid-header-bg: #0052cc;
+    --data-grid-header-bg: rgba(255, 255, 255, 0.7);
     /* Blue */
-    --data-grid-header-color: #ffffff;
+    --data-grid-header-color: rgba(164, 198, 57, 0.3);
     /* White */
-    --data-grid-row-hover: #cce0ff;
+    --data-grid-row-hover: rgba(255, 255, 255, 0.8);
     /* Lighter Blue */
     --data-grid-row-selected: #99bfff;
     /* Selected Row Blue */
@@ -15,7 +15,7 @@
     color: var(--data-grid-header-color);
 }
 
-.css-1kz4h0n-MuiDataGrid-row:hover {
+.MuiDataGrid-row:hover {
     background-color: var(--data-grid-row-hover);
 }
 

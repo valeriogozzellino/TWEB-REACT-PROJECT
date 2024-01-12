@@ -1,0 +1,11 @@
+#container-footer{
+    background-color: #2a4d69;
+}
+#container-icon{
+    height: 60px;
+    display: flex;
+    flex-direction:row;
+    align-items:center;
+    justify-content:center;
+    color:white;
+}

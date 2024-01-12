@@ -8,7 +8,7 @@ import Select from '@mui/material/Select';
 import "../style/Competitions.css";
 import { useAuth } from '../components/atoms/AuthContext';
 import AppBarUser from "../components/atoms/AppBarUser";
-
+import Footer from "../components/atoms/Footer";
 
 
 const Competitions = () => {
@@ -87,15 +87,19 @@ const getAllCompetitions = (filter) => {
   
   if (detailsCompetitions === false){
     return (
-        <div id="container">
-        {checkCredentials ? (
-                    <AppBarUser pages={pages}/>
-                ) : (     
-                    <TopAppBar links={links} pages={pages} />
-                )}
-        <div id="title">
-          <h1>Competitions</h1>
+      <div id="container">
+        <div id="topBox">
+          {checkCredentials ? (
+                      <AppBarUser pages={pages}/>
+                  ) : (     
+                      <TopAppBar links={links} pages={pages} />
+                  )}
+          <div id="title">
+            <h1>Competitions</h1>
+          </div>
         </div>
+        <div id="middleBox">
+
         <div id="blockid">
           <Select
             sx={{ width: 100, height: 50 }}
@@ -114,6 +118,8 @@ const getAllCompetitions = (filter) => {
             <div id="containerData">
                 <DataGridElement gridData={gridData} onRowClick={handleRowClick}/>
             </div>
+        </div>
+        <Footer/>
     </div>   
     )
     } else {

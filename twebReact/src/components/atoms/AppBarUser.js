@@ -45,7 +45,7 @@ function AppBarUser(props) {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" style={{backgroundColor:'#2a4d69'}}>
       <Container maxWidth="xl">
         <IconButton
             size="large"

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import "../../style/DataGrid.css";
 export default function DataGridElement({ gridData, onRowClick }) {
     const handleCellClick = (params, event) => {
@@ -16,7 +16,7 @@ export default function DataGridElement({ gridData, onRowClick }) {
     }));
 
     return (
-        <Box sx={{ height: 520, width: '100%' }} className="data-grid">
+        <Box sx={{ height: 520, width: '90%', marginBottom:'30px' }} className="data-grid">
             <DataGrid
                 rows={gridData.rows}
                 columns={columnsWithWidth}
@@ -24,7 +24,6 @@ export default function DataGridElement({ gridData, onRowClick }) {
                 pageSizeOptions={[gridData.rows.length]}
                 rowHeight={48}
                 onCellClick={handleCellClick}
-                autoHeight
                 viewportPageSize={gridData.rows.length}
                 className="css-1u3bzj6-MuiDataGrid-columnHeaders"
             />

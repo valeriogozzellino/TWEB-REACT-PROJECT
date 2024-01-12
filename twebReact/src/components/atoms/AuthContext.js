@@ -19,12 +19,12 @@ export const AuthProvider = ({ children }) => {
     })
       .then((response) => {
         console.log(response.data);
-        if(response.data === "OK"){
+        setUser(response.data);
+        if(response.data===null){
+          alert("Wrong credentials");
+        } else {
           console.log("isUserLogged LogIn--->" , checkCredentials);
           setCheckCredentials(true);
-         
-        } else {
-          alert("Wrong credentials");
         }
       }, (error) => {
         console.log(error);
@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ checkCredentials, login, logout }}>
+    <AuthContext.Provider value={{ checkCredentials, login, logout, user }}>
       {children}
     </AuthContext.Provider>
   );

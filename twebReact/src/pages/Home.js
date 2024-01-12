@@ -12,14 +12,16 @@ import Footer from "../components/atoms/Footer";
 function Home() {
     const links = [true, false, false, false, false, false, true, true];
     const pages = ['News', 'Ranking', 'Teams', 'Player', 'Games', 'Competitions'];
-    const { checkCredentials } = useAuth();
+    const { checkCredentials, user } = useAuth();
     console.log("isUserLogged HOme--->" , checkCredentials);
     const [arrayNewsApi, setNewsApi] = useState([]);
+    const [arrayNewsFavouriteTeam, setNewsFavouriteTeam] = useState([]);
+    const [arrayNewsFavouritePlayer, setNewsFavouritePlayer] = useState([]);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         const getApiNews = () => {
             const apiKey = "62563bbc4e9e5b4871a03be615443210";
-            const apiUrl = "https://gnews.io/api/v4/search?country=it&category=sport&q=football&apikey=" + apiKey;
+            const apiUrl = "https://gnews.io/api/v4/search?country=it&max=10&category=sport&q=soccer&apikey=" + apiKey;
             axios.get(apiUrl)
                 .then(response => {
                     setNewsApi(response.data.articles);
@@ -33,6 +35,35 @@ function Home() {
 
     }, []); // L'array vuoto come dipendenza fa sì che l'effetto venga eseguito solo al montaggio
     
+    if (checkCredentials) {
+       
+        const getFavouriteNews = () => {
+            const apiKey = "62563bbc4e9e5b4871a03be615443210";
+            const apiUrlTeamNews = "https://gnews.io/api/v4/search?lang=it&category=sport&max=4&q="+ user.favouriteClub +"&apikey=" + apiKey;
+            axios.get(apiUrlTeamNews)
+                .then(response => {
+                    setNewsFavouriteTeam(response.data.articles);
+                    setLoading(false); // Imposta lo stato di caricamento su false quando la chiamata API è completata
+                })
+                .catch(error => {
+                    setLoading(false); // Assicurati di gestire anche gli errori
+                });
+            const apiUrlPlayerNews = "https://gnews.io/api/v4/search?lang=it&category=sport&max=3&q=soccer+"+ user.favouriteClub +"&apikey=" + apiKey;
+            axios.get(apiUrlPlayerNews)
+                .then(response => {
+                    setNewsFavouritePlayer(response.data.articles);
+                    setLoading(false); // Imposta lo stato di caricamento su false quando la chiamata API è completata
+                })
+                .catch(error => {
+                    setLoading(false); // Assicurati di gestire anche gli errori
+                });
+            
+        };
+        getFavouriteNews();
+
+     // L'array vuoto come dipendenza fa sì che l'effetto venga eseguito solo al montaggio
+    }
+
     return (
         <div id='container'>
             <div id="topContainer">
@@ -46,14 +77,42 @@ function Home() {
                 </div>
             </div>
             <div id="containerBoxNews">
+                <div className='middle-title'>
+                    <h4 id="titleNewsFavourite">News about {user.favouriteClub} and {user.favouritePlayer} </h4>
+                </div>
+                {checkCredentials && (
+                    <div id="boxNewsFavourite">
+                        {loading ? (
+                            <p>Loading...</p>
+                        ) : (
+                                arrayNewsFavouriteTeam.map((newsApi, index) => (
+                                    <CardNews key={index} newsApi={newsApi} />
+                                ))
+                            )}
+                        {loading ? (
+                            <p>Loading...</p>
+                        ) : (
+                                
+                                arrayNewsFavouritePlayer.map((newsApi, index) => (
+                                    <CardNews key={index} newsApi={newsApi} />
+                                ))
+                                
+                            )}
+                    </div>
+                
+                )}
+                <div className='middle-title'>
+                    <h4>Most popular news</h4>
+                </div>
+                <div id="boxNews">
                 {loading ? (
                     <p>Loading...</p>
                 ) : (
                         arrayNewsApi.map((newsApi, index) => (
-                            <CardNews key={index} newsApi={newsApi} />
+                             <CardNews key={index} newsApi={newsApi} />
                         ))
-                )}
-
+                    )}
+                </div>
             </div>
             <div id="bottomContainer">
                 

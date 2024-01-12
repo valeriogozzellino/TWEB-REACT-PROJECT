@@ -1,20 +1,90 @@
-#containerData{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+/* Teams.css */
+
+:root {
+    --blue-primary: #2a4d69;
+    --blue-secondary: white;
+    --green-highlight: #0f9b0f;
+    --dark-gray: #333;
+    --font-family: 'Roboto', sans-serif;
 }
-#blockDetails{
+
+.teams-container {
+    font-family: var(--font-family);
+}
+
+.header-container {
+    background: linear-gradient(to bottom, #2a4d69, rgb(211, 211, 211));
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.page-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.filters-container {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    /* background-color: var(--blue-secondary); */
+}
+
+.season-select,
+.country-select {
+    border: 1px solid var(--dark-gray);
+    border-radius: 4px;
+}
+
+.data-grid-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    width: 90%;
-    margin: 0 10px;
+    
+    /* Make sure this path is correct */
+    background-size: cover;
+    background-position: center;
 }
-#containerGridPlayer{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+#middleContainer{
+background-image: linear-gradient(to top, rgba(65, 59, 59, 0.5), rgb(211, 211, 211)), url('../Images/olimpicStadium.png');
+background-repeat: no-repeat;    
+background-size: cover;
 }
+/* DataGrid styles */
+.MuiDataGrid-root {
+    border: none;
+    color: var(--dark-gray);
+    font-size: 1rem;
+}
+
+.MuiDataGrid-cell {
+    border-color: rgba(255, 255, 255, 0.7);
+}
+
+.MuiDataGrid-columnHeader,
+.MuiDataGrid-cell {
+    background-color: rgba(255, 255, 255, 0.8);
+    color: var(--blue-primary);
+}
+
+.MuiDataGrid-columnHeaderTitle {
+    font-weight: bold;
+}
+
+/* Hover styles for rows */
+.MuiDataGrid-row:hover {
+    background-color: rgba(164, 198, 57, 0.3);
+    /* A light green to match the field */
+}
+
+/* Selected row styles */
+.MuiDataGrid-row.Mui-selected {
+    background-color: rgba(164, 198, 57, 0.5);
+    /* A slightly darker green for selected state */
+}
+
+
+
+/* Additional CSS for other components as needed */

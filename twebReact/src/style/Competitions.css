@@ -19,3 +19,15 @@
     justify-content: center;
     align-items: stretch;
 }
+#middleBox{
+    background-image: url('../Images/olimpicStadium.png');
+}
+#containerData{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#topBox{
+   background-color: #2a4d69;
+    color: white;
+}

@@ -95,7 +95,7 @@ public class ServerController {
         usersService.saveUserDB(newUser);
     }
     @GetMapping("/check-credentials")
-    public String  checkCredentials(@RequestParam(name = "email") String email,
+    public Users  checkCredentials(@RequestParam(name = "email") String email,
                                   @RequestParam(name = "password") String password) {
         System.out.println("Stampo password: " + password);
         System.out.println("Stampo email: " + email);
