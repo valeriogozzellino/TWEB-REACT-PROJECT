@@ -39,4 +39,8 @@ public class ClubsService {
     public Clubs getTeamById(int clubId) {
         return clubsRepository.getTeamById(clubId);
     }
+
+    public List<Clubs> getAllTeamsByCompetition(String competitionId){
+        return clubsRepository.getAllTeamsByCompetition(competitionId);
+    }
 }

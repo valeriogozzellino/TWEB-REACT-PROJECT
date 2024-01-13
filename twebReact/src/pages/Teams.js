@@ -114,15 +114,18 @@ function Teams() {
 
     return (
       <div className="teams-container">
-      {checkCredentials ? (
-        <AppBarUser pages={pages}/>
-      ) : (
-        <TopAppBar links={links} pages={pages} />
-      )}
-      <div className="header-container">
+        <div className="header-container">
+          {checkCredentials ? (
+            <AppBarUser pages={pages}/>
+          ) : (
+            
+            <TopAppBar links={links} pages={pages} />
+              )}
+        </div>
+      <div id="middleContainer">
+      <div id="container-title">
         <h1 className="page-title">Teams</h1>
       </div>
-      <div id="middleContainer">
       <div className="filters-container">
         <Select
           className="season-select"
@@ -149,7 +152,7 @@ function Teams() {
       </div>
       <div className="data-grid-container">
         <DataGridElement gridData={gridData} onRowClick={handleRowClick} />
-      </div>
+            </div>
       </div>
           <Footer />
     </div>

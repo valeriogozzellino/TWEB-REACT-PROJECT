@@ -9,21 +9,21 @@ router.get('/', function(req, res) {
     res.sendFile(teamsFilePath);
 });
 
-/*request Teams using Competitions filter */
-// router.get('/get-teams-by-competition', function (req, res) {
-//     console.log("ho ricevuto la richiesta dei teams")
-//     const { filterCompetition } = req.query;
-//     console.log("parametrooooo " + filterCompetition)
-//     axios.get(`http://localhost:8081/get-teams-by-competition?filterCompetition=${filterCompetition}`)
-//         .then(response => {
-//             console.log("Sto richiedendo i teams");
-//             res.json(response.data);
-//         })
-//         .catch(error => {
-//             console.error(error);
-//             res.status(500).json({ error: 'Internal Server Error' });
-//         });
-// });
+// /*request Teams using Competitions filter */
+router.get('/get-teams-by-competition', function (req, res) {
+    console.log("ho ricevuto la richiesta dei teams")
+    const { filterCompetition } = req.query;
+    console.log("parametrooooo " + filterCompetition)
+    axios.get(`http://localhost:8081/get-teams-by-competition?filterCompetition=${filterCompetition}`)
+        .then(response => {
+            console.log("Sto richiedendo i teams");
+            res.json(response.data);
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        });
+});
 /*request Teams using Country filter and Competition filter */
 router.get('/get-teams-by-season-and-country', function (req, res) {
     console.log("Ho ricevuto la richiesta dei teams");

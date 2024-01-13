@@ -48,15 +48,15 @@ function Home() {
                 .catch(error => {
                     setLoading(false); // Assicurati di gestire anche gli errori
                 });
-            const apiUrlPlayerNews = "https://gnews.io/api/v4/search?lang=it&category=sport&max=3&q=soccer+"+ user.favouriteClub +"&apikey=" + apiKey;
-            axios.get(apiUrlPlayerNews)
-                .then(response => {
-                    setNewsFavouritePlayer(response.data.articles);
-                    setLoading(false); // Imposta lo stato di caricamento su false quando la chiamata API è completata
-                })
-                .catch(error => {
-                    setLoading(false); // Assicurati di gestire anche gli errori
-                });
+            //const apiUrlPlayerNews = "https://gnews.io/api/v4/search?lang=it&category=sport&max=3&q=soccer+"+ user.favouriteClub +"&apikey=" + apiKey;
+            // axios.get(apiUrlPlayerNews)
+            //     .then(response => {
+            //         setNewsFavouritePlayer(response.data.articles);
+            //         setLoading(false); // Imposta lo stato di caricamento su false quando la chiamata API è completata
+            //     })
+            //     .catch(error => {
+            //         setLoading(false); // Assicurati di gestire anche gli errori
+            //     });
             
         };
         getFavouriteNews();

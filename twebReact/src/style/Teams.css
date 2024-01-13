@@ -12,10 +12,16 @@
     font-family: var(--font-family);
 }
 
+#container-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
 .header-container {
     background: linear-gradient(to bottom, #2a4d69, rgb(211, 211, 211));
     color: white;
-    padding: 20px;
     text-align: center;
 }
 
@@ -48,9 +54,9 @@
     background-position: center;
 }
 #middleContainer{
-background-image: linear-gradient(to top, rgba(65, 59, 59, 0.5), rgb(211, 211, 211)), url('../Images/olimpicStadium.png');
-background-repeat: no-repeat;    
-background-size: cover;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), #2a4d69);
+    background-repeat: no-repeat;    
+    background-size: cover;
 }
 /* DataGrid styles */
 .MuiDataGrid-root {

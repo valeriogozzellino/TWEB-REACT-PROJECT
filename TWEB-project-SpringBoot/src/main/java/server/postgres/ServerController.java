@@ -64,7 +64,7 @@ public class ServerController {
         return clubsSeason;
     }
     @GetMapping("/get-teams-by-season-and-country")
-    public List<Clubs> getTeamsCountry(@RequestParam(name = "filterCountry") String filterCountry,
+    public List<Clubs> getTeamsBySeasonAndCountry(@RequestParam(name = "filterCountry") String filterCountry,
                                         @RequestParam(name = "filterSeason") int filterSeason) {
         System.out.println("REQUEST--> get teams country and season");
         List<Clubs> clubsList = clubsService.getAllTeams(filterSeason,filterCountry);
@@ -126,18 +126,19 @@ public class ServerController {
 
 
 
-   /* @GetMapping("/get-teams-by-competition")
-    public List<Clubs> getTeamsByCompetitions(@RequestParam(name = "filterCompetition") String filter) {
-        System.out.println("Stampo il filtro: " + filter);
+    @GetMapping("/get-teams-by-competition")
+    public List<Clubs> getTeamsByCompetitions(@RequestParam(name = "filterCompetition") String filterCompetition) {
+        System.out.println("Stampo il filtro: " + filterCompetition);
 
-        List<Clubs> clubsList = clubsService.getAllTeams(filter);
+        List<Clubs> clubsList = clubsService.getAllTeamsByCompetition(filterCompetition);
         if(clubsList.isEmpty()){
             System.out.println("LISTA VUOTA");
         }else{
             System.out.println("LA LISTA HA " + clubsList.size()+ " squadre");
         }
         return clubsList;
-    }*/
+    }
+
     record Query (
             int year,
             String playerName

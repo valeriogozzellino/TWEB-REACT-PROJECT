@@ -5,6 +5,7 @@ import axios from "axios";
 import MenuItem from '@mui/material/MenuItem';
 import DataGridElement from "../components/atoms/DataGrid";
 import Select from '@mui/material/Select';
+import { useNavigate } from 'react-router-dom';
 import "../style/Competitions.css";
 import { useAuth } from '../components/atoms/AuthContext';
 import AppBarUser from "../components/atoms/AppBarUser";
@@ -20,6 +21,7 @@ const Competitions = () => {
   const [detailsCompetitions, setDetailsCompetitions] = useState(false); //set on click of the row in dataGrid
   const [clickedCompetition, setClickedCompetition] = useState(); //set on click of the row in dataGrid
   const { checkCredentials } = useAuth();  
+  const navigate = useNavigate(); //to one team
   const [gridData, setGridData] = useState({
     rows: [],
     columns: [
@@ -36,11 +38,10 @@ const Competitions = () => {
 
     const handleRowClick = (rowId, newState) => {
       console.log("Riga selezionata:", rowId);  
-      const competition = competitions.find((competition) => competition.clubId === rowId);
-      setClickedCompetition(competition);
-      setDetailsCompetitions(newState);
-    console.log("clickedTeam", detailsCompetitions);
+      const competitionId = rowId;
+      navigate(`/single-competition/${competitionId}`);
     }
+  
   
   useEffect(() => {
     const getAllCountry = () => {
@@ -85,57 +86,41 @@ const getAllCompetitions = (filter) => {
   
   
   
-  if (detailsCompetitions === false){
-    return (
-      <div id="container">
-        <div id="topBox">
-          {checkCredentials ? (
-                      <AppBarUser pages={pages}/>
-                  ) : (     
-                      <TopAppBar links={links} pages={pages} />
-                  )}
-          <div id="title">
-            <h1>Competitions</h1>
-          </div>
+  
+return (
+  <div id="container">
+    <div id="topBox">
+      {checkCredentials ? (
+                    <AppBarUser pages={pages}/>
+                ) : (     
+                    <TopAppBar links={links} pages={pages} />
+        )}
+    </div>
+    <div id="container-middle">
+        <div id="title">
+          <h1>Competitions</h1>
         </div>
-        <div id="middleBox">
-
-        <div id="blockid">
-          <Select
-            sx={{ width: 100, height: 50 }}
-            value={filter}
-            label="Country"
-            onChange={handleChangeFilter}
-          >
-            {country.map((country) => (
-              <MenuItem key={country} value={country}>
-                {country}
-              </MenuItem>
-            ))}
-          </Select>
-          <button onClick={() => setDetailsCompetitions(true)}>Click me</button>
-        </div>
-            <div id="containerData">
-                <DataGridElement gridData={gridData} onRowClick={handleRowClick}/>
-            </div>
-        </div>
-        <Footer/>
-    </div>   
-    )
-    } else {
-     return (
-      <div>
-        <TopAppBar links={links} pages={pages} />
-        <div>
-          <h1>Competition</h1>
-        </div>
-         <div id="blockid">
-           <p>ciaoooneeee ho solo un team</p>
-           <button onClick={() => setDetailsCompetitions(false)}>Click me</button>
-        </div>
-
+      <div id="middleBox">
+      <div id="blockid">
+        <Select
+          sx={{ width: 100, height: 50 }}
+          value={filter}
+          label="Country"
+          onChange={handleChangeFilter}
+        >
+          {country.map((country) => (
+            <MenuItem key={country} value={country}>
+              {country}
+            </MenuItem>
+          ))}
+        </Select>
       </div>
-    );
-  }
-}
+          <div id="containerData">
+              <DataGridElement gridData={gridData} onRowClick={handleRowClick}/>
+          </div>
+      </div>
+    </div>
+      <Footer/>
+  </div>   
+)}
 export default Competitions;
