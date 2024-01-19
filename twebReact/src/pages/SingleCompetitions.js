@@ -20,7 +20,7 @@ const CustomImageCell = ({ value }) => (
 );
 
 export default function SingleCompetitions() {
-    const links = [true, false, false, false, false, false, true, true];
+    const links = [false, false, false, false, false, true,false, true, true];
     const pages = ['News', 'Ranking', 'Teams', 'Player', 'Games', 'Competitions'];
     const navigate = useNavigate(); //to one team
     const { competitionId } = useParams();

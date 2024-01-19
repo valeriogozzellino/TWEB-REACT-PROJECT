@@ -9,6 +9,8 @@ import { useAuth } from '../components/atoms/AuthContext';
 import "../style/Teams.css";
 import TopAppBar from "../components/atoms/TopAppBar";
 import Footer from "../components/atoms/Footer";
+import '../style/global.css'
+import { formLabelClasses } from "@mui/material";
 
 
 
@@ -21,7 +23,7 @@ function Teams() {
   const [arraySeason, setArraySeason] = useState([]); // return all country and set them for the filter
   const [clickedTeam, setClickedTeam] = useState(); //set on click of the row in dataGrid
   const navigate = useNavigate();
-  const links = [false, false, false, true, false, false, true, true];
+  const links = [false, false, false, true, false, false, false, false, true , true];
   const pages = ['News', 'Ranking', 'Teams', 'Player', 'Games', 'Competitions'];
   const { checkCredentials } = useAuth();
   const [gridData, setGridData] = useState({
@@ -122,7 +124,7 @@ function Teams() {
             <TopAppBar links={links} pages={pages} />
               )}
         </div>
-      <div id="middleContainer">
+      <div className="container-background-color">
       <div id="container-title">
         <h1 className="page-title">Teams</h1>
       </div>

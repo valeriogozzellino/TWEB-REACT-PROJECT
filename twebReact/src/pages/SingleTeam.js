@@ -11,8 +11,11 @@ import TopAppBar from "../components/atoms/TopAppBar";
 import { useAuth } from '../components/atoms/AuthContext';
 import "../style/Single-Team.css";
 import Footer from "../components/atoms/Footer";
-
-
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Box from '@mui/material/Box';
+import GameCard from "../components/atoms/GameCard";
+import Button from '@mui/material/Button';
 
 
 const CustomImageCell = ({ value }) => (
@@ -20,15 +23,18 @@ const CustomImageCell = ({ value }) => (
 );
 
 export default function SingleTeam() {
-     const links = [true, false, false, false, false, false, true, true];
+    const links = [false, false, false, false, false, false, true, false, true , true];
     const pages = ['News', 'Ranking', 'Teams', 'Player', 'Games', 'Competitions'];
     const navigate = useNavigate();
     const { clubId } = useParams();
+    const logo = "https://tmssl.akamaized.net/images/wappen/head/" + clubId + ".png?";
+    const [view, setView] = useState(0);
     const [players, setPlayers] = useState(null);
-    const [setClubGames] = useState(null);
+    const [clubGames, setClubGames] = useState(null);
     const [team, setTeam] = useState(null);
     const [currentView, setCurrentView] = useState('players'); // State to track current view
     const { checkCredentials } = useAuth();
+    const [showGames, setShowGames] = useState(10);
     const [gridDataPlayers, setGridDataPlayers] = useState({
         rows: [],
         columns: [
@@ -106,17 +112,13 @@ export default function SingleTeam() {
                     rows: newRows,
                 }));
                 setClubGames(response.data);
+                console.log("Club Games: ", response.data);
             })
             .catch(error => {
                 console.error("Error fetching club games: ", error);
             });
     }
 
-    // todo: check if this is correct
-    // const getNameByClubId = async (clubId) => {
-    //     const response = await axios.get(`http://localhost:3001/teams/get-name-by-club-id/${clubId}`);
-    //     return response.data.clubName;
-    // }
 
     const getTeamById = (clubId) => {
         axios.get(`http://localhost:3001/single-team/get-team-by-id/${clubId}`)
@@ -151,38 +153,77 @@ export default function SingleTeam() {
         );
     }
 
+    const handleChangeTab = (e) => {
+        const id = e.target.id;
+        switch (id) {
+            case 'tabOne':
+                setView(0);
+                //called funzioction
+                break;
+            case 'tabTwo':
+                setView(1);
+                break;
+            case 'tabThree':
+                setView(2);
+                break;
+            default:
+                break;
+        }
+    }
+    
     return (
     <div>
+        <div id="container">
+            
         {checkCredentials ? (
                 <AppBarUser pages={pages}/>
             ) : (     
                 <TopAppBar links={links} pages={pages} />
             )}
         <div className="team-header">
-            <h1>{team ? team.name : 'Loading...'}</h1>
+            <div id="title-box">
+                <img src={logo} alt="Team" style={{ width: '80px', height: '100px', margin:'10px' }} />    
+                <h1>{team ? team.name : 'Loading...'}</h1>
+            </div>
+        
             <div className="team-stats">
                 <p>Stadium: {team ? team.stadiumName : 'Loading...'} </p>
                 <p>Stadium Seats: {team ? team.stadiumSeats : 'Loading...'} </p>
                 <p>Transfer Record: {team ? team.netTransferRecord : 'Loading...'} </p>
             </div>
         </div>
-        <div>
-            <Select
-                value={currentView}
-                onChange={handleViewChange}
-                displayEmpty
-                inputProps={{ 'aria-label': 'Without label' }}
-            >
-                <MenuItem value="players">Players</MenuItem>
-                <MenuItem value="games">Games</MenuItem>
-            </Select>
-        </div>
-        <div className="data-grid-container">
-            {currentView === 'players' ? (
-                <DataGridElement gridData={gridDataPlayers} onRowClick={handleRowClickPlayers} />
-            ) : (
-                <DataGridElement gridData={gridDataGames} onRowClick={(row) => handleRowClickGames(row)}/>
+        <div id="middle-container" >
+        
+            <Box sx={{ borderBottom: 2, borderColor: 'divider', marginBottom:'5px'}}>
+            <Tabs  aria-label="basic tabs example">
+                <Tab label="PLayer" id="tabOne" onClick={handleChangeTab} />
+                <Tab label="Game Of the team" id="tabTwo" onClick={handleChangeTab}/>
+                <Tab label="Players in the field" id="tabThree" onClick={handleChangeTab} />
+            </Tabs>
+            </Box>
+        
+            {view === 0 ? (
+                <div className="data-grid-container">
+                    <DataGridElement gridData={gridDataPlayers} onRowClick={handleRowClickPlayers} />
+                </div>
+            ) : view === 1 ? (
+             <div className="game-info">                
+                {clubGames.slice(0, showGames).map((game) => (
+                    <GameCard game={game} />
+                ))}
+                <button onClick={() => setShowGames(showGames - 10)}>Show Less</button>
+                <Button variant="contained" size="large">
+                    Large
+                </Button>                
+                <button onClick={() => setShowGames(showGames + 10)}>Show More</button>    
+            </div>
+            ):(
+                    <div className="player-info">
+                        <h2>Position: </h2>
+                        <h3>Inserire la formazioen</h3>
+                    </div>
             )}
+        </div>
         </div>
         <Footer/>    
     </div>

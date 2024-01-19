@@ -9,7 +9,7 @@ import '../style/Player.css';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-
+import Footer from "../components/atoms/Footer";
 
 export default function Player() {
   const { player_Id } = useParams();
@@ -102,7 +102,9 @@ export default function Player() {
 
     return (
     <div className="player-container">
-      {checkCredentials ? <AppBarUser pages={pages} /> : <TopAppBar links={links} pages={pages} />}
+        {checkCredentials ? <AppBarUser pages={pages} /> : <TopAppBar links={links} pages={pages} />}
+      <div id="middle-box">
+
       <div className="player-header">
         <h1>{player.firstName} {player.lastName}</h1>
       </div>
@@ -114,7 +116,7 @@ export default function Player() {
           <Tabs  aria-label="basic tabs example">
             <Tab label="Item One" id="tabOne" onClick={handleChangeTab}  />
             <Tab label="Item Two" id="tabTwo" onClick={handleChangeTab} />
-            <Tab label="Item Three" id="tabThree"onClick={handleChangeTab} />
+            <Tab label="Item Three" id="tabThree" onClick={handleChangeTab} />
          </Tabs>
           </Box>
           {view === 0 ? (
@@ -136,7 +138,9 @@ export default function Player() {
               <DataGridElement gridData={{ rows: playerAppearances, columns: columns }} />
             </div>
           )}
-      </div>
+        </div>
+        </div>
+        <Footer/>
     </div>
   );
 }

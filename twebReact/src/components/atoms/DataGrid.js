@@ -2,11 +2,16 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import "../../style/DataGrid.css";
+
+
 export default function DataGridElement({ gridData, onRowClick }) {
     const handleCellClick = (params, event) => {
         const rowId = params.id;
         console.log("Riga selezionata:", rowId);
         onRowClick(rowId, true);
+    };
+     const getRowClassName = (params) => {
+        return `custom-row-${params.rowIndex % 2 === 0 ? 'even' : 'odd'}`;
     };
 
     // Assuming equal width for all columns
@@ -25,7 +30,7 @@ export default function DataGridElement({ gridData, onRowClick }) {
                 rowHeight={48}
                 onCellClick={handleCellClick}
                 viewportPageSize={gridData.rows.length}
-                className="css-1u3bzj6-MuiDataGrid-columnHeaders"
+                getRowClassName={getRowClassName}
             />
         </Box>
     );

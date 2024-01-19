@@ -1,15 +1,15 @@
 .data-grid {
-    --data-grid-header-bg: rgba(255, 255, 255, 0.7);
-    /* Blue */
-    --data-grid-header-color: rgba(164, 198, 57, 0.3);
-    /* White */
-    --data-grid-row-hover: rgba(255, 255, 255, 0.8);
-    /* Lighter Blue */
-    --data-grid-row-selected: #99bfff;
-    /* Selected Row Blue */
+    --data-grid-header-bg: rgba(255, 255, 255, 0.113);
+    /* Bianco trasparente per le intestazioni */
+    --data-grid-header-color: rgba(213, 220, 192, 0.3);
+    /* Colore testo */
+    --data-grid-row-hover: rgba(255, 255, 255, 0.5);
+    /* Bianco trasparente per righe al passaggio del mouse */
+    --data-grid-row-selected: rgba(255, 255, 255, 0.434);
+    /* Bianco trasparente per righe selezionate */
+    border-radius: 2px;
 }
 
-/* Esempio di override degli stili MUI DataGrid */
 .css-1u3bzj6-MuiDataGrid-columnHeaders {
     background-color: var(--data-grid-header-bg);
     color: var(--data-grid-header-color);
@@ -19,6 +19,13 @@
     background-color: var(--data-grid-row-hover);
 }
 
-.css-1kz4h0n-MuiDataGrid-row.Mui-selected {
+/* . {
     background-color: var(--data-grid-row-selected);
+} */
+.custom-row-even {
+    background-color: #f5f5f5; /* Colore per le righe pari */
+}
+
+.custom-row-odd {
+    background-color: #ffffff; /* Colore per le righe dispari */
 }

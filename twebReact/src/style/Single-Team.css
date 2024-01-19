@@ -1,7 +1,7 @@
 .team-header {
-    background-color: #0052cc;
+    
     /* Blue */
-    color: #ffffff;
+    color: #0a0909;
     /* White */
     padding: 1em;
     border-radius: 8px;
@@ -13,7 +13,8 @@
 }
 
 .team-stats {
-    background-color: #e6f7ff;
+    display: flex;
+    flex-direction: row;
     /* Light Blue */
     padding: 1em;
     color: black;
@@ -23,6 +24,34 @@
 
 .data-grid-container {
     padding: 1em;
+    width: 90%;
     /* background-color: #4b86b4; */
     /* Light Grey */
+}
+#container{
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), #0c2840);
+    background-color: #0c2840;
+}
+#title-box{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    font-weight: bold;
+}
+.game-info{
+    display: flex;
+    width: 80%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+#middle-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
 }

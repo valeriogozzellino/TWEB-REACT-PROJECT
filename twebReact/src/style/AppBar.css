@@ -1,0 +1,22 @@
+#bottom-page{
+
+}
+
+#text-page{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+
+}
+
+#container-bar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    width: 98%;
+     
+}

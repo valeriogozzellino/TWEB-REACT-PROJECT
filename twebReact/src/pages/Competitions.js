@@ -10,10 +10,10 @@ import "../style/Competitions.css";
 import { useAuth } from '../components/atoms/AuthContext';
 import AppBarUser from "../components/atoms/AppBarUser";
 import Footer from "../components/atoms/Footer";
-
+import '../style/global.css'
 
 const Competitions = () => {
-  const links = [false, false, false, false, false, true, true];
+  const links = [false, false, false, false, true, false, false, false, true , true];
   const pages = ['Home', 'News', 'Ranking', 'Teams', 'Players'];
   const [country, setCountry] = useState([]); 
   const [competitions, setCompetitions] = useState([]);
@@ -96,7 +96,7 @@ return (
                     <TopAppBar links={links} pages={pages} />
         )}
     </div>
-    <div id="container-middle">
+    <div className="container-background-color">
         <div id="title">
           <h1>Competitions</h1>
         </div>

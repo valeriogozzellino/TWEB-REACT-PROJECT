@@ -10,10 +10,10 @@ import AppBarUser from "../components/atoms/AppBarUser";
 import { useAuth } from '../components/atoms/AuthContext';
 import Footer from "../components/atoms/Footer";
 function Home() {
-    const links = [true, false, false, false, false, false, true, true];
+    const links = [true, false, false, false, false, false,false, true, true];
     const pages = ['News', 'Ranking', 'Teams', 'Player', 'Games', 'Competitions'];
     const { checkCredentials, user } = useAuth();
-    console.log("isUserLogged HOme--->" , checkCredentials);
+    console.log("isUserLogged Home--->" , checkCredentials);
     const [arrayNewsApi, setNewsApi] = useState([]);
     const [arrayNewsFavouriteTeam, setNewsFavouriteTeam] = useState([]);
     const [arrayNewsFavouritePlayer, setNewsFavouritePlayer] = useState([]);
@@ -38,16 +38,16 @@ function Home() {
     if (checkCredentials) {
        
         const getFavouriteNews = () => {
-            const apiKey = "62563bbc4e9e5b4871a03be615443210";
-            const apiUrlTeamNews = "https://gnews.io/api/v4/search?lang=it&category=sport&max=4&q="+ user.favouriteClub +"&apikey=" + apiKey;
-            axios.get(apiUrlTeamNews)
-                .then(response => {
-                    setNewsFavouriteTeam(response.data.articles);
-                    setLoading(false); // Imposta lo stato di caricamento su false quando la chiamata API è completata
-                })
-                .catch(error => {
-                    setLoading(false); // Assicurati di gestire anche gli errori
-                });
+            // const apiKey = "62563bbc4e9e5b4871a03be615443210";
+            // const apiUrlTeamNews = "https://gnews.io/api/v4/search?lang=it&category=sport&max=4&q="+ user.favouriteClub +"&apikey=" + apiKey;
+            // axios.get(apiUrlTeamNews)
+            //     .then(response => {
+            //         setNewsFavouriteTeam(response.data.articles);
+            //         setLoading(false); // Imposta lo stato di caricamento su false quando la chiamata API è completata
+            //     })
+            //     .catch(error => {
+            //         setLoading(false); // Assicurati di gestire anche gli errori
+            //     });
             //const apiUrlPlayerNews = "https://gnews.io/api/v4/search?lang=it&category=sport&max=3&q=soccer+"+ user.favouriteClub +"&apikey=" + apiKey;
             // axios.get(apiUrlPlayerNews)
             //     .then(response => {
@@ -78,7 +78,7 @@ function Home() {
             </div>
             <div id="containerBoxNews">
                 <div className='middle-title'>
-                    <h4 id="titleNewsFavourite">News about {user.favouriteClub} and {user.favouritePlayer} </h4>
+                    <h4 id="titleNewsFavourite">News about  Footbal</h4>
                 </div>
                 {checkCredentials && (
                     <div id="boxNewsFavourite">
