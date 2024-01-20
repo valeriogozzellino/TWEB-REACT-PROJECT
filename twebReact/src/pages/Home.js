@@ -11,7 +11,7 @@ import { useAuth } from '../components/atoms/AuthContext';
 import Footer from "../components/atoms/Footer";
 function Home() {
     const links = [true, false, false, false, false, false,false, true, true];
-    const pages = ['News', 'Ranking', 'Teams', 'Player', 'Games', 'Competitions'];
+    const pages = ['Competitions','Teams', 'Games' ];
     const { checkCredentials, user } = useAuth();
     console.log("isUserLogged Home--->" , checkCredentials);
     const [arrayNewsApi, setNewsApi] = useState([]);

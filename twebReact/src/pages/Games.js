@@ -7,7 +7,7 @@ import {useNavigate} from 'react-router-dom';
 export default function Games() {
     const [setGames] = useState([]);
     const [error, setError] = useState(null);
-    const pages = ['News', 'Ranking', 'Teams', 'Player', 'Games', 'Competitions'];
+    const pages = ['Home','Competitions','Teams', 'Games', ];
     const [gridData, setGridData] = useState({
         rows: [],
         columns: [

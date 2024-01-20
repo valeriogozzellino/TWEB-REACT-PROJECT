@@ -21,8 +21,9 @@ const CustomImageCell = ({ value }) => (
 
 export default function SingleCompetitions() {
     const links = [false, false, false, false, false, true,false, true, true];
-    const pages = ['News', 'Ranking', 'Teams', 'Player', 'Games', 'Competitions'];
+    const pages = ['Home','Competitions','Teams', 'Games' ];
     const navigate = useNavigate(); //to one team
+    const logo = "https://tmssl.akamaized.net/images/wappen/head/" + competitionId + ".png?";
     const { competitionId } = useParams();
     const [clubs, setClubs] = useState([]);
     const [competition, setCompetition] = useState(null);
@@ -102,13 +103,18 @@ export default function SingleCompetitions() {
             ) : (     
                 <TopAppBar links={links} pages={pages} />
             )}
-            <div className="team-header">
+          {/* <div className="team-header">
+            <div id="title-box">
+                <img src={logo} alt="Competition" style={{ width: '80px', height: '100px', margin:'10px' }} />    
                 <h1>{competition ? competition.name : 'Loading...'}</h1>
-                <img src={competition ? competitionImage  : 'Loading...'} alt="Competition" />
-            <div className="team-stats">
-                <p>confederation: {competition ? competition.stadiumName : 'Loading...'} </p>
             </div>
-        </div>
+        
+            <div className="team-stats">
+                <p>Stadium: {competition ? team.stadiumName : 'Loading...'} </p>
+                <p>Stadium Seats: {competition ? team.stadiumSeats : 'Loading...'} </p>
+                <p>Transfer Record: {competition ? team.netTransferRecord : 'Loading...'} </p>
+            </div>
+        </div> */}
        
         <div className="data-grid-container">
                 <DataGridElement gridData={gridDataClubs} onRowClick={handleRowClick} />

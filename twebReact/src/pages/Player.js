@@ -16,7 +16,7 @@ export default function Player() {
   const [player, setPlayer] = useState(null);
   const [playerAppearances, setPlayerAppearances] = useState([]);
   const links = [true, false, false, false, false, false, true, true];
-  const pages = ['News', 'Ranking', 'Teams', 'Player', 'Games', 'Competitions'];
+  const pages = ['Home','Competitions','Teams', 'Games' ];
   const { checkCredentials } = useAuth();
   const [view, setView] = useState(0);
 

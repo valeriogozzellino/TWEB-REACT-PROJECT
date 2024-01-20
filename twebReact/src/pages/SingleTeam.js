@@ -24,7 +24,7 @@ const CustomImageCell = ({ value }) => (
 
 export default function SingleTeam() {
     const links = [false, false, false, false, false, false, true, false, true , true];
-    const pages = ['News', 'Ranking', 'Teams', 'Player', 'Games', 'Competitions'];
+    const pages = ['Home','Competitions','Teams', 'Games' ];
     const navigate = useNavigate();
     const { clubId } = useParams();
     const logo = "https://tmssl.akamaized.net/images/wappen/head/" + clubId + ".png?";
@@ -34,7 +34,7 @@ export default function SingleTeam() {
     const [team, setTeam] = useState(null);
     const [currentView, setCurrentView] = useState('players'); // State to track current view
     const { checkCredentials } = useAuth();
-    const [showGames, setShowGames] = useState(10);
+    const [showGames, setShowGames] = useState(6);
     const [gridDataPlayers, setGridDataPlayers] = useState({
         rows: [],
         columns: [
@@ -207,15 +207,23 @@ export default function SingleTeam() {
                     <DataGridElement gridData={gridDataPlayers} onRowClick={handleRowClickPlayers} />
                 </div>
             ) : view === 1 ? (
+                
              <div className="game-info">                
+                <div id="section-card">
+                    
                 {clubGames.slice(0, showGames).map((game) => (
-                    <GameCard game={game} />
+                    <GameCard game={game} imageurl1={"https://tmssl.akamaized.net/images/wappen/head/" + clubId + ".png?"} imageurl2={"https://tmssl.akamaized.net/images/wappen/head/" + game.opponent_id + ".png?"} />
                 ))}
-                <button onClick={() => setShowGames(showGames - 10)}>Show Less</button>
-                <Button variant="contained" size="large">
-                    Large
+                </div>
+                <div id='botton-end'>
+                    
+                <Button variant="outlined" size="medium" onClick={() => setShowGames(showGames - 6)} sx={{marginRight:'21px'}} >
+                    Show Less
                 </Button>                
-                <button onClick={() => setShowGames(showGames + 10)}>Show More</button>    
+                <Button variant="outlined" size="medium" onClick={() => setShowGames(showGames + 6)} >
+                    Show More
+                </Button>                
+                </div>
             </div>
             ):(
                     <div className="player-info">

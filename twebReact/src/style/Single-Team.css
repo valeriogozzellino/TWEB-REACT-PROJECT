@@ -41,11 +41,12 @@
 }
 .game-info{
     display: flex;
-    width: 80%;
-    flex-direction: row;
+    width: 100%;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+    margin-top: 30px;
 }
 #middle-container{
     display: flex;
@@ -54,4 +55,20 @@
     align-items: center;
     width: 100%;
     height: 100%;
+}
+#botton-end{
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    align-items: center;
+    width: 80%;
+    height: 150px;
+}
+#section-card{
+    display: flex;
+        width: 80%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
 }

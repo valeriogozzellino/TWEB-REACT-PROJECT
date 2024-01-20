@@ -14,7 +14,7 @@ import '../style/global.css'
 
 const Competitions = () => {
   const links = [false, false, false, false, true, false, false, false, true , true];
-  const pages = ['Home', 'News', 'Ranking', 'Teams', 'Players'];
+  const pages = ['Home','Teams', 'Games' ];
   const [country, setCountry] = useState([]); 
   const [competitions, setCompetitions] = useState([]);
   const [filter, setFilter] = useState('All');  // Imposta il valore di default a "All"

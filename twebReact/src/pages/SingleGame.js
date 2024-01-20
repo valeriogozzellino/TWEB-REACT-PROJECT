@@ -9,7 +9,7 @@ const SingleGame = () => {
     const {gameId} = useParams();
     const [gameInfo, setGameInfo] = useState(null);
     const [error, setError] = useState(null);
-    const pages = ['News', 'Ranking', 'Teams', 'Player', 'Games', 'Competitions'];
+    const pages = ['Home','Competitions','Teams', 'Games' ];
     const [players, setPlayers] = useState(null);
     // const { checkCredentials } = useAuth();
     const navigate = useNavigate();
