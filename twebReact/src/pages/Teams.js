@@ -129,6 +129,7 @@ function Teams() {
         <h1 className="page-title">Teams</h1>
       </div>
       <div className="filters-container">
+        <h3 className="filter-title">Season:</h3>
         <Select
           className="season-select"
           value={filterSeason}
@@ -140,6 +141,7 @@ function Teams() {
             </MenuItem>
           ))}
         </Select>
+        <h3 className="filter-title">Country:</h3>
         <Select
           className="country-select"
           value={filterCountry}
@@ -152,9 +154,9 @@ function Teams() {
           ))}
         </Select>
       </div>
-      <div className="data-grid-container">
-        <DataGridElement gridData={gridData} onRowClick={handleRowClick} />
-            </div>
+        <div className="data-grid-container">
+          <DataGridElement gridData={gridData} onRowClick={handleRowClick} />
+        </div>
       </div>
           <Footer />
     </div>

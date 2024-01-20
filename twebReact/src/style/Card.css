@@ -1,0 +1,13 @@
+#box-team-1{
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#box-team-2{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40%;
+}

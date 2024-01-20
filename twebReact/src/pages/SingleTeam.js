@@ -101,16 +101,16 @@ export default function SingleTeam() {
         const clubGamesApiUrl = `http://localhost:3001/games/get-club-games-by-id/${clubId}`;
         axios.get(clubGamesApiUrl)
             .then(response => {
-                const newRows = response.data.map((game) => ({
-                    id: game.game_id,
-                    opponent: game.opponent_id,
-                    own_goals: game.own_goals,
-                    opponent_goals: game.opponent_goals,
-                }));
-                setGridDataGames(prevGridData => ({
-                    ...prevGridData,
-                    rows: newRows,
-                }));
+                // const newRows = response.data.map((game) => ({
+                //     id: game.game_id,
+                //     opponent: game.opponent_id,
+                //     own_goals: game.own_goals,
+                //     opponent_goals: game.opponent_goals,
+                // }));
+                // setGridDataGames(prevGridData => ({
+                //     ...prevGridData,
+                //     rows: newRows,
+                // }));
                 setClubGames(response.data);
                 console.log("Club Games: ", response.data);
             })
@@ -212,7 +212,7 @@ export default function SingleTeam() {
                 <div id="section-card">
                     
                 {clubGames.slice(0, showGames).map((game) => (
-                    <GameCard game={game} imageurl1={"https://tmssl.akamaized.net/images/wappen/head/" + clubId + ".png?"} imageurl2={"https://tmssl.akamaized.net/images/wappen/head/" + game.opponent_id + ".png?"} />
+                    <GameCard game={game} imageurl1={"https://tmssl.akamaized.net/images/wappen/head/" + clubId + ".png?"} imageurl2={"https://tmssl.akamaized.net/images/wappen/head/" + game.away_club_id + ".png?"} />
                 ))}
                 </div>
                 <div id='botton-end'>

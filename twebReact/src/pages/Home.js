@@ -9,6 +9,8 @@ import { useState, useEffect } from "react";
 import AppBarUser from "../components/atoms/AppBarUser";
 import { useAuth } from '../components/atoms/AuthContext';
 import Footer from "../components/atoms/Footer";
+import '../style/global.css';
+
 function Home() {
     const links = [true, false, false, false, false, false,false, true, true];
     const pages = ['Competitions','Teams', 'Games' ];
@@ -72,11 +74,11 @@ function Home() {
                 ) : (     
                     <TopAppBar links={links} pages={pages} />
                 )}
+            </div>
+            <div id="containerBoxNews" className='container-background-color'>
                 <div id="boxTitleHome">
                     <h1 id="titleHome"><em>Welcome to FootGoal!</em></h1>
                 </div>
-            </div>
-            <div id="containerBoxNews">
                 <div className='middle-title'>
                     <h4 id="titleNewsFavourite">News about  Footbal</h4>
                 </div>

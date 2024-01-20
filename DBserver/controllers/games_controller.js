@@ -39,9 +39,11 @@ module.exports.getGameByID = getGameByID;
 
 function getClubGameByID(club_id) {
     console.log("+++ CLUB GAMEEEEEEEEE");
+    console.log("club iD---> ", club_id);
     return new Promise((resolve, reject) => {
-        ClubGamesModel.find({ club_id: club_id })
+        GameModel.find({ home_club_id: club_id })
             .then(result => {
+                console.log(result);
                 resolve(result);
             })
             .catch(error => {
@@ -55,7 +57,6 @@ module.exports.getClubGameByID = getClubGameByID;
 
 
 function getAllGamesEvents(game_id) {
-    console.log("+++ GAMES EVENT");
     return new Promise((resolve, reject) => {
         GameEventModel.find({ game_id: game_id } ) // Use GameModel directly
             .then(result => {
