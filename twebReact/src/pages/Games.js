@@ -35,7 +35,10 @@ export default function Games() {
     const handleGetAllGames = () => {
         axios.get("http://localhost:3001/games/get-games")
             .then((response) => {
-                const sortedGames = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
+                const sortedGames = response.data
+                    .filter(game => game.date && game.home_club_name && game.away_club_name && game.aggregate != null && game.game_id)
+                    .sort((a, b) => new Date(b.date) - new Date(a.date));
+
                 const newRows = sortedGames.map((game, index) => ({
                     id: index,
                     gameDate: new Date(game.date).toDateString(),
