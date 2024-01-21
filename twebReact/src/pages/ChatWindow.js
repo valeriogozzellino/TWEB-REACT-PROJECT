@@ -20,9 +20,9 @@ import { useAuth } from '../components/atoms/AuthContext';
 export default function ChatWindow() {
     const links = [false, false, false, true, false, false, false, false, true, true];
     const pages = ['Home','Competitions', 'Games' ];
-    const [open, setOpen] = React.useState(false);
-    const [view, setView] = React.useState(0);
-    const [userLogged, setUserLogged] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [view, setView] = useState(0);
+    const [userLogged, setUserLogged] = useState(true);
     const handleLoguser = () => setUserLogged(true);
 
 
@@ -58,7 +58,9 @@ export default function ChatWindow() {
     };
 
     return (
-            <div className="container-background-color" id="chat-box" style={{minHeight: '120vh'}}>
+            <div id="chat-box">
+
+            <div className="container-background-color" style={{minHeight: '120vh'}} >
             <TopAppBar links={links} pages={pages} />
             <Tabs value={view} onChange={handleChangeTab} aria-label="basic tabs example" centered>
                 <Tab label="Public" id="tabOne" />
@@ -79,9 +81,9 @@ export default function ChatWindow() {
             </List>
         </Box>
 
-            <Box component="form" sx={{ display: 'flex', flexDirection:'column', alignItems: 'center', justifyContent: 'space-between', marginTop: 2, marginBottom:30 }}>
+            <Box component="form" sx={{ display: 'flex', flexDirection:'column', alignItems: 'center', justifyContent: 'space-between', marginTop: 2, marginBottom:30 , color:'white'}}>
                 <TextField
-                    sx={{ width: '80%', marginBottom:2 }}
+                    sx={{ width: '60%', marginBottom:2}}
                     label="Scrivi un messaggio"
                     variant="outlined"
                     value={newMessage}
@@ -89,8 +91,10 @@ export default function ChatWindow() {
                 />
                 <Button variant="contained" sx={{ marginLeft: 1 }} onClick={handleSendMessage}>Send message</Button>
             </Box>
-
+                
+            </div>
             <Footer />
+            
         </div>
     );
 }

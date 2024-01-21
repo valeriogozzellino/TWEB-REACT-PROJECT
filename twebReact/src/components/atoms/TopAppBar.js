@@ -9,6 +9,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import DrawerVault from './DrawerVault'; // Assicurati di importare correttamente il componente DrawerVault
 import HomeIcon from '@mui/icons-material/Home';
 import '../../style/AppBar.css';
+import IconLogo from '../../Images/logo.png'
+
+
 
 export default function TopAppBar(props) {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
@@ -29,8 +32,8 @@ export default function TopAppBar(props) {
   };
 
   return (
-    <Box sx={{ flexGrow: 1}}>
-      <AppBar position="static" style={{backgroundColor:'#2a4d69', height:'70px'}}>
+    <Box sx={{ width:'100%'}}>
+      <AppBar position="static" style={{backgroundColor:'#2a4d69', height:'90px'}}>
         <Toolbar>
           <div id='container-bar'>
             <div id='text-page'>
@@ -86,6 +89,9 @@ export default function TopAppBar(props) {
               </Typography>
             )}
               
+            </div>
+            <div id='logoTopBar'>
+              <img src={IconLogo} alt='logo' style={{width:'100px', height:'90px'}}/>
             </div>
             <div id='bottom-page'>
 
