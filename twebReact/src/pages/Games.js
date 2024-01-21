@@ -9,7 +9,6 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Footer from "../components/atoms/Footer";
 
-
 export default function Games() {
     const [setGames] = useState([]);
     const [error, setError] = useState(null);
@@ -71,6 +70,13 @@ export default function Games() {
             console.error("Game not found");
         }
     };
+    const handleDateClick = (date, matchingGames) => {
+        console.log(`Clicked on date: ${date}`);
+        console.log('Matching Games:', matchingGames);
+
+        // Puoi fare qualcosa con i dati dei giochi associati qui, ad esempio navigare a una pagina specifica
+        // navigate(`/specific-page/${date}`);
+    };
 
     const navigate = useNavigate();
 
@@ -130,6 +136,7 @@ export default function Games() {
 
                 <div className="data-grid-container">
                     <DataGridElement gridData={gridData} onRowClick={handleClick}/>
+                    {/* <Calendar games={gridData.rows} onDateClick={handleDateClick} /> */}
                 </div>
             </div>
             <Footer/>

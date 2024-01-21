@@ -26,9 +26,8 @@ export default function SingleCompetitions() {
     const { competitionId } = useParams();
     const logoCompetition = "https://tmssl.akamaized.net/images/logo/header/"+competitionId.toLocaleLowerCase()+".png?"
     const [clubs, setClubs] = useState([]);
-    const [competition, setCompetition] = useState(null);
-    //const competitionImage = "https://tmssl.akamaized.net/images/logo/header/"+ competitionId+".png?"
-    //const [currentView, setCurrentView] = useState('players'); // State to track current view
+    const [competition, setCompetition] = useState(null);   
+
     const { checkCredentials } = useAuth();
     //al teams for this competition
     const [gridDataClubs, setGridDataClubs] = useState({
@@ -80,7 +79,7 @@ export default function SingleCompetitions() {
     }
 
 
-   
+ 
     
 
     useEffect(() => {
@@ -120,12 +119,12 @@ export default function SingleCompetitions() {
         </div>
        
         <div className="data-card-container">
-                        {clubs.map((club) => (
-                            <div id="card-element">
-                            <CardElement clubId={club.clubId} title={club.name} subtitle={club.squadSize} image={"https://tmssl.akamaized.net/images/wappen/head/" + club.clubId + ".png?"}  />
-                            </div>
-                        ))}
+            {clubs.map((club) => (
+                <div id="card-element" key={club.clubId}>
+                    <CardElement clubId={club.clubId} title={club.name} subtitle={club.squadSize} image={"https://tmssl.akamaized.net/images/wappen/head/" + club.clubId + ".png?"} />
                 </div>
+            ))}
+    </div>
     </div>
             
         <Footer/>    

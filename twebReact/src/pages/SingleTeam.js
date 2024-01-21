@@ -191,6 +191,14 @@ export default function SingleTeam() {
     const handleViewChange = (event) => {
         setCurrentView(event.target.value);
     };
+    const handleNumberGame = (number) => {
+        if (number === 1) {
+            if(showGames === 6) return;
+            setShowGames(showGames - 6);
+        } else {
+            setShowGames(showGames + 6);
+        }        
+    };
 
     if (!players) {
         return (
@@ -287,11 +295,11 @@ export default function SingleTeam() {
                                 ))}
                             </div>
                             <div id='button-end'>
-                                <Button variant="outlined" size="medium" onClick={() => setShowGames(showGames - 6)}
+                                <Button variant="outlined" size="medium" onClick={() => handleNumberGame(1)}
                                         sx={{marginRight: '21px'}}>
                                     Show Less
                                 </Button>
-                                <Button variant="outlined" size="medium" onClick={() => setShowGames(showGames + 6)}>
+                                <Button variant="outlined" size="medium" onClick={() => handleNumberGame(0)}>
                                     Show More
                                 </Button></div>
                         </div>

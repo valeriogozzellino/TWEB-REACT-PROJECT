@@ -28,6 +28,13 @@ const SingleGame = () => {
     const [view, setView] = useState(0);
     const [player, setPlayer] = useState(null);
     const playerId = "";
+    let clubAwayLogo = "";
+    let clubHomeLogo = "";
+    if (gameInfo) {   
+        clubAwayLogo = "https://tmssl.akamaized.net/images/wappen/head/"+ gameInfo.away_club_id +".png?";
+        clubHomeLogo = "https://tmssl.akamaized.net/images/wappen/head/" + gameInfo.home_club_id + ".png?";
+    }
+    
     const [gameData, setGameData] = useState({
         rows: [],
         columns: [
@@ -161,15 +168,25 @@ const SingleGame = () => {
             </div>
             <div className="container-background-color">
                 <div className="page-title-container">
-                    <h1 className="page-title">
-                        <p>
-                            {gameInfo.home_club_name} | {gameInfo.aggregate} | {gameInfo.away_club_name}
-                        </p>
-                    </h1>
-                    <p>Date: {gameInfo.date}</p>
-                    <p>Stadium: {gameInfo.stadium}</p>
+                    <div className='page-header-club'>
+                        <img src={clubHomeLogo} alt={gameInfo.home_club_name} />
+                        <h1 className="page-title">
+                            {gameInfo.home_club_name}   
+                        </h1>
+                    </div>
+                    <div>
+                        <h1>
+                            | {gameInfo.aggregate} |
+                        </h1>
+                    </div>
+                    <div className='page-header-club'>
+                        <img src={clubAwayLogo} alt={gameInfo.away_club_name} />
+                        <h1 className='page-title'>
+                            {gameInfo.away_club_name}
+                        </h1>
+                    </div>
                 </div>
-                <Box sx={{borderBottom: 2, borderColor: 'divider', marginBottom: '5px'}}>
+                <Box sx={{borderBottom: 2, borderColor: 'divider', marginBottom: '5px', display:'flex', flexDirection:'row', justifyContent:'center'}}>
                     <Tabs aria-label="basic tabs example">
                         <Tab label="Timeline" id="tabOne" onClick={handleChangeTab}/>
                         <Tab label="Home Team Lineup" id="tabTwo" onClick={handleChangeTab}/>
