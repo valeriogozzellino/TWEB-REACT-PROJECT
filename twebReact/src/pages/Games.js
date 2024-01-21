@@ -7,6 +7,8 @@ import TopAppBar from "../components/atoms/TopAppBar";
 import {useAuth} from "../components/atoms/AuthContext";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import Footer from "../components/atoms/Footer";
+
 
 export default function Games() {
     const [setGames] = useState([]);
@@ -83,7 +85,6 @@ export default function Games() {
 
     return (
         <div className="teams-container">
-            {/*<h1>Games</h1>*/}
             <div className="header-container">
                 {checkCredentials ? (
                     <AppBarUser pages={pages}/>
@@ -128,6 +129,7 @@ export default function Games() {
                     <DataGridElement gridData={gridData} onRowClick={handleClick}/>
                 </div>
             </div>
+            <Footer/>
             {error && <p>Error: {error.message}</p>}
         </div>
     );

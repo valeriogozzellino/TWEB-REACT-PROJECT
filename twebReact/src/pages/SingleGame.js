@@ -4,13 +4,20 @@ import axios from 'axios';
 import DataGridElement from "../components/atoms/DataGrid";
 import "../style/Single-Game.css";
 import AppBarUser from "../components/atoms/AppBarUser";
+import TopAppBar from "../components/atoms/TopAppBar";
+import {useAuth} from "../components/atoms/AuthContext";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import Footer from "../components/atoms/Footer";
 
 const SingleGame = () => {
     const {gameId} = useParams();
     const [gameInfo, setGameInfo] = useState(null);
     const [error, setError] = useState(null);
-    const pages = ['Home','Competitions','Teams', 'Games' ];
+    const pages = ['Home', 'Competitions', 'Teams', 'Games'];
     const [players, setPlayers] = useState(null);
+    const {checkCredentials} = useAuth();
+    const links = [false, false, false, true, false, false, false, false, true, true];
     // const { checkCredentials } = useAuth();
     const navigate = useNavigate();
 
@@ -19,7 +26,7 @@ const SingleGame = () => {
         columns: [
             {field: 'minute', headerName: 'Minute', width: 130},
             {field: 'eventType', headerName: 'Event Type', width: 130},
-            {field: 'player', headerName: 'Player Name', width: 200},
+            {field: 'player', headerName: 'Player', width: 200},
         ]
     });
 
@@ -71,31 +78,25 @@ const SingleGame = () => {
     }
 
     return (
-        <div>
-            <AppBarUser pages={pages}/>
-            <div className="game-header">
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-around',
-                    alignItems: 'center',
-                    marginBottom: '20px'
-                }}>
-                    <h1>{gameInfo.home_club_name} vs {gameInfo.away_club_name}</h1>
-                    <div className="game-details">
-                        <p>Date: {new Date(gameInfo.date).toLocaleDateString()}</p>
-                        <p>Competition: {gameInfo.competition_id}</p>
-                        <p>Score: {gameInfo.home_club_goals} - {gameInfo.away_club_goals}</p>
-                        <p>Round: {gameInfo.round}</p>
-                        <p>Time: {new Date(gameInfo.date).toLocaleTimeString()}</p>
-                        <p>Stadium: {gameInfo.stadium} | Attendance: {gameInfo.attendance}</p>
-                        <p>Referee: {gameInfo.referee}</p>
-                    </div>
+        <div className="teams-container">
+            <div className="header-container">
+                {checkCredentials ? (
+                    <AppBarUser pages={pages}/>
+                ) : (
+
+                    <TopAppBar links={links} pages={pages}/>
+                )}
+            </div>
+            <div className="container-background-color">
+                <div id="container-title">
+                    <h1 className="page-title">Single Game</h1>
                 </div>
 
+                <div className="data-grid-container">
+                    <DataGridElement gridData={gameData} onRowClick={handleRowClickPlayers}/>
+                </div>
             </div>
-            <div id="containerData">
-                <DataGridElement gridData={gameData} onRowClick={handleRowClickPlayers}/>
-            </div>
+            <Footer/>
         </div>
     );
 };
