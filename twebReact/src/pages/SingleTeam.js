@@ -73,12 +73,22 @@ export default function SingleTeam() {
         } else {
             console.error("Game not found");
         }    }
-
+    
     const getPlayers = (filter) => {
         const apiUrl = `http://localhost:3001/player/get-player-by-team?filter=${filter}`;
         axios.get(apiUrl)
             .then(response => {
-                const newRows = response.data.map((player) => ({
+                const filteredPlayers = response.data.filter(player =>
+                    player.playerId &&
+                    player.imageUrl &&
+                    player.firstName &&
+                    player.lastName &&
+                    player.countryOfBirth &&
+                    player.dateOfBirth &&
+                    player.position
+                );
+
+                const newRows = filteredPlayers.map((player) => ({
                     id: player.playerId,
                     imageUrl: player.imageUrl,
                     firstName: player.firstName,
@@ -87,16 +97,18 @@ export default function SingleTeam() {
                     dateOfBirth: player.dateOfBirth,
                     position: player.position,
                 }));
+
                 setGridDataPlayers(prevGridData => ({
                     ...prevGridData,
                     rows: newRows,
                 }));
-                setPlayers(response.data);
+                setPlayers(filteredPlayers);
             })
             .catch(error => {
                 console.error("Error fetching players: ", error);
             });
     }
+
 
     const getClubGames = (clubId) => {
         const clubGamesApiUrl = `http://localhost:3001/games/get-club-games-by-id/${clubId}`;
