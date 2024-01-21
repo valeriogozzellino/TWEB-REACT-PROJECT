@@ -26,11 +26,11 @@
 .game-info-card {
     padding: 20px;
     max-width: 50%;
-    background-color: #11669b;
+    background-color: #ffffff;
     border-radius: 8px;
-    margin-top: 200px;
-    margin-left: 200px;
-    margin-right: 200px;
+    /*margin-top: 200px;*/
+    /*margin-left: 200px;*/
+    /*margin-right: 200px;*/
 }
 
 .club-names {

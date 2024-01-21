@@ -263,7 +263,7 @@ export default function SingleTeam() {
                     <Box sx={{borderBottom: 2, borderColor: 'divider', marginBottom: '5px'}}>
                         <Tabs aria-label="basic tabs example">
                             <Tab label="PLayers" id="tabOne" onClick={handleChangeTab}/>
-                            <Tab label="Team's Games" id="tabTwo" onClick={handleChangeTab}/>
+                            <Tab label="Games" id="tabTwo" onClick={handleChangeTab}/>
                             <Tab label="Line-Up" id="tabThree" onClick={handleChangeTab}/>
                         </Tabs>
                     </Box>
