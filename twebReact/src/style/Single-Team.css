@@ -57,6 +57,7 @@
 .data-grid-container {
     padding: 1em;
     width: 100%;
+    min-height: 100vh;
     /* background-color: #4b86b4; */
     /* Light Grey */
 }

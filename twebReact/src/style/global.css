@@ -23,3 +23,31 @@ min-height: 100vh;
     max-width: 300px;
     margin: 20px;
 }
+.react-calendar {
+    width: 80%;
+    min-height: 70%;
+    /* Grandezza fissa del calendario */
+    border-radius: 10px;
+    /* Angoli arrotondati del calendario */
+    font-family: Arial, sans-serif;
+    /* Tipo di font personalizzato */
+}
+
+.react-calendar__tile {
+    border-radius: 5px;
+    border-color: #0c2840;
+    min-height: 70px;
+    background-color: #ffffff87;
+    /* Angoli arrotondati dei singoli giorni */
+}
+
+
+#container-game-date{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+/* Stili aggiuntivi possono essere aggiunti qui */

@@ -8,28 +8,31 @@ import {useAuth} from "../components/atoms/AuthContext";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Footer from "../components/atoms/Footer";
+import CalendarElement from "../components/atoms/CalendarElement";
+import GameCard from "../components/atoms/GameCard";
 
 export default function Games() {
-    const [setGames] = useState([]);
     const [error, setError] = useState(null);
     const [filterSeason, setSeason] = useState(0); // return all competition and set them for the filter
     const [filterCountry, setFilterCountry] = useState("All"); // return all country and set them for the filter
     const [arrayCountry, setArrayCountry] = useState([]); // return all country and set them for the filter
-    const [arraySeason, setArraySeason] = useState([]); // return all country and set them for the filter
-
+    const [games, setGames] = useState([]); // return all country and set them for the filter
+    const [allGames, setAllGames] = useState([]); // return all country and set them for the filter
+    const [gameDates, setGameDates] = useState([]);
+    const [selectedDate, setSelectedDate] = useState(false);
     const pages = ['Home', 'Competitions', 'Teams', 'Games',];
     const {checkCredentials} = useAuth();
     const links = [false, false, false, true, false, false, false, false, true, true];
-    const [gridData, setGridData] = useState({
-        rows: [],
-        columns: [
-            {field: 'gameDate', headerName: 'Game Date', width: 150},
-            {field: 'homeTeam', headerName: 'Home Team', width: 150},
-            {field: 'aggregate', headerName: 'Aggregate', width: 150},
-            {field: 'awayTeam', headerName: 'Away Team', width: 150},
-            {field: 'game_id', headerName: 'Game ID', width: 150}
-        ],
-    });
+    // const [gridData, setGridData] = useState({
+    //     rows: [],
+    //     columns: [
+    //         {field: 'gameDate', headerName: 'Game Date', width: 150},
+    //         {field: 'homeTeam', headerName: 'Home Team', width: 150},
+    //         {field: 'aggregate', headerName: 'Aggregate', width: 150},
+    //         {field: 'awayTeam', headerName: 'Away Team', width: 150},
+    //         {field: 'game_id', headerName: 'Game ID', width: 150}
+    //     ],
+    // });
 
     const handleGetAllGames = () => {
         axios.get("http://localhost:3001/games/get-games")
@@ -46,37 +49,41 @@ export default function Games() {
                     awayTeam: game.away_club_name,
                     game_id: game.game_id
                 }));
-
-                setGridData(prevGridData => ({
-                    ...prevGridData,
-                    rows: newRows,
-                }));
+                const gameDates = sortedGames.map(game => new Date(game.date).toDateString());
+                setGameDates(gameDates);
+                console.log("GAME sortedGames: ", sortedGames);
+                setAllGames(sortedGames);
+                // setGridData(prevGridData => ({
+                //     ...prevGridData,
+                //     rows: newRows,
+                // }));
                 setError(null);
             })
             .catch((err) => {
                 setError(err);
-                setGames(null); // This might not be necessary if 'games' state is not used elsewhere
             });
     };
 
-    const handleClick = (roww) => {
-        // Find the game using the rowId
-        const game = gridData.rows.find(row => row.id === roww);
-        console.log("GAME ID: ", game.game_id)
-        if (game) {
-            console.log("Game ID: ", game.game_id);
-            navigate(`/single-game/${game.game_id}`);
-        } else {
-            console.error("Game not found");
-        }
+    // const handleClick = (roww) => {
+    //     // Find the game using the rowId
+    //     // const game = gridData.rows.find(row => row.id === roww);
+    //     console.log("GAME ID: ", game.game_id)
+    //     if (game) {
+    //         console.log("Game ID: ", game.game_id);
+    //         navigate(`/single-game/${game.game_id}`);
+    //     } else {
+    //         console.error("Game not found");
+    //     }
+    // };
+    
+    const handleDateClick = (date) => {
+         const formattedDate = new Date(date).toDateString(); // Formatta la data in modo da confrontarla correttamente
+        const gamesOnDate = allGames.filter(game => new Date(game.date).toDateString() === formattedDate);
+        setGames(gamesOnDate);
+        console.log("GAMES: ", gamesOnDate);
+        setSelectedDate(true);
     };
-    const handleDateClick = (date, matchingGames) => {
-        console.log(`Clicked on date: ${date}`);
-        console.log('Matching Games:', matchingGames);
 
-        // Puoi fare qualcosa con i dati dei giochi associati qui, ad esempio navigare a una pagina specifica
-        // navigate(`/specific-page/${date}`);
-    };
 
     const navigate = useNavigate();
 
@@ -106,37 +113,20 @@ export default function Games() {
                 <div id="container-title">
                     <h1 className="page-title">Games</h1>
                 </div>
-
-                <div className="filters-container">
-                    <h3 className="filter-title">Season:</h3>
-                    <Select
-                        className="season-select"
-                        value={filterSeason}
-                        onChange={handleFilterSeason}
-                    >
-                        {arraySeason.map((season) => (
-                            <MenuItem key={season} value={season}>
-                                {season}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                    <h3 className="filter-title">Country:</h3>
-                    <Select
-                        className="country-select"
-                        value={filterCountry}
-                        onChange={handleFilterCountry}
-                    >
-                        {arrayCountry.map((country) => (
-                            <MenuItem key={country} value={country}>
-                                {country}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </div>
-
                 <div className="data-grid-container">
-                    <DataGridElement gridData={gridData} onRowClick={handleClick}/>
-                    {/* <Calendar games={gridData.rows} onDateClick={handleDateClick} /> */}
+                    <h3 className="page-subtitle">Select a date to see more details</h3>
+                    <CalendarElement gameDates={gameDates} onDateClick={handleDateClick}/>
+                    {/* <DataGridElement gridData={gridData} onRowClick={handleClick}/> */}
+                </div>
+                <div id="container-game-date">
+
+                    {selectedDate && games.length > 0 && (
+                        games.map((game, index) => (
+                            <div key={index} >
+                               <GameCard game={game} imageurl1={"https://tmssl.akamaized.net/images/wappen/head/" + game.home_club_id + ".png?"} imageurl2={"https://tmssl.akamaized.net/images/wappen/head/" + game.away_club_id + ".png?"}/>
+                            </div>
+                        ))    
+                    )}
                 </div>
             </div>
             <Footer/>
