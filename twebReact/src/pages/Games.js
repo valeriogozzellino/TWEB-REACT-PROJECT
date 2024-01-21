@@ -3,11 +3,22 @@ import AppBarUser from "../components/atoms/AppBarUser";
 import axios from "axios";
 import DataGridElement from "../components/atoms/DataGrid";
 import {useNavigate} from 'react-router-dom';
+import TopAppBar from "../components/atoms/TopAppBar";
+import {useAuth} from "../components/atoms/AuthContext";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 
 export default function Games() {
     const [setGames] = useState([]);
     const [error, setError] = useState(null);
-    const pages = ['Home','Competitions','Teams', 'Games', ];
+    const [filterSeason, setSeason] = useState(0); // return all competition and set them for the filter
+    const [filterCountry, setFilterCountry] = useState("All"); // return all country and set them for the filter
+    const [arrayCountry, setArrayCountry] = useState([]); // return all country and set them for the filter
+    const [arraySeason, setArraySeason] = useState([]); // return all country and set them for the filter
+
+    const pages = ['Home', 'Competitions', 'Teams', 'Games',];
+    const {checkCredentials} = useAuth();
+    const links = [false, false, false, true, false, false, false, false, true, true];
     const [gridData, setGridData] = useState({
         rows: [],
         columns: [
@@ -58,6 +69,12 @@ export default function Games() {
 
     const navigate = useNavigate();
 
+    const handleFilterSeason = (event) => {
+        setSeason(event.target.value);
+    }
+    const handleFilterCountry = (event) => {
+        setFilterCountry(event.target.value);
+    }
 
 
     useEffect(() => {
@@ -65,11 +82,51 @@ export default function Games() {
     }, []);
 
     return (
-        <div>
-            <AppBarUser pages={pages}/>
-            <h1>Games</h1>
-            <div id="containerData">
-                <DataGridElement gridData={gridData} onRowClick={handleClick}/>
+        <div className="teams-container">
+            {/*<h1>Games</h1>*/}
+            <div className="header-container">
+                {checkCredentials ? (
+                    <AppBarUser pages={pages}/>
+                ) : (
+
+                    <TopAppBar links={links} pages={pages}/>
+                )}
+            </div>
+            <div className="container-background-color">
+                <div id="container-title">
+                    <h1 className="page-title">Games</h1>
+                </div>
+
+                <div className="filters-container">
+                    <h3 className="filter-title">Season:</h3>
+                    <Select
+                        className="season-select"
+                        value={filterSeason}
+                        onChange={handleFilterSeason}
+                    >
+                        {arraySeason.map((season) => (
+                            <MenuItem key={season} value={season}>
+                                {season}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                    <h3 className="filter-title">Country:</h3>
+                    <Select
+                        className="country-select"
+                        value={filterCountry}
+                        onChange={handleFilterCountry}
+                    >
+                        {arrayCountry.map((country) => (
+                            <MenuItem key={country} value={country}>
+                                {country}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </div>
+
+                <div className="data-grid-container">
+                    <DataGridElement gridData={gridData} onRowClick={handleClick}/>
+                </div>
             </div>
             {error && <p>Error: {error.message}</p>}
         </div>
