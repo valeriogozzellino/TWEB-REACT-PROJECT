@@ -16,8 +16,7 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import GameCard from "../components/atoms/GameCard";
 import Button from '@mui/material/Button';
-
-
+import ChatIcon from "../components/atoms/ChatIcon";
 const CustomImageCell = ({ value }) => (
   <img src={value} alt="Player" style={{ width: '40px', height: '40px' }} />
 );
@@ -232,6 +231,7 @@ export default function SingleTeam() {
                     </div>
             )}
         </div>
+        <ChatIcon />
         </div>
         <Footer/>    
     </div>
