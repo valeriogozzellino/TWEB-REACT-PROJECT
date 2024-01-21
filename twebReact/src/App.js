@@ -11,6 +11,7 @@ import Games from "./pages/Games";
 import Competitions from "./pages/Competitions";
 import SingleGame from "./pages/SingleGame";
 import SingleTeam from './pages/SingleTeam';
+import ChatWindow from './pages/ChatWindow';
 import SingleCompetitions from './pages/SingleCompetitions';
 import { AuthProvider } from './components/atoms/AuthContext';
 
@@ -27,6 +28,7 @@ function App() {
                         <Route path="/player/:player_Id" element={<Player />} />
                         <Route path="/news" element={<News />} /> 
                         <Route path="/competitions" element={<Competitions />} />
+                        <Route path="/chat/:chatType" element={<ChatWindow />} />
                         <Route path="/games" element={<Games />} />
                         <Route path="/single-game/:gameId" element={<SingleGame />} />
                         <Route path="/single-team/:clubId" element={<SingleTeam />} />        

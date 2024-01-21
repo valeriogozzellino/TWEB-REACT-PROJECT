@@ -3,13 +3,13 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import TopAppBar from "../components/atoms/TopAppBar";
 import CardNews from "../components/atoms/CardNews";
 import "../style/Home.css";
-import ChatWindow from "../components/atoms/ChatWindow";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import AppBarUser from "../components/atoms/AppBarUser";
 import { useAuth } from '../components/atoms/AuthContext';
 import Footer from "../components/atoms/Footer";
 import '../style/global.css';
+import ChatIcon from '../components/atoms/ChatIcon';
 
 function Home() {
     const links = [true, false, false, false, false, false,false, true, true];
@@ -118,7 +118,7 @@ function Home() {
             </div>
             <div id="bottomContainer">
                 
-                <ChatWindow />
+                <ChatIcon/>
                 <Footer />
             </div>
         </div>
