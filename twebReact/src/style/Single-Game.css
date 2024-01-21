@@ -14,9 +14,45 @@
 
 .game-stats {
     background-color: #e6f7ff;
-    /* Light Blue */
     padding: 1em;
     color: black;
     border-radius: 8px;
     margin-bottom: 1em;
 }
+
+
+
+/* SingleGame.css */
+.game-info-card {
+    padding: 20px;
+    max-width: 50%;
+    background-color: #11669b;
+    border-radius: 8px;
+    margin-top: 200px;
+    margin-left: 200px;
+    margin-right: 200px;
+}
+
+.club-names {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem; /* Adjust font size as needed */
+    font-weight: bold;
+}
+
+.info-details {
+    margin-top: 10px;
+}
+
+.info-details p {
+    margin: 0;
+    font-size: 1rem; /* Adjust font size as needed */
+}
+
+
+/* Optional: Adjust styles of the vertical timeline element */
+.vertical-timeline-element-content {
+    font-size: 0.8rem; /* Dimensione delle celle  */
+}
+
+

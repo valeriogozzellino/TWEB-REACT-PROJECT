@@ -54,6 +54,8 @@
     background-size: cover;
     background-position: center;
 }
+
+
 #middleContainer{
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), #2a4d69);
     background-repeat: no-repeat;    

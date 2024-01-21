@@ -22,7 +22,7 @@ function Teams() {
     const [clickedTeam, setClickedTeam] = useState(); //set on click of the row in dataGrid
     const navigate = useNavigate();
     const links = [false, false, false, true, false, false, false, false, true, true];
-    const pages = ['Home', 'Competitions', 'Games'];
+    const pages = ['Home','Competitions','Teams', 'Games' ];
     const {checkCredentials} = useAuth();
     const [gridData, setGridData] = useState({
         rows: [],

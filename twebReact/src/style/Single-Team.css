@@ -14,13 +14,45 @@
 
 .team-stats {
     display: flex;
-    flex-direction: row;
-    /* Light Blue */
+    flex-direction: column;
     padding: 1em;
     color: black;
     border-radius: 8px;
     margin-bottom: 1em;
 }
+
+
+.football-field {
+    position: relative;
+    width: 300%;
+    max-width: 600px;
+    height: 600px;
+    background: green;
+    border: 1px solid white;
+    margin: 20px auto;
+    border-radius: 20px;
+}
+
+.player-position {
+    position: absolute;
+    color: white;
+    padding: 5px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+}
+
+/* Example positions - you'll need to adjust these based on your data */
+.goalkeeper { bottom: 10px; left: 50%; transform: translateX(-50%); }
+.left-back { bottom: 90px; left: 10%; }
+.center-back-left { bottom: 90px; left: 50%; transform: translateX(-50%);  }
+.center-back-right { bottom: 90px; left: 50%; transform: translateX(-50%);  }
+.right-back { bottom: 90px; right: 10%; }
+.left-midfield { top: 180px; left: 5%; }
+.center-midfield-left { top: 180px; left: 30%; }
+.center-midfield-right { top: 180px; right: 30%; }
+.right-midfield { top: 180px; right: 5%; }
+.left-forward { top: 320px; left: 30%; }
+.right-forward { top: 320px; right: 30%; }
 
 .data-grid-container {
     padding: 1em;
