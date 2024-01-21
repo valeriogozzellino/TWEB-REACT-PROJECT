@@ -125,14 +125,22 @@ public class ServerController {
 
 
 
+    @GetMapping("/get-competitions-by-id")
+    public Competitions getCompetitionById(@RequestParam(name = "competitionId") String competitionId) {
+        System.out.println("Stampo il filtro singola competizione: " + competitionId);
+        Competitions competition = null;
+        competition = competitionsService.getCompetitionById(competitionId);
+
+        return  competition;
+    }
 
     @GetMapping("/get-teams-by-competition")
     public List<Clubs> getTeamsByCompetitions(@RequestParam(name = "filterCompetition") String filterCompetition) {
-        System.out.println("Stampo il filtro: " + filterCompetition);
+        System.out.println("Stampo il filtro COMPETIZIONE : " + filterCompetition);
 
         List<Clubs> clubsList = clubsService.getAllTeamsByCompetition(filterCompetition);
         if(clubsList.isEmpty()){
-            System.out.println("LISTA VUOTA");
+            System.out.println("LISTA VUOTA dei CLUB dalla competitionID");
         }else{
             System.out.println("LA LISTA HA " + clubsList.size()+ " squadre");
         }

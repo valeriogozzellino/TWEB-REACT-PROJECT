@@ -39,9 +39,7 @@ public interface ClubsRepository  extends JpaRepository<Clubs, String> {
     @Query(value = "SELECT * FROM clubs WHERE club_id = :clubId", nativeQuery = true)
     Clubs getTeamById(int clubId);
 
-    @Query(value = "SELECT * " +
-            "FROM clubs" +
-            " WHERE domestic_competition_id= :competitionId", nativeQuery = true)
+    @Query(value = "SELECT * FROM clubs WHERE domestic_competition_id = :competitionId", nativeQuery = true)
     List<Clubs> getAllTeamsByCompetition(String competitionId);
 
 }

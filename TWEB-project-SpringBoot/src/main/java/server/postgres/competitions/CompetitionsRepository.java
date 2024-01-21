@@ -15,6 +15,10 @@ public interface CompetitionsRepository   extends JpaRepository<Competitions, St
                 "FROM competitions c1 ",
                 nativeQuery = true)
         List<Competitions> getAllCompetition();
+        @Query(value = "SELECT DISTINCT * " +
+                "FROM competitions "+ "WHERE competition_id = :competitionId",
+                nativeQuery = true)
+        Competitions getCompetitionById(String competitionId);
 
     @Query(value = "SELECT DISTINCT c1.country_name " +
             "FROM competitions c1 ",

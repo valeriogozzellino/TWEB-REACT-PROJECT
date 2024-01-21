@@ -21,6 +21,11 @@ public class CompetitionsService {
         List<Competitions> competitionsList = competitionsRepository.getAllCompetition();
         return competitionsList;
     }
+    public Competitions getCompetitionById(String competitionId) {
+        System.out.println("competitionId--->"+ competitionId);
+        Competitions competitions = competitionsRepository.getCompetitionById(competitionId);
+        return competitions;
+    }
 
     public List<String> getCountry() {
         List<String> countryList = competitionsRepository.getCountry();

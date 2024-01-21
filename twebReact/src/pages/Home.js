@@ -12,7 +12,7 @@ import '../style/global.css';
 import ChatIcon from '../components/atoms/ChatIcon';
 
 function Home() {
-    const links = [true, false, false, false, false, false,false, true, true];
+    const links = [true, false, false, false, false, false,false, false, true, true];
     const pages = ['Competitions','Teams', 'Games' ];
     const { checkCredentials, user } = useAuth();
     console.log("isUserLogged Home--->" , checkCredentials);
