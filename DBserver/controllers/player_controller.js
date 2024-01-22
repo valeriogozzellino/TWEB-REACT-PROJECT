@@ -36,6 +36,23 @@ function getAllPlayerAppearances(player_id) {
 
 module.exports.getAllPlayerAppearances = getAllPlayerAppearances;
 
+function getAllPlayerAppearancesByGameId(game_id) {
+    return new Promise((resolve, reject) => {
+        AppearancesModel.find({ "game_id" : game_id})
+            .then((result) =>{
+                console.log("+++++ APPEARANCES BY GAME ID RES: ", result);
+                resolve(result);
+            })
+            .catch(error=>{
+                console.log("++++++ERROR");
+                reject(error);
+            });
+    });
+}
+
+
+module.exports.getAllPlayerAppearancesByGameId = getAllPlayerAppearancesByGameId;
+
 function insert(body) {
     return new Promise((resolve, reject) => {
         const mongoObj = new Model(body);

@@ -14,6 +14,10 @@ import 'react-vertical-timeline-component/style.min.css';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from "@mui/material/Box";
+import * as gameService from '../services/singleGameService';
+import * as playerService from '../services/playerService';
+import Tooltip from "@mui/material/Tooltip";
+import CardPlayers from "../components/CardPlayer";
 
 
 const SingleGame = () => {
@@ -22,6 +26,7 @@ const SingleGame = () => {
     const [error, setError] = useState(null);
     const pages = ['Home', 'Competitions', 'Teams', 'Games'];
     const [players, setPlayers] = useState(null);
+    const [playersAppearances, setPlayerAppearances] = useState(null);
     const {checkCredentials} = useAuth();
     const links = [false, false, false, true, false, false, false, false, true, true];
     const navigate = useNavigate();
@@ -63,12 +68,13 @@ const SingleGame = () => {
     }
 
     useEffect(() => {
-        // Fetch game events
-        axios
-            .get(`http://localhost:3001/single-game/get-game-events-by-id/${gameId}`)
+        // Get game events
+        gameService.getGameEventsById(gameId)
             .then((response) => {
-                console.log("+++++RESPONSE: ", response.data);
+                console.log("+++++EVENTS: ", response.data);
+
                 const sortedData = response.data.sort((a, b) => a.minute - b.minute);
+
                 const newRows = sortedData.map((event, index) => ({
                     id: index,
                     minute: event.minute,
@@ -76,56 +82,57 @@ const SingleGame = () => {
                     player: event.player_id,
                 }));
 
-                // Create an array to store promises for fetching player details
-                const playerPromises = newRows.map((event) => {
-                    // Fetch player details for each player_id
-                    return axios.get(`http://localhost:3001/player/get-player-by-playerId?filter=${event.player}`);
-                });
-
-                // Wait for all player detail requests to complete
-                Promise.all(playerPromises)
-                    .then((playerResponses) => {
-                        // Extract player names from the responses
-                        const playerNames = playerResponses.map((playerResponse) => {
-                            return playerResponse.data.name; // Adjust this based on the actual field in your response
-                        });
-
-                        // Update the rows with player names
-                        const rowsWithPlayerNames = newRows.map((row, index) => ({
-                            ...row,
-                            playerName: playerNames[index], // Add a new field for player name
-                        }));
-
-                        // Set the updated rows with player names
-                        setGameData((prevState) => ({
-                            ...prevState,
-                            rows: rowsWithPlayerNames,
-                        }));
-
-                        console.log("+++ GAME DATA: ", gameData)
-
-                        console.log('++++SET PLAYERS: ', response.data);
-                        setPlayers(response.data);
-                        console.log("+++++PLAYERS: ", players);
+                // Get the game infos
+                gameService.getGameById(gameId)
+                    .then((response) => {
+                        console.log('++++++GAME INFOS: ', response.data);
+                        setGameInfo(response.data[0]);
                     })
                     .catch((err) => {
-                        console.error('Error fetching player details:', err);
+                        console.error('Error fetching game info:', err);
                         setError(err);
+                    });
+
+                // Get player appearances data
+                playerService.getAppearancesByGameId(gameId)
+                    .then((response) => {
+                        console.log("++++ PLAYER APPEARANCES: ", response.data);
+
+                        // Create a mapping of player_id to player appearance data
+                        const playerAppearanceMap = {};
+                        response.data.forEach((appearance) => {
+                            playerAppearanceMap[appearance.player_id] = appearance;
+                        });
+
+                        // Merge player appearances into the newRows array
+                        const rowsWithPlayerData = newRows.map((row) => {
+                            const playerAppearance = playerAppearanceMap[row.player];
+                            return {
+                                ...row,
+                                playerName: playerAppearance ? playerAppearance.player_name : "Unknown",
+                                yellowCards: playerAppearance ? playerAppearance.yellow_cards : 0,
+                                redCards: playerAppearance ? playerAppearance.red_cards : 0,
+                                goals: playerAppearance ? playerAppearance.goals : 0,
+                                assists: playerAppearance ? playerAppearance.assists : 0,
+                                minutesPlayed: playerAppearance ? playerAppearance.minutes_played : 0,
+                            };
+                        });
+
+                        // Set the updated rows with player data
+                        setGameData((prevState) => ({
+                            ...prevState,
+                            rows: rowsWithPlayerData,
+                        }));
+
+                        console.log("+++ GAME DATA: ", gameData);
+                    })
+                    .catch((err) => {
+                        console.error("Error in receiving player appearances: ", err);
+                        alert(JSON.stringify(err));
                     });
             })
             .catch((err) => {
                 console.error('Error fetching game events:', err);
-                setError(err);
-            });
-
-        axios
-            .get(`http://localhost:3001/single-game/get-game-by-id/${gameId}`)
-            .then((response) => {
-                console.log('++++++SET GAME INFOS: ', response.data);
-                setGameInfo(response.data[0]);
-            })
-            .catch((err) => {
-                console.error('Error fetching game info:', err);
                 setError(err);
             });
     }, [gameId]);
@@ -189,8 +196,9 @@ const SingleGame = () => {
                 <Box sx={{borderBottom: 2, borderColor: 'divider', marginBottom: '5px', display:'flex', flexDirection:'row', justifyContent:'center'}}>
                     <Tabs aria-label="basic tabs example">
                         <Tab label="Timeline" id="tabOne" onClick={handleChangeTab}/>
-                        <Tab label="Home Team Lineup" id="tabTwo" onClick={handleChangeTab}/>
-                        <Tab label="Away Team Lineup" id="tabTwo" onClick={handleChangeTab}/>
+                        <Tab label="Players" id="tabTwo" onClick={handleChangeTab}/>
+                        {/*<Tab label="Home Team Lineup" id="tabTwo" onClick={handleChangeTab}/>*/}
+                        {/*<Tab label="Away Team Lineup" id="tabTwo" onClick={handleChangeTab}/>*/}
                     </Tabs>
                 </Box>
 
@@ -214,14 +222,20 @@ const SingleGame = () => {
                     </div>
                 )}
                 {view === 1 && (
-                    // <div className="game-info-card">
-                    //     <div className="info-details">
-                    //         <p>Aggregate: {gameInfo.aggregate}</p>
-                    //         <p>Date: {gameInfo.date}</p>
-                    //         <p>Stadium: {gameInfo.stadium}</p>
-                    //     </div>
-                    // </div>
-                    <div>Lineups here.. </div>
+                    <div className="game-info-card">
+                        <div className="info-details">
+                            {gameData.rows.map((player, index) => (
+                                <div key={index} className="player-card">
+                                    <h2>{player.playerName}</h2>
+                                    <p>Goals: {player.goals}</p>
+                                    <p>Assists: {player.assists}</p>
+                                    <p>Yellow Cards: {player.yellowCards}</p>
+                                    <p>Red Cards: {player.redCards}</p>
+                                    <p>Minutes Played: {player.minutesPlayed}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 )}
             </div>
             <Footer/>

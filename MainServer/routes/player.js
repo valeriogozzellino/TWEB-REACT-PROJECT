@@ -57,3 +57,19 @@ router.get('/get-player-appearances-by-player-id/:player_id', function(req, res)
         });
 })
 module.exports = router;
+
+router.get('/get-player-appearances-by-game-id/:game_id', function(req, res) {
+    console.log("ho ricevuto la richiesta dei players APPEARANCES")
+    const game_id = req.params.game_id;
+
+    axios.get(`http://localhost:3000/get-player-appearances-by-game-id/${game_id}`)
+        .then(response => {
+            console.log("ho richiesto players appearances CON GAME ID");
+            res.json(response.data)
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error APPEARANCES BY ID' });
+        });
+})
+module.exports = router;

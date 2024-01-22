@@ -52,6 +52,21 @@ router.get('/get-player-appearances-by-player-id/:player_id', async function(req
 
 module.exports = router;
 
+router.get('/get-player-appearances-by-game-id/:game_id', async function(req, res, next) {
+  console.log("RICEVUTO RICHIESTA PLAYER APPEARANCES BY GAME ID ")
+  const game_id = req.params.game_id;
+  console.log("++ GAME ID: ", game_id)
+  try {
+    const games = await players_controller.getAllPlayerAppearancesByGameId(game_id);
+    res.json(games);
+  } catch (error) {
+    console.error('Error retrieving players appearances: BY GAME D', error.message);
+    res.status(500).json({ error: 'Internal Server Error appearances BY GAME ID' });
+  }
+});
+
+module.exports = router;
+
 
 router.get('/get-team-by-id/:team_id', async function(req, res, next) {
   const teamId = req.params.team_id;
