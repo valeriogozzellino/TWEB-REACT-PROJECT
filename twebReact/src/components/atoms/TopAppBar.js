@@ -23,6 +23,9 @@ export default function TopAppBar(props) {
   const getSignUpPage = () => {
    window.location.href = '/signup';
   }
+  const getPreviousPage = () => {
+    window.history.back();
+  }
   const rerouteHome = () => {
     window.location.href = '/';
   }
@@ -93,6 +96,8 @@ export default function TopAppBar(props) {
             )}
               
             </div>
+            <Button color="inherit" variant='outlined' onClick={getPreviousPage}>Back</Button>
+
             <div id='logoTopBar'>
               <img src={IconLogo} alt='logo' style={{width:'100px', height:'90px'}} onClick={rerouteHome}/>
             </div>
