@@ -23,6 +23,9 @@ export default function TopAppBar(props) {
   const getSignUpPage = () => {
    window.location.href = '/signup';
   }
+  const rerouteHome = () => {
+    window.location.href = '/';
+  }
   const handleDrawerOpen = () => {
     setDrawerOpen(true);
   };
@@ -91,7 +94,7 @@ export default function TopAppBar(props) {
               
             </div>
             <div id='logoTopBar'>
-              <img src={IconLogo} alt='logo' style={{width:'100px', height:'90px'}}/>
+              <img src={IconLogo} alt='logo' style={{width:'100px', height:'90px'}} onClick={rerouteHome}/>
             </div>
             <div id='bottom-page'>
 
