@@ -10,30 +10,19 @@ import "../style/Teams.css";
 import TopAppBar from "../components/atoms/TopAppBar";
 import Footer from "../components/atoms/Footer";
 import '../style/global.css'
+import CardElement from "../components/atoms/CardElement";
 
 
 function Teams() {
-    const [clubs, setClubs] = useState([]);
-    const [players, setPlayers] = useState([]);
     const [filterSeason, setSeason] = useState(0); // return all competition and set them for the filter
     const [filterCountry, setFilterCountry] = useState("All"); // return all country and set them for the filter
     const [arrayCountry, setArrayCountry] = useState([]); // return all country and set them for the filter
     const [arraySeason, setArraySeason] = useState([]); // return all country and set them for the filter
-    const [clickedTeam, setClickedTeam] = useState(); //set on click of the row in dataGrid
-    const navigate = useNavigate();
     const links = [false, false, false, true, false, false, false, false, true, true];
     const pages = ['Home','Competitions','Teams', 'Games' ];
     const {checkCredentials} = useAuth();
-    const [gridData, setGridData] = useState({
-        rows: [],
-        columns: [
-            {field: 'id', headerName: 'ID', width: 200},
-            {field: 'name', headerName: 'Name', width: 200},
-            {field: 'squadSize', headerName: 'Squad Size', width: 200},
-            {field: 'stadiumName', headerName: 'Stadium Name', width: 200},
-            {field: 'stadiumSeats', headerName: 'Stadium Seats', width: 200},
-        ],
-    });
+    const [clubs, setClubs] = useState([]);
+
 
 
     const handleFilterSeason = (event) => {
@@ -83,19 +72,7 @@ function Teams() {
         axios
             .get(apiUrl)
             .then((response) => {
-                const newRows = response.data.map((clubs) => ({
-                    id: clubs.clubId,
-                    name: clubs.name,
-                    squadSize: clubs.squadSize,
-                    stadiumName: clubs.stadiumName,
-                    stadiumSeats: clubs.stadiumSeats,
-                }));
-
-                setGridData((prevGridData) => ({
-                    ...prevGridData,
-                    rows: newRows,
-                }));
-                setClubs(response.data);
+                setClubs(response.data)
             })
             .catch((error) => {
                 alert(JSON.stringify(error));
@@ -105,11 +82,6 @@ function Teams() {
         getTeamsByCountry(filterCountry, filterSeason);
     }, [filterCountry, filterSeason]);
 
-    const handleRowClick = (rowId, newState) => {
-        const club = clubs.find((club) => club.clubId === rowId);
-        setClickedTeam(club);
-        navigate(`/single-team/${club.clubId}`);
-    }
 
 
     return (
@@ -152,8 +124,13 @@ function Teams() {
                         ))}
                     </Select>
                 </div>
-                <div className="data-grid-container">
-                    <DataGridElement gridData={gridData} onRowClick={handleRowClick}/>
+
+                <div id="containerData">
+                    {clubs.map((club) => (
+                        <div id="card-element" key={club.clubId}>
+                            <CardElement clubId={club.clubId} title={club.name} type={'single-team'} subtitle={club.squadSize} image={"https://tmssl.akamaized.net/images/wappen/head/" + club.clubId + ".png?"} />
+                        </div>
+                    ))}
                 </div>
             </div>
             <Footer/>

@@ -281,7 +281,6 @@ export default function SingleTeam() {
                         <Tabs aria-label="basic tabs example">
                             <Tab label="PLayers" id="tabOne" onClick={handleChangeTab}/>
                             <Tab label="Games" id="tabTwo" onClick={handleChangeTab}/>
-                            <Tab label="Line-Up" id="tabThree" onClick={handleChangeTab}/>
                         </Tabs>
                     </Box>
 
@@ -292,7 +291,7 @@ export default function SingleTeam() {
                             {players.slice(0, showPlayer).map((player) => (
                                 <Tooltip title={player.position}>                                
                                 <div className="data-card-container">
-                                    <CardPlayers Id={player.playerId} image={player.imageUrl} firstName={player.firstName} lastname={player.lastName} />
+                                    <CardPlayers Id={player.playerId} image={player.imageUrl} firstName={player.lastName} />
                                 </div>
                                 </Tooltip>
                             ))}
