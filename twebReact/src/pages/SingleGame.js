@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
-import axios from 'axios';
 import '../style/Single-Game.css';
 import AppBarUser from '../components/atoms/AppBarUser';
 import TopAppBar from '../components/atoms/TopAppBar';
@@ -16,8 +15,6 @@ import Tab from '@mui/material/Tab';
 import Box from "@mui/material/Box";
 import * as gameService from '../services/singleGameService';
 import * as playerService from '../services/playerService';
-import Tooltip from "@mui/material/Tooltip";
-import CardPlayers from "../components/CardPlayer";
 
 
 const SingleGame = () => {
@@ -35,26 +32,25 @@ const SingleGame = () => {
     const playerId = "";
     let clubAwayLogo = "";
     let clubHomeLogo = "";
-    if (gameInfo) {   
-        clubAwayLogo = "https://tmssl.akamaized.net/images/wappen/head/"+ gameInfo.away_club_id +".png?";
+    if (gameInfo) {
+        clubAwayLogo = "https://tmssl.akamaized.net/images/wappen/head/" + gameInfo.away_club_id + ".png?";
         clubHomeLogo = "https://tmssl.akamaized.net/images/wappen/head/" + gameInfo.home_club_id + ".png?";
     }
-    
+
     const [gameData, setGameData] = useState({
         rows: [],
         columns: [
             {field: 'minute', headerName: 'Minute', width: 130},
             {field: 'eventType', headerName: 'Event Type', width: 130},
             {field: 'player', headerName: 'Player', width: 200},
+            {field: 'club_id', headerName: 'Club Id', width: 200},
+            {field: 'description', headerName: 'Event description', width: 200},
         ],
     });
 
-    const handleRowClickPlayers = (rowId, newState) => {
-        const player = gameData.rows.find((player) => player.id === rowId);
-        navigate(`/player/${player.player}`);
-    };
 
-    function getEventIcon(eventType) {
+    function getEventIcon(eventType, event) {
+        // console.log("+++ EVENT:", event)
         switch (eventType) {
             case 'Goals':
                 return <SportsSoccerIcon/>;
@@ -80,12 +76,14 @@ const SingleGame = () => {
                     minute: event.minute,
                     eventType: event.type,
                     player: event.player_id,
+                    club_id: event.club_id,
+                    description: event.description
                 }));
 
                 // Get the game infos
                 gameService.getGameById(gameId)
                     .then((response) => {
-                        console.log('++++++GAME INFOS: ', response.data);
+                        // console.log('++++++GAME INFOS: ', response.data);
                         setGameInfo(response.data[0]);
                     })
                     .catch((err) => {
@@ -96,7 +94,7 @@ const SingleGame = () => {
                 // Get player appearances data
                 playerService.getAppearancesByGameId(gameId)
                     .then((response) => {
-                        console.log("++++ PLAYER APPEARANCES: ", response.data);
+                        // console.log("++++ PLAYER APPEARANCES: ", response.data);
 
                         // Create a mapping of player_id to player appearance data
                         const playerAppearanceMap = {};
@@ -137,6 +135,15 @@ const SingleGame = () => {
             });
     }, [gameId]);
 
+    const processDescription = (description)  => {
+        if (description.includes(',')) {
+            let parts = description.split(',');
+            return parts[1];
+        } else {
+            return description.trim();
+        }
+    };
+
 
     const handleChangeTab = (e) => {
         console.log("PLAYERS:", players)
@@ -176,9 +183,9 @@ const SingleGame = () => {
             <div className="container-background-color">
                 <div className="page-title-container">
                     <div className='page-header-club'>
-                        <img src={clubHomeLogo} alt={gameInfo.home_club_name} />
+                        <img src={clubHomeLogo} alt={gameInfo.home_club_name}/>
                         <h1 className="page-title">
-                            {gameInfo.home_club_name}   
+                            {gameInfo.home_club_name}
                         </h1>
                     </div>
                     <div>
@@ -187,18 +194,23 @@ const SingleGame = () => {
                         </h1>
                     </div>
                     <div className='page-header-club'>
-                        <img src={clubAwayLogo} alt={gameInfo.away_club_name} />
+                        <img src={clubAwayLogo} alt={gameInfo.away_club_name}/>
                         <h1 className='page-title'>
                             {gameInfo.away_club_name}
                         </h1>
                     </div>
                 </div>
-                <Box sx={{borderBottom: 2, borderColor: 'divider', marginBottom: '5px', display:'flex', flexDirection:'row', justifyContent:'center'}}>
+                <Box sx={{
+                    borderBottom: 2,
+                    borderColor: 'divider',
+                    marginBottom: '5px',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'center'
+                }}>
                     <Tabs aria-label="basic tabs example">
                         <Tab label="Timeline" id="tabOne" onClick={handleChangeTab}/>
                         <Tab label="Players" id="tabTwo" onClick={handleChangeTab}/>
-                        {/*<Tab label="Home Team Lineup" id="tabTwo" onClick={handleChangeTab}/>*/}
-                        {/*<Tab label="Away Team Lineup" id="tabTwo" onClick={handleChangeTab}/>*/}
                     </Tabs>
                 </Box>
 
@@ -210,9 +222,19 @@ const SingleGame = () => {
                                     key={index}
                                     date={`${event.minute}'`}
                                     iconStyle={{background: 'rgb(33, 150, 243)', color: '#fff'}}
-                                    icon={getEventIcon(event.eventType)}
+                                    icon={getEventIcon(event.eventType, event)}
                                 >
-                                    <h3 className="vertical-timeline-element-title">{event.eventType}</h3>
+                                    <h3 className="vertical-timeline-element-title">
+                                        {event.eventType}
+                                        <img
+                                            src={event.club_id === gameInfo.away_club_id ? clubAwayLogo : clubHomeLogo}
+                                            alt="Club Logo"
+                                            style={{width: '5%', marginLeft: '20px'}}
+                                        />
+                                    </h3>
+                                    <p>
+                                        {processDescription(event.description)}
+                                    </p>
                                     <p onClick={() => navigate(`/player/${event.player}`)}>
                                         {event.playerName}
                                     </p>
