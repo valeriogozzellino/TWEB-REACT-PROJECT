@@ -23,7 +23,6 @@ export const AuthProvider = ({ children }) => {
         if(response.data===null){
           alert("Wrong credentials");
         } else {
-          console.log("isUserLogged LogIn--->" , checkCredentials);
           setCheckCredentials(true);
         }
       }, (error) => {

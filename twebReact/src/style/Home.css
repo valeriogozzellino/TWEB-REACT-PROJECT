@@ -13,8 +13,17 @@
     width: 100%;
     background-color: #2a4d69;
 }
+.titleHome {
+    font-size: 80px;
+    margin: 20px;
+    color: #0d1317bc;
+    /* Cambia il colore del testo, puoi usare il codice colore desiderato */
+    font-family: 'Helvetica', sans-serif;
+    /* Cambia il tipo di carattere, sostituisci con il tuo preferito */
+}
 #topContainer{
     height: 18%;
+    font-size: 50px;
 }
 #container{
     display: flex;
@@ -52,4 +61,12 @@
     flex-direction: row;
     align-items: center;
     width: 100%;
+}
+
+.image-link{
+    width: 300px;
+    height: 300px;
+    margin: 15px;
+    margin-bottom: 30px;
+    border-radius: 10px;
 }

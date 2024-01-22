@@ -22,17 +22,8 @@ export default function Games() {
     const [selectedDate, setSelectedDate] = useState(false);
     const pages = ['Home', 'Competitions', 'Teams', 'Games',];
     const {checkCredentials} = useAuth();
-    const links = [false, false, false, true, false, false, false, false, true, true];
-    // const [gridData, setGridData] = useState({
-    //     rows: [],
-    //     columns: [
-    //         {field: 'gameDate', headerName: 'Game Date', width: 150},
-    //         {field: 'homeTeam', headerName: 'Home Team', width: 150},
-    //         {field: 'aggregate', headerName: 'Aggregate', width: 150},
-    //         {field: 'awayTeam', headerName: 'Away Team', width: 150},
-    //         {field: 'game_id', headerName: 'Game ID', width: 150}
-    //     ],
-    // });
+    const links = [false, true, false, false, false, false, false, false, true, true];
+  
 
     const handleGetAllGames = () => {
         axios.get("http://localhost:3001/games/get-games")
@@ -75,6 +66,9 @@ export default function Games() {
     //         console.error("Game not found");
     //     }
     // };
+    function handleGameClick(game) {
+        navigate(`/single-game/${game.game_id}`);
+    }
     
     const handleDateClick = (date) => {
          const formattedDate = new Date(date).toDateString(); // Formatta la data in modo da confrontarla correttamente
@@ -111,7 +105,7 @@ export default function Games() {
             </div>
             <div className="container-background-color">
                 <div id="container-title">
-                    <h1 className="page-title">Games</h1>
+                    <h1 className="titleHome">Games</h1>
                 </div>
                 <div className="data-grid-container">
                     <h3 className="page-subtitle">Select a date to see more details</h3>
@@ -122,7 +116,7 @@ export default function Games() {
 
                     {selectedDate && games.length > 0 && (
                         games.map((game, index) => (
-                            <div key={index} >
+                            <div onClick={() => handleGameClick(game)} key={index} style={{margin:'10px'}} >
                                <GameCard game={game} imageurl1={"https://tmssl.akamaized.net/images/wappen/head/" + game.home_club_id + ".png?"} imageurl2={"https://tmssl.akamaized.net/images/wappen/head/" + game.away_club_id + ".png?"}/>
                             </div>
                         ))    
@@ -133,4 +127,5 @@ export default function Games() {
             {error && <p>Error: {error.message}</p>}
         </div>
     );
+
 }

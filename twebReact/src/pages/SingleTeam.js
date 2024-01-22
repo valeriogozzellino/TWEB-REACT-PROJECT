@@ -14,6 +14,10 @@ import Box from '@mui/material/Box';
 import GameCard from "../components/atoms/GameCard";
 import Button from '@mui/material/Button';
 import ChatIcon from "../components/atoms/ChatIcon";
+import CardPlayers from "../components/CardPlayer";
+import Tooltip from '@mui/material/Tooltip';
+
+
 
 const CustomImageCell = ({value}) => (
     <img src={value} alt="Player" style={{width: '40px', height: '40px'}}/>
@@ -32,6 +36,9 @@ export default function SingleTeam() {
     const [currentView, setCurrentView] = useState('players'); // State to track current view
     const {checkCredentials} = useAuth();
     const [showGames, setShowGames] = useState(6);
+    const [showPlayer, setShowPlayer] = useState(12);
+
+
 
     const [gridDataPlayers, setGridDataPlayers] = useState({
         rows: [],
@@ -76,6 +83,15 @@ export default function SingleTeam() {
             console.error("Game not found");
         }
     }
+    
+    const handleNumberPlayer = (param) => {
+        if (param === 1) {
+            setShowPlayer(showPlayer + 6);
+        } else {
+            if(showPlayer === 6) return;
+            setShowPlayer(showPlayer-6); // Ensure showPlayer is never less than 1
+        }
+    };
 
     const getPlayers = (filter) => {
         const apiUrl = `http://localhost:3001/player/get-player-by-team?filter=${filter}`;
@@ -117,16 +133,7 @@ export default function SingleTeam() {
         const clubGamesApiUrl = `http://localhost:3001/games/get-club-games-by-id/${clubId}`;
         axios.get(clubGamesApiUrl)
             .then(response => {
-                // const newRows = response.data.map((game) => ({
-                //     id: game.game_id,
-                //     opponent: game.opponent_id,
-                //     own_goals: game.own_goals,
-                //     opponent_goals: game.opponent_goals,
-                // }));
-                // setGridDataGames(prevGridData => ({
-                //     ...prevGridData,
-                //     rows: newRows,
-                // }));
+                
                 setClubGames(response.data);
                 console.log("Club Games: ", response.data);
             })
@@ -186,11 +193,13 @@ export default function SingleTeam() {
         getPlayers(clubId);
         getClubGames(clubId);
         getTeamById(clubId);
-    }, [clubId]);
+    }, [clubId, showPlayer]); // Include showPlayer as a dependency to trigger re-fetching when it changes
+
 
     const handleViewChange = (event) => {
         setCurrentView(event.target.value);
     };
+
     const handleNumberGame = (number) => {
         if (number === 1) {
             if(showGames === 6) return;
@@ -219,9 +228,9 @@ export default function SingleTeam() {
         switch (id) {
             case 'tabOne':
                 setView(0);
-                //called funzioction
                 break;
             case 'tabTwo':
+                
                 setView(1);
                 break;
             case 'tabThree':
@@ -277,8 +286,26 @@ export default function SingleTeam() {
                     </Box>
 
                     {view === 0 ? (
-                        <div className="data-grid-container">
-                            <DataGridElement gridData={gridDataPlayers} onRowClick={handleRowClickPlayers}/>
+                        <div className="singleTeam-data">
+                            <div  id="container-card-player">
+
+                            {players.slice(0, showPlayer).map((player) => (
+                                <Tooltip title={player.position}>                                
+                                <div className="data-card-container">
+                                    <CardPlayers Id={player.playerId} image={player.imageUrl} firstName={player.firstName} lastname={player.lastName} />
+                                </div>
+                                </Tooltip>
+                            ))}
+                            </div>
+                            <div id='button-end'>
+                             <Button variant="outlined" size="medium" onClick={() => handleNumberPlayer(1)}
+                                        sx={{marginRight: '21px'}}>
+                                    Show More
+                                </Button>
+                                <Button variant="outlined" size="medium" onClick={() => handleNumberPlayer(0)}>
+                                    Show Less
+                                </Button>
+                            </div>
                         </div>
                     ) : view === 1 ? (
 

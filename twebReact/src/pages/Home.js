@@ -10,6 +10,12 @@ import { useAuth } from '../components/atoms/AuthContext';
 import Footer from "../components/atoms/Footer";
 import '../style/global.css';
 import ChatIcon from '../components/atoms/ChatIcon';
+import TeamsImage from '../Images/TeamsImage.png';
+import CompetitionsImage from '../Images/CompetitionsImage.jpg';
+import PlayersImage from '../Images/PlayersImage.jpg';
+import { useNavigate } from 'react-router-dom';
+
+
 
 function Home() {
     const links = [true, false, false, false, false, false,false, false, true, true];
@@ -20,6 +26,8 @@ function Home() {
     const [arrayNewsFavouriteTeam, setNewsFavouriteTeam] = useState([]);
     const [arrayNewsFavouritePlayer, setNewsFavouritePlayer] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate(); 
+
     useEffect(() => {
         const getApiNews = () => {
             const apiKey = "62563bbc4e9e5b4871a03be615443210";
@@ -37,33 +45,14 @@ function Home() {
 
     }, []); // L'array vuoto come dipendenza fa sì che l'effetto venga eseguito solo al montaggio
     
-    if (checkCredentials) {
-       
-        const getFavouriteNews = () => {
-            // const apiKey = "62563bbc4e9e5b4871a03be615443210";
-            // const apiUrlTeamNews = "https://gnews.io/api/v4/search?lang=it&category=sport&max=4&q="+ user.favouriteClub +"&apikey=" + apiKey;
-            // axios.get(apiUrlTeamNews)
-            //     .then(response => {
-            //         setNewsFavouriteTeam(response.data.articles);
-            //         setLoading(false); // Imposta lo stato di caricamento su false quando la chiamata API è completata
-            //     })
-            //     .catch(error => {
-            //         setLoading(false); // Assicurati di gestire anche gli errori
-            //     });
-            //const apiUrlPlayerNews = "https://gnews.io/api/v4/search?lang=it&category=sport&max=3&q=soccer+"+ user.favouriteClub +"&apikey=" + apiKey;
-            // axios.get(apiUrlPlayerNews)
-            //     .then(response => {
-            //         setNewsFavouritePlayer(response.data.articles);
-            //         setLoading(false); // Imposta lo stato di caricamento su false quando la chiamata API è completata
-            //     })
-            //     .catch(error => {
-            //         setLoading(false); // Assicurati di gestire anche gli errori
-            //     });
-            
-        };
-        getFavouriteNews();
 
-     // L'array vuoto come dipendenza fa sì che l'effetto venga eseguito solo al montaggio
+
+    const handleClickImage = (param) => {
+        if (param === 1) {
+            navigate('/teams');
+        } else if (param === 2) {
+            navigate('/competitions');
+        }
     }
 
     return (
@@ -77,32 +66,27 @@ function Home() {
             </div>
             <div id="containerBoxNews" className='container-background-color'>
                 <div id="boxTitleHome">
-                    <h1 id="titleHome"><em>Welcome to FootGoal!</em></h1>
+                    <h1 className="titleHome"><b><em>Welcome to FootGoal!</em></b></h1>
                 </div>
                 <div className='middle-title'>
-                    <h4 id="titleNewsFavourite">News about  Footbal</h4>
+                    <h4 id="titleNewsFavourite">Choose category</h4>
                 </div>
-                {checkCredentials && (
-                    <div id="boxNewsFavourite">
-                        {loading ? (
-                            <p>Loading...</p>
-                        ) : (
-                                arrayNewsFavouriteTeam.map((newsApi, index) => (
-                                    <CardNews key={index} newsApi={newsApi} />
-                                ))
-                            )}
-                        {loading ? (
-                            <p>Loading...</p>
-                        ) : (
-                                
-                                arrayNewsFavouritePlayer.map((newsApi, index) => (
-                                    <CardNews key={index} newsApi={newsApi} />
-                                ))
-                                
-                            )}
-                    </div>
+                <div id='container-img-link'>
+                    <img src={PlayersImage} alt='players' className='image-link'/>
+                    <img src={TeamsImage} alt='teams' onClick={() => handleClickImage(1)} className='image-link'/>
+                    <img src={CompetitionsImage} alt='competitions'  onClick={() => handleClickImage(2)} className='image-link'/>
+                </div>
+                <div id="boxNewsFavourite">
+                    {loading ? (
+                        <p>Loading...</p>
+                    ) : (
+                            arrayNewsFavouriteTeam.map((newsApi, index) => (
+                                <CardNews key={index} newsApi={newsApi} />
+                            ))
+                        )}
+                </div>
                 
-                )}
+                
                 <div className='middle-title'>
                     <h4>Most popular news</h4>
                 </div>

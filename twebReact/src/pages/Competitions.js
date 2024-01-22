@@ -10,6 +10,7 @@ import "../style/Competitions.css";
 import { useAuth } from '../components/atoms/AuthContext';
 import AppBarUser from "../components/atoms/AppBarUser";
 import Footer from "../components/atoms/Footer";
+import CardElement from "../components/atoms/CardElement";
 import '../style/global.css'
 
 const Competitions = () => {
@@ -22,15 +23,6 @@ const Competitions = () => {
   const [clickedCompetition, setClickedCompetition] = useState(); //set on click of the row in dataGrid
   const { checkCredentials } = useAuth();  
   const navigate = useNavigate(); //to one team
-  const [gridData, setGridData] = useState({
-    rows: [],
-    columns: [
-      { field: 'id', headerName: 'ID', width: 200 },
-      { field: 'name', headerName: 'Name', width: 200 },
-      { field: 'subType', headerName: 'subType', width: 200 },
-      { field: 'confederation', headerName: 'conferderations', width: 200 },
-    ],
-    });
   
   const handleChangeFilter = (event) => {
     setFilter(event.target.value);
@@ -69,10 +61,7 @@ const getAllCompetitions = (filter) => {
           subType: competitions.subType,
           confederation: competitions.confederation,
         }));
-        setGridData((prevGridData) => ({
-          ...prevGridData,
-          rows: newRows,
-        }));
+        
         setCompetitions(response.data);
       })
       .catch((error) => {
@@ -98,10 +87,11 @@ return (
     </div>
     <div className="container-background-color">
         <div id="title">
-          <h1>Competitions</h1>
+          <h1 className="titleHome">Competitions</h1>
         </div>
       <div id="middleBox">
-      <div id="blockid">
+        <div id="blockid">
+          <p><b>Select a country</b></p>
         <Select
           sx={{ width: 100, height: 50 }}
           value={filter}
@@ -115,8 +105,12 @@ return (
           ))}
         </Select>
       </div>
-          <div id="containerData">
-              <DataGridElement gridData={gridData} onRowClick={handleRowClick}/>
+        <div id="containerData">
+                {competitions.map((competition) => (
+                    <div id="card-element" key={competition.competitionId}>
+                        <CardElement clubId={competition.competitionId} title={competition.name} type={'single-competition'}  image={"https://tmssl.akamaized.net/images/logo/header/"+competition.competitionId.toLowerCase()+".png?"} />
+                    </div>
+                ))}
           </div>
       </div>
     </div>

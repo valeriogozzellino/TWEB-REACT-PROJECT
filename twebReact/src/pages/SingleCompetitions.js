@@ -110,21 +110,21 @@ export default function SingleCompetitions() {
                 <TopAppBar links={links} pages={pages} />
             )}
         </div>
-        <div className="container-background-color">
+    <div className="container-background-color" id="block-single-competition">
           <div className="team-header">
             <div id="title-box">
                 <img src={logoCompetition} alt="Competition" style={{ width: '100px', height: '150px', margin:'10px' }} />    
                 <h1>{competition ? competition.name.toUpperCase() : 'Loading...'}</h1>
             </div>
-        </div>
+            </div>
        
-        <div className="data-card-container">
-            {clubs.map((club) => (
-                <div id="card-element" key={club.clubId}>
-                    <CardElement clubId={club.clubId} title={club.name} subtitle={club.squadSize} image={"https://tmssl.akamaized.net/images/wappen/head/" + club.clubId + ".png?"} />
-                </div>
-            ))}
-    </div>
+        <div className="data-card-container"> 
+                {clubs.map((club) => (
+                    <div id="card-element" key={club.clubId}>
+                        <CardElement clubId={club.clubId} title={club.name} type={'single-team'} subtitle={club.squadSize} image={"https://tmssl.akamaized.net/images/wappen/head/" + club.clubId + ".png?"} />
+                    </div>
+                ))}
+        </div>
     </div>
             
         <Footer/>    
