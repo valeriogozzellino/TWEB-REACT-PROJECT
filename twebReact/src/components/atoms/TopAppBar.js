@@ -130,7 +130,7 @@ export default function TopAppBar(props) {
               {checkCredentials ? (
                 <div className='user-bar'>
                   <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    Welcome {user.firstName} {user.lastName}
+                    <em><b>Welcome</b></em> {user.firstName} {user.lastName}
                   </Typography>
                   <PersonOutlineOutlinedIcon/>
                 </div>

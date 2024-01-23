@@ -8,9 +8,9 @@ import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import ForumIcon from '@mui/icons-material/Forum';
 import ThreePIcon from '@mui/icons-material/ThreeP';
 const actions = [
-  { icon: <ForumIcon />, name: 'PlayersDiscussion'  },
-  { icon: <ForumIcon />, name: 'TeamsDiscussion'  },
-  { icon: <ForumIcon />, name: 'GamesDiscussion'  },
+  { icon: <ForumIcon />, name: 'PlayersChat'  },
+  { icon: <ForumIcon />, name: 'TeamsChat'  },
+  { icon: <ForumIcon />, name: 'GamesChat'  },
 ];
 
 export default function ChatIcon() {
