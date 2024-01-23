@@ -10,8 +10,15 @@ exports.init = function (io) {
                     chat.to(room).emit('joined', room, userId);
                 });
 
-                socket.on('chat', function (room, userId, chatText) {
+                /*socket.on('chat', function (room, userId, chatText) {
                     chat.to(room).emit('chat', room, userId, chatText);
+                });*/
+
+                socket.on('send_message', function (room, message) {
+                    // Ora message è un oggetto con le proprietà text, sender, e time
+                    const { text, sender, time } = message;
+                    // Aggiungi la logica per gestire il messaggio come desiderato
+                    socket.broadcast.to(room).emit('chat message', message);
                 });
 
                 socket.on('disconnect', function () {
@@ -32,7 +39,7 @@ exports.init = function (io) {
                     socket.broadcast.to(room).emit('joined', room, userId);
                 });
 
-                socket.on('send_message', function (message) {
+                socket.on('send_message', function (room, message) {
                     // Ora message è un oggetto con le proprietà text, sender, e time
                     const { text, sender, time } = message;
                     // Aggiungi la logica per gestire il messaggio come desiderato
@@ -57,8 +64,15 @@ exports.init = function (io) {
                     socket.broadcast.to(room).emit('joined', room, userId);
                 });
 
-                socket.on('news', function (room, firstName, userId, chatText) {
+                /*socket.on('news', function (room, firstName, userId, chatText) {
                     socket.broadcast.to(room).emit('news', room, userId, chatText);
+                });
+                */
+                socket.on('send_message', function (room, message) {
+                    // Ora message è un oggetto con le proprietà text, sender, e time
+                    const { text, sender, time } = message;
+                    // Aggiungi la logica per gestire il messaggio come desiderato
+                    socket.broadcast.to(room).emit('chat message', message);
                 });
 
                 socket.on('disconnect', function(){
