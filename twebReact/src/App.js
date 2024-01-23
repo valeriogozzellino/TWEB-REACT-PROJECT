@@ -28,7 +28,7 @@ function App() {
                         <Route path="/player/:player_Id" element={<Player />} />
                         <Route path="/news" element={<News />} /> 
                         <Route path="/competitions" element={<Competitions />} />
-                        <Route path="/chat" element={<ChatWindow />} />
+                        <Route path="/chat/:chatRoom" element={<ChatWindow />} />
                         <Route path="/games" element={<Games />} />
                         <Route path="/single-game/:gameId" element={<SingleGame />} />
                         <Route path="/single-team/:clubId" element={<SingleTeam />} />        

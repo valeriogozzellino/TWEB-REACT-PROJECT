@@ -4,6 +4,8 @@ const cors = require('cors');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const socketIO = require('socket.io');
+//const io = socketIO(server);
 
 var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
@@ -40,6 +42,7 @@ app.use('/logIn', logInRouter);
 app.use('/signUp', signUpRouter);
 app.use('/games', gamesRouter);
 app.use('/single-game', singleGameRouter);
+// Rimuovi i commenti da questa parte
 
 
 // catch 404 and forward to error handler

@@ -1,9 +1,7 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import AppBarUser from "../components/atoms/AppBarUser";
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import DataGridElement from "../components/atoms/DataGrid";
 import {useNavigate} from 'react-router-dom';
 import {useAuth} from '../components/atoms/AuthContext';
 import "../style/Teams.css";
@@ -11,6 +9,7 @@ import TopAppBar from "../components/atoms/TopAppBar";
 import Footer from "../components/atoms/Footer";
 import '../style/global.css'
 import CardElement from "../components/atoms/CardElement";
+import IndexPage from "../components/atoms/IndexPage";
 
 
 function Teams() {
@@ -18,8 +17,7 @@ function Teams() {
     const [filterCountry, setFilterCountry] = useState("All"); // return all country and set them for the filter
     const [arrayCountry, setArrayCountry] = useState([]); // return all country and set them for the filter
     const [arraySeason, setArraySeason] = useState([]); // return all country and set them for the filter
-    const links = [false, false, false, true, false, false, false, false, true, true];
-    const pages = ['Home','Competitions','Teams', 'Games' ];
+    const links = [false, true, true, true, true, false, false, false];
     const {checkCredentials} = useAuth();
     const [clubs, setClubs] = useState([]);
 
@@ -87,14 +85,10 @@ function Teams() {
     return (
         <div className="teams-container">
             <div className="header-container">
-                {checkCredentials ? (
-                    <AppBarUser pages={pages}/>
-                ) : (
-
-                    <TopAppBar links={links} pages={pages}/>
-                )}
+                <TopAppBar links={links}/>
             </div>
             <div className="container-background-color">
+                <IndexPage page="teams"/>
                 <div id="container-title">
                     <h1 className="page-title">Teams</h1>
                 </div>

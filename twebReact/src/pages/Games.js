@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import AppBarUser from "../components/atoms/AppBarUser";
 import axios from "axios";
 import DataGridElement from "../components/atoms/DataGrid";
 import {useNavigate} from 'react-router-dom';
@@ -19,8 +18,8 @@ export default function Games() {
     const [games, setGames] = useState([]); // return all country and set them for the filter
     const [allGames, setAllGames] = useState([]); // return all country and set them for the filter
     const [gameDates, setGameDates] = useState([]);
-    const [selectedDate, setSelectedDate] = useState(false);
-    const pages = ['Home', 'Competitions', 'Teams', 'Games',];
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [dateClicked, setDateClicked] = useState(false);
     const {checkCredentials} = useAuth();
     const links = [false, true, false, true, true, false, false, false];
   
@@ -71,11 +70,12 @@ export default function Games() {
     }
     
     const handleDateClick = (date) => {
-         const formattedDate = new Date(date).toDateString(); // Formatta la data in modo da confrontarla correttamente
+        const formattedDate = new Date(date).toDateString(); // Formatta la data in modo da confrontarla correttamente
         const gamesOnDate = allGames.filter(game => new Date(game.date).toDateString() === formattedDate);
         setGames(gamesOnDate);
+        setSelectedDate(formattedDate);
         console.log("GAMES: ", gamesOnDate);
-        setSelectedDate(true);
+        setDateClicked(true);
     };
 
 
@@ -96,12 +96,7 @@ export default function Games() {
     return (
         <div className="teams-container">
             <div className="header-container">
-                {checkCredentials ? (
-                    <AppBarUser pages={pages}/>
-                ) : (
-
-                    <TopAppBar links={links} pages={pages}/>
-                )}
+                <TopAppBar links={links}/>
             </div>
             <div className="container-background-color">
                 <div id="container-title">
@@ -110,16 +105,15 @@ export default function Games() {
                 <div className="data-grid-container">
                     <h3 className="page-subtitle">Select a date to see more details</h3>
                     <CalendarElement gameDates={gameDates} onDateClick={handleDateClick}/>
-                    {/* <DataGridElement gridData={gridData} onRowClick={handleClick}/> */}
                 </div>
                 <div id="container-game-date">
 
-                    {selectedDate && games.length > 0 && (
-                        games.map((game, index) => (
-                            <div onClick={() => handleGameClick(game)} key={index} style={{margin:'10px'}} >
-                               <GameCard game={game} imageurl1={"https://tmssl.akamaized.net/images/wappen/head/" + game.home_club_id + ".png?"} imageurl2={"https://tmssl.akamaized.net/images/wappen/head/" + game.away_club_id + ".png?"}/>
-                            </div>
-                        ))    
+                    {dateClicked && games.length > 0 && (
+                            games.map((game, index) => (
+                                <div onClick={() => handleGameClick(game)} key={index} style={{ margin: '10px' }} >
+                                    <GameCard game={game} imageurl1={"https://tmssl.akamaized.net/images/wappen/head/" + game.home_club_id + ".png?"} imageurl2={"https://tmssl.akamaized.net/images/wappen/head/" + game.away_club_id + ".png?"} />
+                                </div>
+                            ))   
                     )}
                 </div>
             </div>

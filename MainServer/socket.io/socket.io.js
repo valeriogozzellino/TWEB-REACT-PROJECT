@@ -32,8 +32,11 @@ exports.init = function (io) {
                     socket.broadcast.to(room).emit('joined', room, userId);
                 });
 
-                socket.on('send message', function (room, firstName, userId, chatText) {
-                    socket.broadcast.to(room).emit('chat message', room, userId, chatText);
+                socket.on('send_message', function (message) {
+                    // Ora message è un oggetto con le proprietà text, sender, e time
+                    const { text, sender, time } = message;
+                    // Aggiungi la logica per gestire il messaggio come desiderato
+                    socket.broadcast.to(room).emit('chat message', message);
                 });
 
                 socket.on('disconnect', function(){

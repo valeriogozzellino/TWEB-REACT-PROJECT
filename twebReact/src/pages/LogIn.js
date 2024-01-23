@@ -47,7 +47,7 @@ export default function LogIn({handleLogIN}) {
     login(email, password);
     if(checkCredentials){
       console.log("isUserLogged LogIn--->" , checkCredentials);
-      navigate('/'); //modificare e iserire la pagina che l'ha chiamato
+      window.history.back(); //modificare e iserire la pagina che l'ha chiamato
     }
   };
   const handleSignUP = (event) => {

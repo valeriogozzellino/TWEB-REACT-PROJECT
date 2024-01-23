@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import '../style/Single-Game.css';
-import AppBarUser from '../components/atoms/AppBarUser';
 import TopAppBar from '../components/atoms/TopAppBar';
 import {useAuth} from '../components/atoms/AuthContext';
 import SportsSoccerIcon from '@mui/icons-material/SportsSoccer';
@@ -21,11 +20,10 @@ const SingleGame = () => {
     const {gameId} = useParams();
     const [gameInfo, setGameInfo] = useState(null);
     const [error, setError] = useState(null);
-    const pages = ['Home', 'Competitions', 'Teams', 'Games'];
     const [players, setPlayers] = useState(null);
     const [playersAppearances, setPlayerAppearances] = useState(null);
     const {checkCredentials} = useAuth();
-    const links = [false, false, false, true, false, false, false, false, true, true];
+    const links = [false, true, true, true, true, false, false, false];
     const navigate = useNavigate();
     const [view, setView] = useState(0);
     const [player, setPlayer] = useState(null);
@@ -174,11 +172,7 @@ const SingleGame = () => {
     return (
         <div className="teams-container">
             <div className="header-container">
-                {checkCredentials ? (
-                    <AppBarUser pages={pages}/>
-                ) : (
-                    <TopAppBar links={links} pages={pages}/>
-                )}
+                <TopAppBar links={links}  />
             </div>
             <div className="container-background-color">
                 <div className="page-title-container">

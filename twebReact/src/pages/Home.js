@@ -5,7 +5,6 @@ import CardNews from "../components/atoms/CardNews";
 import "../style/Home.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import AppBarUser from "../components/atoms/AppBarUser";
 import { useAuth } from '../components/atoms/AuthContext';
 import Footer from "../components/atoms/Footer";
 import '../style/global.css';
@@ -18,8 +17,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 function Home() {
-    const links = [true, false, false, false, false, false,false, false, true, true];
-    const pages = ['Competitions','Teams', 'Games' ];
+    const links = [false, true, true, true, true, false,false, false, true, true];
     const { checkCredentials, user } = useAuth();
     console.log("isUserLogged Home--->" , checkCredentials);
     const [arrayNewsApi, setNewsApi] = useState([]);
@@ -58,11 +56,7 @@ function Home() {
     return (
         <div id='container'>
             <div id="topContainer">
-                {checkCredentials ? (
-                    <AppBarUser pages={pages} />
-                ) : (     
-                    <TopAppBar links={links} pages={pages} />
-                )}
+                    <TopAppBar links={links} />
             </div>
             <div id="containerBoxNews" className='container-background-color'>
                 <div id="boxTitleHome">

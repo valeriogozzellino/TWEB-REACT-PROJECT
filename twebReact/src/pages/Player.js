@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 import axios from "axios";
 import DataGridElement from "../components/atoms/DataGrid";
-import AppBarUser from "../components/atoms/AppBarUser";
 import TopAppBar from "../components/atoms/TopAppBar";
 import { useAuth } from '../components/atoms/AuthContext';
 import '../style/Player.css';
@@ -15,8 +14,7 @@ export default function Player() {
   const { player_Id } = useParams();
   const [player, setPlayer] = useState(null);
   const [playerAppearances, setPlayerAppearances] = useState([]);
-  const links = [true, false, false, false, false, false, true, true];
-  const pages = ['Home','Competitions','Teams', 'Games' ];
+  const links = [false, true, true, true, true, false, false, false];
   const { checkCredentials } = useAuth();
   const [view, setView] = useState(0);
 
@@ -93,7 +91,7 @@ export default function Player() {
   if (!player) {
     return (
         <div className="player-loading">
-          {checkCredentials ? <AppBarUser pages={pages} /> : <TopAppBar links={links} pages={pages} />}
+          <TopAppBar links={links}  />
           Loading...
         </div>
     );
@@ -102,7 +100,7 @@ export default function Player() {
 
     return (
     <div className="player-container">
-        {checkCredentials ? <AppBarUser pages={pages} /> : <TopAppBar links={links} pages={pages} />}
+        <TopAppBar links={links} />
       <div id="middle-box">
 
       <div className="player-header">

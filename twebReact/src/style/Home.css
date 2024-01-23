@@ -13,14 +13,7 @@
     width: 100%;
     background-color: #2a4d69;
 }
-.titleHome {
-    font-size: 80px;
-    margin: 20px;
-    color: #0d1317bc;
-    /* Cambia il colore del testo, puoi usare il codice colore desiderato */
-    font-family: 'Helvetica', sans-serif;
-    /* Cambia il tipo di carattere, sostituisci con il tuo preferito */
-}
+
 #topContainer{
     height: 18%;
     font-size: 50px;
@@ -53,9 +46,7 @@
     width: 100%;
     /* height: 100%; */
 }
-#titleNewsFavourite{
-    width: 100%;
-}
+
 #middle-title{
     display: flex;
     flex-direction: row;

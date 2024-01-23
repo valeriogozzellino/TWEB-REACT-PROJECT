@@ -8,7 +8,9 @@ import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import ForumIcon from '@mui/icons-material/Forum';
 import ThreePIcon from '@mui/icons-material/ThreeP';
 const actions = [
-  { icon: <ForumIcon />, name: 'Join chat'  },
+  { icon: <ForumIcon />, name: 'PlayersDiscussion'  },
+  { icon: <ForumIcon />, name: 'TeamsDiscussion'  },
+  { icon: <ForumIcon />, name: 'GamesDiscussion'  },
 ];
 
 export default function ChatIcon() {
@@ -16,8 +18,9 @@ export default function ChatIcon() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const navigate = useNavigate();
-  const getChat = ( chatType) => {
-    navigate(`/chat`);
+  const getChat = (name) => {
+    const chatRoom = name;
+    navigate(`/chat/${chatRoom}`);
   }
   return (
     <Box sx={{ height: '100%', transform: 'translateZ(0px)', flexGrow: 1 }}>
@@ -36,7 +39,7 @@ export default function ChatIcon() {
             icon={action.icon}
             tooltipTitle={action.name}
             tooltipOpen
-            onClick={() => getChat() }
+            onClick={() => getChat(action.name) }
           />
         ))}
       </SpeedDial>

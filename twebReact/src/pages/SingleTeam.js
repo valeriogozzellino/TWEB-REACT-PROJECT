@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import AppBarUser from "../components/atoms/AppBarUser";
-import DataGridElement from "../components/atoms/DataGrid";
 import {useNavigate, useParams} from 'react-router-dom';
 import "../style/Teams.css";
 import TopAppBar from "../components/atoms/TopAppBar";
@@ -24,8 +22,7 @@ const CustomImageCell = ({value}) => (
 );
 
 export default function SingleTeam() {
-    const links = [false, false, false, false, false, false, true, false, true, true];
-    const pages = ['Home', 'Competitions', 'Teams', 'Games'];
+    const links = [false, true, true, true, true, false, false, false];
     const navigate = useNavigate();
     const {clubId} = useParams();
     const logo = "https://tmssl.akamaized.net/images/wappen/head/" + clubId + ".png?";
@@ -212,11 +209,7 @@ export default function SingleTeam() {
     if (!players) {
         return (
             <div>
-                {checkCredentials ? (
-                    <AppBarUser pages={pages}/>
-                ) : (
-                    <TopAppBar links={links} pages={pages}/>
-                )}
+            <TopAppBar links={links}/>
                 Loading...
             </div>
         );
@@ -258,12 +251,7 @@ export default function SingleTeam() {
     return (
         <div>
             <div id="container">
-
-                {checkCredentials ? (
-                    <AppBarUser pages={pages}/>
-                ) : (
-                    <TopAppBar links={links} pages={pages}/>
-                )}
+                    <TopAppBar links={links}/>
                 <div className="team-header">
                     <div id="title-box">
                         <img src={logo} alt="Team" style={{width: '80px', height: '100px', margin: '10px'}}/>

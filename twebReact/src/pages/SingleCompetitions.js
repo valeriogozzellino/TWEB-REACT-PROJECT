@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import AppBarUser from "../components/atoms/AppBarUser";
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import DataGridElement from "../components/atoms/DataGrid";
 import { useNavigate } from 'react-router-dom';
 import "../style/Teams.css";
 import { useParams } from 'react-router-dom';
@@ -20,26 +16,15 @@ const CustomImageCell = ({ value }) => (
 );
 
 export default function SingleCompetitions() {
-    const links = [false, false, false, false, false, true, false, false, true, true];
-    const pages = ['Home','Competitions','Teams', 'Games' ];
+    const links = [false, true, true, true, true, false, false, false];
     const navigate = useNavigate(); //to one team
     const { competitionId } = useParams();
     const logoCompetition = "https://tmssl.akamaized.net/images/logo/header/"+competitionId.toLocaleLowerCase()+".png?"
     const [clubs, setClubs] = useState([]);
     const [competition, setCompetition] = useState(null);   
-
     const { checkCredentials } = useAuth();
-    //al teams for this competition
-    const [gridDataClubs, setGridDataClubs] = useState({
-        rows: [],
-        columns: [
-            { field: 'id', headerName: 'ID', width: 200 },
-            { field: 'name', headerName: 'Name', width: 200 },
-            { field: 'squadSize', headerName: 'Squad Size', width: 200 },
-            { field: 'stadiumName', headerName: 'Stadium Name', width: 200 },
-            { field: 'stadiumSeats', headerName: 'Stadium Seats', width: 200 },
-        ],
-    });
+
+
 
 
     const getClub = (competitionId) => {
@@ -56,10 +41,7 @@ export default function SingleCompetitions() {
                     stadiumName: clubs.stadiumName,
                     stadiumSeats: clubs.stadiumSeats,
                 }));
-                setGridDataClubs(prevGridData => ({
-                    ...prevGridData,
-                    rows: newRows,
-                }));
+                
                 setClubs(response.data);
             })
             .catch(error => {
@@ -90,12 +72,8 @@ export default function SingleCompetitions() {
    
     if (!clubs) {
         return (
-            <div>
-                {checkCredentials ? (
-                    <AppBarUser   pages={pages}/>
-                ) : (     
-                    <TopAppBar links={links} pages={pages} />
-                )}
+            <div>   
+                    <TopAppBar links={links}  />
                 Loading...
             </div>
         );
@@ -104,11 +82,7 @@ export default function SingleCompetitions() {
     return (
     <div>
         <div> 
-        {checkCredentials ? (
-                <AppBarUser pages={pages}/>
-            ) : (     
-                <TopAppBar links={links} pages={pages} />
-            )}
+        <TopAppBar links={links} />
         </div>
     <div className="container-background-color" id="block-single-competition">
           <div className="team-header">

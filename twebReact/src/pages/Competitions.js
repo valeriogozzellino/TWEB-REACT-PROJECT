@@ -8,14 +8,12 @@ import Select from '@mui/material/Select';
 import { useNavigate } from 'react-router-dom';
 import "../style/Competitions.css";
 import { useAuth } from '../components/atoms/AuthContext';
-import AppBarUser from "../components/atoms/AppBarUser";
 import Footer from "../components/atoms/Footer";
 import CardElement from "../components/atoms/CardElement";
 import '../style/global.css'
 
 const Competitions = () => {
-  const links = [false, false, false, false, true, false, false, false, true , true];
-  const pages = ['Home','Teams', 'Games' ];
+  const links = [false, true, false, true, true, false, false, false];
   const [country, setCountry] = useState([]); 
   const [competitions, setCompetitions] = useState([]);
   const [filter, setFilter] = useState('All');  // Imposta il valore di default a "All"
@@ -79,11 +77,7 @@ const getAllCompetitions = (filter) => {
 return (
   <div id="container">
     <div id="topBox">
-      {checkCredentials ? (
-                    <AppBarUser pages={pages}/>
-                ) : (     
-                    <TopAppBar links={links} pages={pages} />
-        )}
+      <TopAppBar links={links} />
     </div>
     <div className="container-background-color">
         <div id="title">
@@ -91,9 +85,9 @@ return (
         </div>
       <div id="middleBox">
         <div id="blockid">
-          <p><b>Select a country</b></p>
+          <p><b>Select a country: </b></p><br/>
         <Select
-          sx={{ width: 100, height: 50 }}
+          sx={{ width: 100, height: 50 , color: 'white', backgroundColor: '#1d3557', borderColor: '#1d3557'}}
           value={filter}
           label="Country"
           onChange={handleChangeFilter}
