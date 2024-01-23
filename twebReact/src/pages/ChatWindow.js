@@ -25,7 +25,7 @@ import { useNavigate } from 'react-router-dom';
 export default function ChatWindow() {
     const socket = io("http://localhost:3001"); //connect to socket.io server
     const { checkCredentials, user } = useAuth();  //user details from AuthContext
-    const links = [false, false, false, true, false, false, false, false, true, true];
+    const links = [false, true, false, true, true, false, false, false, true, true];
     const pages = ['Home','Competitions', 'Games' ];
     const [open, setOpen] = useState(false);
     const [view, setView] = useState(0);

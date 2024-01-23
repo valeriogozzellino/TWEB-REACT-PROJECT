@@ -22,7 +22,7 @@ export default function Games() {
     const [selectedDate, setSelectedDate] = useState(false);
     const pages = ['Home', 'Competitions', 'Teams', 'Games',];
     const {checkCredentials} = useAuth();
-    const links = [false, true, false, false, false, false, false, false, true, true];
+    const links = [false, true, false, true, true, false, false, false];
   
 
     const handleGetAllGames = () => {

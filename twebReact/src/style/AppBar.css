@@ -3,6 +3,10 @@
 }
 
 #logoTopBar{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 
 }
 #text-page{
@@ -10,10 +14,15 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    width: 25%;
-
+    width: full;
+    height: inherit;    
 }
-
+#links-topbar{
+    margin-left: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
 #container-bar{
     display: flex;
     flex-direction: row;
