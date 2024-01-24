@@ -13,7 +13,7 @@ import Tab from '@mui/material/Tab';
 import Box from "@mui/material/Box";
 import * as gameService from '../services/singleGameService';
 import * as playerService from '../services/playerService';
-
+import Modal from "../components/Modal";
 
 
 const SingleGame = () => {
@@ -24,6 +24,9 @@ const SingleGame = () => {
     const [error, setError] = useState(null);
     const [playersAppearances, setPlayerAppearances] = useState(null);
     const [gameEvents, setGameEvents] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [openModalPlayerId, setOpenModalPlayerId] = useState(null);
+
 
     const [game, setGame] = useState(null);
     const [view, setView] = useState(0);
@@ -34,6 +37,27 @@ const SingleGame = () => {
         clubAwayLogo = "https://tmssl.akamaized.net/images/wappen/head/" + game.away_club_id + ".png?";
         clubHomeLogo = "https://tmssl.akamaized.net/images/wappen/head/" + game.home_club_id + ".png?";
     }
+
+    const [openDropdownId, setOpenDropdownId] = useState(null);
+
+    const handleModalClick = playerId => {
+        if (openModalPlayerId === playerId) {
+            setOpenModalPlayerId(null); // Close the modal if it's already open for this player
+        } else {
+            setOpenModalPlayerId(playerId); // Open this player's modal
+        }
+    };
+
+    const isModalOpenForPlayer = playerId => {
+        return openModalPlayerId === playerId;
+    };
+
+    const handleModalClose = () => {
+        setOpenModalPlayerId(null); // Reset the modal open state
+        // setIsModalOpen(false);
+    };
+
+
 
     function getEventIcon(eventType) {
         switch (eventType) {
@@ -65,7 +89,7 @@ const SingleGame = () => {
         playerService.getAppearancesByGameId(gameId)
             .then((response) => {
                 setPlayerAppearances(response.data)
-
+                console.log("++++ APPEARANCES : ", response.data)
             })
             .catch((err) => {
                 console.error("Error in receiving player appearances: ", err);
@@ -85,32 +109,24 @@ const SingleGame = () => {
     }, [gameId]);
 
 
-
-    const processDescription = (description)  => {
-        if (description.includes(',')) {
-            let parts = description.split(',');
-            return parts[1];
-        } else {
-            return description.trim();
+    const processDescription = (description) => {
+        if (description !== undefined) {
+            if (description.includes(',')) {
+                let parts = description.split(',');
+                return parts[1];
+            } else {
+                return description.trim();
+            }
         }
+        return  ""
     };
 
+    const handleChangeTab = (event, newValue) => {
+        setView(newValue);
+    };
 
-    const handleChangeTab = (e) => {
-        const id = e.target.id;
-        switch (id) {
-            case 'tabOne':
-                setView(0);
-                break;
-            case 'tabTwo':
-                setView(1);
-                break;
-            case 'tabThree':
-                setView(2);
-                break;
-            default:
-                break;
-        }
+    function handlePlayerClick(player) {
+        navigate(`/player/${player.player_id}`);
     }
 
     function getPlayerNameById(playerId) {
@@ -130,7 +146,7 @@ const SingleGame = () => {
     return (
         <div className="teams-container">
             <div className="header-container">
-                <TopAppBar links={links}  />
+                <TopAppBar links={links}/>
             </div>
             <div className="container-background-color">
                 <div className="page-title-container">
@@ -152,28 +168,28 @@ const SingleGame = () => {
                         </h1>
                     </div>
                 </div>
-                <Box sx={{
-                    borderBottom: 2,
-                    borderColor: 'divider',
-                    marginBottom: '5px',
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'center'
-                }}>
-                    <Tabs aria-label="basic tabs example">
-                        <Tab label="Timeline" id="tabOne" onClick={handleChangeTab}/>
-                        <Tab label="Players" id="tabTwo" onClick={handleChangeTab}/>
-                    </Tabs>
-                </Box>
 
-                {view === 0 && (
+                <div id='buttons'>
+                    <Box sx={{borderBottom: 2, borderColor: 'divider', marginBottom: '5px'}}>
+                        <Tabs value={view} aria-label="basic tabs example" onChange={handleChangeTab}>
+                            <Tab label="Timeline" value={0}/>
+                            <Tab label="Players" value={1}/>
+                        </Tabs>
+                    </Box>
+                </div>
+            </div>
+
+            <div className="middle-container-background-color">
+
+                {view === 0 ? (
                     <div>
                         <VerticalTimeline>
                             {gameEvents && gameEvents.map((event, index) => (
                                 <VerticalTimelineElement
                                     key={index}
                                     date={`${event.minute}'`}
-                                    iconStyle={{ background: 'rgb(33, 150, 243)', color: 'yellow' }}
+                                    iconStyle={{background: 'rgb(33, 150, 243)', color: 'yellow'}}
+                                    style={{color: 'black'}}
                                     icon={getEventIcon(event.type, event)}
                                 >
                                     <h3 className="vertical-timeline-element-title">
@@ -181,7 +197,7 @@ const SingleGame = () => {
                                         <img
                                             src={event.club_id === game.away_club_id ? clubAwayLogo : clubHomeLogo}
                                             alt="Club Logo"
-                                            style={{ width: '5%', marginLeft: '20px' }}
+                                            style={{width: '5%', marginLeft: '20px'}}
                                         />
                                     </h3>
                                     <p>
@@ -195,25 +211,73 @@ const SingleGame = () => {
                         </VerticalTimeline>
                     </div>
 
-                )}
-                {view === 1 && (
-                    <div className="game-info-card">
-                        {/*<div className="info-details">*/}
-                        {/*    {gameData.rows.map((player, index) => (*/}
-                        {/*        <div key={index} className="player-card">*/}
-                        {/*            <h2>{player.playerName}</h2>*/}
-                        {/*            <p>Goals: {player.goals}</p>*/}
-                        {/*            <p>Assists: {player.assists}</p>*/}
-                        {/*            <p>Yellow Cards: {player.yellowCards}</p>*/}
-                        {/*            <p>Red Cards: {player.redCards}</p>*/}
-                        {/*            <p>Minutes Played: {player.minutesPlayed}</p>*/}
-                        {/*        </div>*/}
-                        {/*    ))}*/}
-                        {/*</div>*/}
+                ) : view === 1 ? (
+
+                    <div className="game-info-container">
+                        <div className="team-left">
+                            {playersAppearances.filter(player => player.player_club_id === game.home_club_id).map((player) => (
+                                <div key={player.player_id}>
+                                    <button className="dropdown-button" onClick={() => handleModalClick(player.player_id)}>
+                                        {player.goals !== 0 && '⚽   '}
+                                        {player.assists > 0 && '🅰️  '}
+                                        {player.yellow_cards === 1 && '🟡   '}
+                                        {(player.yellow_cards > 1 || player.red_cards > 0) && '🔴   '}
+                                        {player.player_name}
+                                    </button>
+                                    <Modal open={isModalOpenForPlayer(player.player_id)} onClose={() => handleModalClose}>
+                                        <div className="column">
+                                            Yellow Cards: {player.yellow_cards}<br />
+                                            Red Cards: {player.red_cards}
+                                        </div>
+                                        <div className="column">
+                                            Goals: {player.goals}<br />
+                                            Assists: {player.assists}
+                                        </div>
+                                        <div className="column">
+                                            Minutes Played: {player.minutes_played}
+                                        </div>
+                                    </Modal>
+
+                                </div>
+                            ))}
+                        </div>
+
+
+                        <div className="team-right">
+                            {playersAppearances.filter(player => player.player_club_id !== game.home_club_id).map((player) => (
+                                <div key={player.player_id}>
+                                    <button className="dropdown-button" onClick={() => handleModalClick(player.player_id)}>
+                                        {player.goals !== 0 && '⚽   '}
+                                        {player.assists > 0 && '🅰️'}
+                                        {player.minutes_played === 0 && '🪑'}
+                                        {player.yellow_cards === 1 && '🟡   '}
+                                        {(player.yellow_cards > 1 || player.red_cards > 0) && '🔴   '}
+                                        {player.player_name}
+                                    </button>
+                                    <Modal open={isModalOpenForPlayer(player.player_id)} onClose={() => handleModalClose}>
+                                        <div className="column">
+                                            Yellow Cards: {player.yellow_cards}<br />
+                                            Red Cards: {player.red_cards}
+                                        </div>
+                                        <div className="column">
+                                            Goals: {player.goals}<br />
+                                            Assists: {player.assists}
+                                        </div>
+                                        <div className="column">
+                                            Minutes Played: {player.minutes_played}
+                                        </div>
+                                    </Modal>
+                                </div>
+                            ))}
+                        </div>
                     </div>
+
+
+                ) : (
+                    <div></div>
                 )}
+                <Footer/>
             </div>
-            <Footer/>
         </div>
     );
 };

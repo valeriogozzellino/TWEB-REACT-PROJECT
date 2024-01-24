@@ -3,6 +3,12 @@
   color: aliceblue;
 }
 
+.middle-container-background-color {
+  background: #11669b;
+  color: aliceblue;
+}
+
+
 #chat-box {
   display: flex;
   flex-direction: column;
