@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import '../style/Single-Game.css';
 import TopAppBar from '../components/atoms/TopAppBar';
-import {useAuth} from '../components/atoms/AuthContext';
 import SportsSoccerIcon from '@mui/icons-material/SportsSoccer';
 import {GiCardPlay} from 'react-icons/gi';
 import {AiOutlineSwap} from 'react-icons/ai';
@@ -16,39 +15,27 @@ import * as gameService from '../services/singleGameService';
 import * as playerService from '../services/playerService';
 
 
+
 const SingleGame = () => {
-    const {gameId} = useParams();
-    const [gameInfo, setGameInfo] = useState(null);
-    const [error, setError] = useState(null);
-    const [players, setPlayers] = useState(null);
-    const [playersAppearances, setPlayerAppearances] = useState(null);
-    const {checkCredentials} = useAuth();
     const links = [false, true, true, true, true, false, false, false];
     const navigate = useNavigate();
+
+    const {gameId} = useParams();
+    const [error, setError] = useState(null);
+    const [playersAppearances, setPlayerAppearances] = useState(null);
+    const [gameEvents, setGameEvents] = useState(null);
+
+    const [game, setGame] = useState(null);
     const [view, setView] = useState(0);
-    const [player, setPlayer] = useState(null);
-    const playerId = "";
     let clubAwayLogo = "";
     let clubHomeLogo = "";
-    if (gameInfo) {
-        clubAwayLogo = "https://tmssl.akamaized.net/images/wappen/head/" + gameInfo.away_club_id + ".png?";
-        clubHomeLogo = "https://tmssl.akamaized.net/images/wappen/head/" + gameInfo.home_club_id + ".png?";
+
+    if (game) {
+        clubAwayLogo = "https://tmssl.akamaized.net/images/wappen/head/" + game.away_club_id + ".png?";
+        clubHomeLogo = "https://tmssl.akamaized.net/images/wappen/head/" + game.home_club_id + ".png?";
     }
 
-    const [gameData, setGameData] = useState({
-        rows: [],
-        columns: [
-            {field: 'minute', headerName: 'Minute', width: 130},
-            {field: 'eventType', headerName: 'Event Type', width: 130},
-            {field: 'player', headerName: 'Player', width: 200},
-            {field: 'club_id', headerName: 'Club Id', width: 200},
-            {field: 'description', headerName: 'Event description', width: 200},
-        ],
-    });
-
-
-    function getEventIcon(eventType, event) {
-        // console.log("+++ EVENT:", event)
+    function getEventIcon(eventType) {
         switch (eventType) {
             case 'Goals':
                 return <SportsSoccerIcon/>;
@@ -62,76 +49,42 @@ const SingleGame = () => {
     }
 
     useEffect(() => {
+
         // Get game events
         gameService.getGameEventsById(gameId)
             .then((response) => {
-                console.log("+++++EVENTS: ", response.data);
-
                 const sortedData = response.data.sort((a, b) => a.minute - b.minute);
-
-                const newRows = sortedData.map((event, index) => ({
-                    id: index,
-                    minute: event.minute,
-                    eventType: event.type,
-                    player: event.player_id,
-                    club_id: event.club_id,
-                    description: event.description
-                }));
-
-                // Get the game infos
-                gameService.getGameById(gameId)
-                    .then((response) => {
-                        // console.log('++++++GAME INFOS: ', response.data);
-                        setGameInfo(response.data[0]);
-                    })
-                    .catch((err) => {
-                        console.error('Error fetching game info:', err);
-                        setError(err);
-                    });
-
-                // Get player appearances data
-                playerService.getAppearancesByGameId(gameId)
-                    .then((response) => {
-                        // console.log("++++ PLAYER APPEARANCES: ", response.data);
-
-                        // Create a mapping of player_id to player appearance data
-                        const playerAppearanceMap = {};
-                        response.data.forEach((appearance) => {
-                            playerAppearanceMap[appearance.player_id] = appearance;
-                        });
-
-                        // Merge player appearances into the newRows array
-                        const rowsWithPlayerData = newRows.map((row) => {
-                            const playerAppearance = playerAppearanceMap[row.player];
-                            return {
-                                ...row,
-                                playerName: playerAppearance ? playerAppearance.player_name : "Unknown",
-                                yellowCards: playerAppearance ? playerAppearance.yellow_cards : 0,
-                                redCards: playerAppearance ? playerAppearance.red_cards : 0,
-                                goals: playerAppearance ? playerAppearance.goals : 0,
-                                assists: playerAppearance ? playerAppearance.assists : 0,
-                                minutesPlayed: playerAppearance ? playerAppearance.minutes_played : 0,
-                            };
-                        });
-
-                        // Set the updated rows with player data
-                        setGameData((prevState) => ({
-                            ...prevState,
-                            rows: rowsWithPlayerData,
-                        }));
-
-                        console.log("+++ GAME DATA: ", gameData);
-                    })
-                    .catch((err) => {
-                        console.error("Error in receiving player appearances: ", err);
-                        alert(JSON.stringify(err));
-                    });
+                setGameEvents(sortedData)
             })
             .catch((err) => {
                 console.error('Error fetching game events:', err);
                 setError(err);
             });
+
+
+        playerService.getAppearancesByGameId(gameId)
+            .then((response) => {
+                setPlayerAppearances(response.data)
+
+            })
+            .catch((err) => {
+                console.error("Error in receiving player appearances: ", err);
+                alert(JSON.stringify(err));
+            });
+
+
+        gameService.getGameById(gameId)
+            .then((response) => {
+                setGame(response.data[0])
+            })
+            .catch((err) => {
+                console.error('Error fetching game info:', err);
+                setError(err);
+            });
+
     }, [gameId]);
+
+
 
     const processDescription = (description)  => {
         if (description.includes(',')) {
@@ -144,7 +97,6 @@ const SingleGame = () => {
 
 
     const handleChangeTab = (e) => {
-        console.log("PLAYERS:", players)
         const id = e.target.id;
         switch (id) {
             case 'tabOne':
@@ -161,11 +113,17 @@ const SingleGame = () => {
         }
     }
 
+    function getPlayerNameById(playerId) {
+        if (!playersAppearances) return "Loading player data";
+        const player = playersAppearances.find(p => p.player_id === playerId);
+        return player ? player.player_name : "Player not found";
+    }
+
     if (error) {
         return <div>Error: {error.message}</div>;
     }
 
-    if (!gameData || !gameInfo) {
+    if (!game) {
         return <div>Loading...</div>;
     }
 
@@ -177,20 +135,20 @@ const SingleGame = () => {
             <div className="container-background-color">
                 <div className="page-title-container">
                     <div className='page-header-club'>
-                        <img src={clubHomeLogo} alt={gameInfo.home_club_name}/>
+                        <img src={clubHomeLogo} alt={game.home_club_name}/>
                         <h1 className="page-title">
-                            {gameInfo.home_club_name}
+                            {game.home_club_name}
                         </h1>
                     </div>
                     <div>
                         <h1>
-                            | {gameInfo.aggregate} |
+                            | {game.aggregate} |
                         </h1>
                     </div>
                     <div className='page-header-club'>
-                        <img src={clubAwayLogo} alt={gameInfo.away_club_name}/>
+                        <img src={clubAwayLogo} alt={game.away_club_name}/>
                         <h1 className='page-title'>
-                            {gameInfo.away_club_name}
+                            {game.away_club_name}
                         </h1>
                     </div>
                 </div>
@@ -211,46 +169,47 @@ const SingleGame = () => {
                 {view === 0 && (
                     <div>
                         <VerticalTimeline>
-                            {gameData.rows.map((event, index) => (
+                            {gameEvents && gameEvents.map((event, index) => (
                                 <VerticalTimelineElement
                                     key={index}
                                     date={`${event.minute}'`}
-                                    iconStyle={{background: 'rgb(33, 150, 243)', color: '#fff'}}
-                                    icon={getEventIcon(event.eventType, event)}
+                                    iconStyle={{ background: 'rgb(33, 150, 243)', color: 'yellow' }}
+                                    icon={getEventIcon(event.type, event)}
                                 >
                                     <h3 className="vertical-timeline-element-title">
-                                        {event.eventType}
+                                        {event.type}
                                         <img
-                                            src={event.club_id === gameInfo.away_club_id ? clubAwayLogo : clubHomeLogo}
+                                            src={event.club_id === game.away_club_id ? clubAwayLogo : clubHomeLogo}
                                             alt="Club Logo"
-                                            style={{width: '5%', marginLeft: '20px'}}
+                                            style={{ width: '5%', marginLeft: '20px' }}
                                         />
                                     </h3>
                                     <p>
                                         {processDescription(event.description)}
                                     </p>
-                                    <p onClick={() => navigate(`/player/${event.player}`)}>
-                                        {event.playerName}
+                                    <p onClick={() => navigate(`/player/${event.player_id}`)}>
+                                        {getPlayerNameById(event.player_id)}
                                     </p>
                                 </VerticalTimelineElement>
                             ))}
                         </VerticalTimeline>
                     </div>
+
                 )}
                 {view === 1 && (
                     <div className="game-info-card">
-                        <div className="info-details">
-                            {gameData.rows.map((player, index) => (
-                                <div key={index} className="player-card">
-                                    <h2>{player.playerName}</h2>
-                                    <p>Goals: {player.goals}</p>
-                                    <p>Assists: {player.assists}</p>
-                                    <p>Yellow Cards: {player.yellowCards}</p>
-                                    <p>Red Cards: {player.redCards}</p>
-                                    <p>Minutes Played: {player.minutesPlayed}</p>
-                                </div>
-                            ))}
-                        </div>
+                        {/*<div className="info-details">*/}
+                        {/*    {gameData.rows.map((player, index) => (*/}
+                        {/*        <div key={index} className="player-card">*/}
+                        {/*            <h2>{player.playerName}</h2>*/}
+                        {/*            <p>Goals: {player.goals}</p>*/}
+                        {/*            <p>Assists: {player.assists}</p>*/}
+                        {/*            <p>Yellow Cards: {player.yellowCards}</p>*/}
+                        {/*            <p>Red Cards: {player.redCards}</p>*/}
+                        {/*            <p>Minutes Played: {player.minutesPlayed}</p>*/}
+                        {/*        </div>*/}
+                        {/*    ))}*/}
+                        {/*</div>*/}
                     </div>
                 )}
             </div>

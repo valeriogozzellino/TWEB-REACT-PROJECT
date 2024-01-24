@@ -24,12 +24,12 @@
 .team-infos {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     padding: 1em;
     color: black;
     border-radius: 8px;
     margin-bottom: 1em;
 }
-
 
 .football-field {
     position: relative;
@@ -143,3 +143,10 @@
     padding: 10px; /* Adjust as needed for spacing */
 }
 
+
+#buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}

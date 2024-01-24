@@ -16,9 +16,6 @@ import CardPlayers from "../components/CardPlayer";
 import Tooltip from '@mui/material/Tooltip';
 
 
-const CustomImageCell = ({value}) => (
-    <img src={value} alt="Player" style={{width: '40px', height: '40px'}}/>
-);
 
 export default function SingleTeam() {
     const links = [false, true, true, true, true, false, false, false];
@@ -29,7 +26,6 @@ export default function SingleTeam() {
     const [players, setPlayers] = useState(null);
     const [clubGames, setClubGames] = useState(null);
     const [team, setTeam] = useState(null);
-    const [currentView, setCurrentView] = useState('players');
     const {checkCredentials} = useAuth();
     const [showGames, setShowGames] = useState(6);
     const [showPlayer, setShowPlayer] = useState(12);
@@ -132,7 +128,7 @@ export default function SingleTeam() {
         <div>
             <div id="container">
                 <TopAppBar links={links}/>
-                <div className="team-header">
+                <div>
                     <div id="title-box">
                         <img src={logo} alt="Team" style={{width: '80px', height: '100px', margin: '10px'}}/>
                         <h1>{team ? team.name : 'Loading...'}</h1>
@@ -165,7 +161,7 @@ export default function SingleTeam() {
                                 ))}
 
                             </div>
-                            <div id='button-end'>
+                            <div id='buttons'>
                                 <Button variant="outlined" size="medium" onClick={() => handleNumberPlayer(1)}
                                         sx={{marginRight: '21px'}}>
                                     Show More
@@ -176,6 +172,7 @@ export default function SingleTeam() {
                             </div>
                         </div>
                     ) : view === 1 ? (
+
 
                         <div>
                             <div id="games-card">
@@ -190,7 +187,7 @@ export default function SingleTeam() {
                                 ))}
                             </div>
 
-                            <div id='button-end'>
+                            <div id='buttons'>
                                 <Button variant="outlined" size="medium" onClick={() => handleNumberGame(1)}
                                         sx={{marginRight: '21px'}}>
                                     Show Less
