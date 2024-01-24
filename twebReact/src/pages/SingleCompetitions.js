@@ -1,107 +1,124 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import "../style/Teams.css";
+import '../style/Teams.css';
 import { useParams } from 'react-router-dom';
-import TopAppBar from "../components/atoms/TopAppBar";
+import TopAppBar from '../components/atoms/TopAppBar';
 import { useAuth } from '../components/atoms/AuthContext';
-import "../style/Single-Team.css";
-import Footer from "../components/atoms/Footer";
+import '../style/Single-Team.css';
+import Footer from '../components/atoms/Footer';
 import '../style/global.css';
-import CardElement from "../components/atoms/CardElement";
-
+import CardElement from '../components/atoms/CardElement';
+import ChatIcon from '../components/atoms/ChatIcon';
 
 const CustomImageCell = ({ value }) => (
-  <img src={value} alt="Competitions" style={{ width: '40px', height: '40px' }} />
+  <img
+    src={value}
+    alt="Competitions"
+    style={{ width: '40px', height: '40px' }}
+  />
 );
 
 export default function SingleCompetitions() {
-    const links = [false, true, true, true, true, false, false, false];
-    const navigate = useNavigate(); //to one team
-    const { competitionId } = useParams();
-    const logoCompetition = "https://tmssl.akamaized.net/images/logo/header/"+competitionId.toLocaleLowerCase()+".png?"
-    const [clubs, setClubs] = useState([]);
-    const [competition, setCompetition] = useState(null);   
-    const { checkCredentials } = useAuth();
+  const links = [false, true, true, true, true, false, false, false];
+  const navigate = useNavigate(); //to one team
+  const { competitionId } = useParams();
+  const logoCompetition =
+    'https://tmssl.akamaized.net/images/logo/header/' +
+    competitionId.toLocaleLowerCase() +
+    '.png?';
+  const [clubs, setClubs] = useState([]);
+  const [competition, setCompetition] = useState(null);
+  const { checkCredentials } = useAuth();
 
+  const getClub = (competitionId) => {
+    console.log('competitionId', competitionId);
+    const filterCompetition = competitionId;
+    console.log('filterCompetition', filterCompetition);
+    const competitionApiUrl = `http://localhost:3001/teams/get-teams-by-competition?filterCompetition=${filterCompetition}`;
+    axios
+      .get(competitionApiUrl)
+      .then((response) => {
+        const newRows = response.data.map((clubs) => ({
+          id: clubs.clubId,
+          name: clubs.name,
+          squadSize: clubs.squadSize,
+          stadiumName: clubs.stadiumName,
+          stadiumSeats: clubs.stadiumSeats,
+        }));
 
+        setClubs(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching club games: ', error);
+      });
+  };
 
+  const getInfoCompetition = (competitionId) => {
+    const apiUrl = `http://localhost:3001/competitions/get-competitions-by-id?competitionId=${competitionId}`;
+    axios
+      .get(apiUrl)
+      .then((response) => {
+        setCompetition(response.data);
+      })
+      .catch((error) => {
+        alert(JSON.stringify(error));
+      });
+  };
 
-    const getClub = (competitionId) => {
-        console.log("competitionId", competitionId);
-        const filterCompetition = competitionId;
-        console.log("filterCompetition", filterCompetition);
-        const competitionApiUrl = `http://localhost:3001/teams/get-teams-by-competition?filterCompetition=${filterCompetition}`;
-        axios.get(competitionApiUrl)
-            .then(response => {
-                const newRows = response.data.map((clubs) => ({
-                    id: clubs.clubId,
-                    name: clubs.name,
-                    squadSize: clubs.squadSize,
-                    stadiumName: clubs.stadiumName,
-                    stadiumSeats: clubs.stadiumSeats,
-                }));
-                
-                setClubs(response.data);
-            })
-            .catch(error => {
-                console.error("Error fetching club games: ", error);
-            });
-    }
+  useEffect(() => {
+    getClub(competitionId);
+    getInfoCompetition(competitionId);
+  }, [competitionId]);
 
-    const getInfoCompetition = (competitionId) => {
-        const apiUrl = `http://localhost:3001/competitions/get-competitions-by-id?competitionId=${competitionId}`;
-        axios.get(apiUrl)
-          .then((response) => {
-            setCompetition(response.data);
-          })
-          .catch((error) => {
-            alert(JSON.stringify(error));
-          });
-    }
-
-
- 
-    
-
-    useEffect(() => {
-        getClub(competitionId);
-        getInfoCompetition(competitionId);
-    }, [competitionId]);
-
-   
-    if (!clubs) {
-        return (
-            <div>   
-                    <TopAppBar links={links}  />
-                Loading...
-            </div>
-        );
-    }
-
+  if (!clubs) {
     return (
-    <div>
-        <div> 
+      <div>
         <TopAppBar links={links} />
+        Loading...
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div>
+        <TopAppBar links={links} />
+      </div>
+      <div className="container-background-color" id="block-single-competition">
+        <div className="team-header">
+          <div id="title-box">
+            <img
+              src={logoCompetition}
+              alt="Competition"
+              style={{ width: '100px', height: '150px', margin: '10px' }}
+            />
+            <h1>
+              {competition ? competition.name.toUpperCase() : 'Loading...'}
+            </h1>
+          </div>
         </div>
-    <div className="container-background-color" id="block-single-competition">
-          <div className="team-header">
-            <div id="title-box">
-                <img src={logoCompetition} alt="Competition" style={{ width: '100px', height: '150px', margin:'10px' }} />    
-                <h1>{competition ? competition.name.toUpperCase() : 'Loading...'}</h1>
+
+        <div className="data-card-container">
+          {clubs.map((club) => (
+            <div id="card-element" key={club.clubId}>
+              <CardElement
+                clubId={club.clubId}
+                title={club.name}
+                type={'single-team'}
+                subtitle={club.squadSize}
+                image={
+                  'https://tmssl.akamaized.net/images/wappen/head/' +
+                  club.clubId +
+                  '.png?'
+                }
+              />
             </div>
-            </div>
-       
-        <div className="data-card-container"> 
-                {clubs.map((club) => (
-                    <div id="card-element" key={club.clubId}>
-                        <CardElement clubId={club.clubId} title={club.name} type={'single-team'} subtitle={club.squadSize} image={"https://tmssl.akamaized.net/images/wappen/head/" + club.clubId + ".png?"} />
-                    </div>
-                ))}
+          ))}
         </div>
+      </div>
+      <ChatIcon />
+      <Footer />
     </div>
-            
-        <Footer/>    
-    </div>
-);
+  );
 }

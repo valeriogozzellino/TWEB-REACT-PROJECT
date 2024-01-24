@@ -1,15 +1,15 @@
 exports.init = function (io) {
     const playersChat = io.of('/PlayersChat').on('connection', function (socket) {
         try {
-            socket.on('joined', function (room, firstName) {
-                console.log("JOINED THE ROOOOM");
+            socket.on('joined', function (room, firstName, userId) {
                 socket.join(room);
-                playersChat.to(room).emit('joined', room, firstName);
+                console.log("JOINED THE ROOOOM", room);
+                playersChat.to(room).emit('joined', room, firstName, userId);
             });
 
-            socket.on('send_message', function (room, message) {
+            socket.on('send_message', function (room, message, userId) {
                 console.log("INVIO MESSAGGIO");
-                playersChat.to(room).emit('chat_message', room , message);
+                teamsChat.to(room).emit('chat_message',room,  message, userId);
             });
 
             socket.on('disconnect', function () {
@@ -24,15 +24,15 @@ exports.init = function (io) {
         .of('/TeamsChat')
         .on('connection', function (socket) {
             try {
-                socket.on('joined', function (room, firstName) {
+                socket.on('joined', function (room, firstName, userId) {
                     socket.join(room);
                     console.log("JOINED THE ROOOOM");
-                    teamsChat.to(room).emit('joined', room, firstName);
+                    teamsChat.to(room).emit('joined', room, firstName, userId);
                 });
 
-                socket.on('send_message', function (room, message) {
+                socket.on('send_message', function (room, message, userId) {
                     console.log("INVIO MESSAGGIO");
-                    teamsChat.to(room).emit('chat_message',room,  message);
+                    teamsChat.to(room).emit('chat_message',room, message, userId);
                 });
 
                 socket.on('disconnect', function () {
@@ -46,15 +46,15 @@ exports.init = function (io) {
         .of('/GamesChat')
         .on('connection', function (socket) {
             try {
-                socket.on('joined', function (room, firstName) {
+                socket.on('joined', function (room, firstName, userId) {
                     socket.join(room);
                     console.log("JOINED THE ROOOOM");
-                    gamesChat.to(room).emit('joined', room, firstName);
+                    gamesChat.to(room).emit('joined', room, firstName, userId);
                 });
 
-                socket.on('send_message', function (room, message) {
+                socket.on('send_message', function (room, message, userId) {
                     console.log("INVIO MESSAGGIO");
-                    gamesChat.to(room).emit('chat_message',room,  message);
+                    gamesChat.to(room).emit('chat_message',room, message, userId);
                 });
 
                 socket.on('disconnect', function () {
