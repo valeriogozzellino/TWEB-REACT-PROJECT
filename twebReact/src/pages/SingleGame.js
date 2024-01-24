@@ -125,6 +125,15 @@ const SingleGame = () => {
         setView(newValue);
     };
 
+    const renderGoalsIcons = (goals) => {
+        let result = "";
+        for (let i = 0; i < goals; i++) {
+            result += '⚽ ';
+        }
+        result += ' '
+        return result;
+    };
+
     function handlePlayerClick(player) {
         navigate(`/player/${player.player_id}`);
     }
@@ -218,7 +227,7 @@ const SingleGame = () => {
                             {playersAppearances.filter(player => player.player_club_id === game.home_club_id).map((player) => (
                                 <div key={player.player_id}>
                                     <button className="dropdown-button" onClick={() => handleModalClick(player.player_id)}>
-                                        {player.goals !== 0 && '⚽   '}
+                                        {renderGoalsIcons(player.goals)}
                                         {player.assists > 0 && '🅰️  '}
                                         {player.yellow_cards === 1 && '🟡   '}
                                         {(player.yellow_cards > 1 || player.red_cards > 0) && '🔴   '}
@@ -247,9 +256,8 @@ const SingleGame = () => {
                             {playersAppearances.filter(player => player.player_club_id !== game.home_club_id).map((player) => (
                                 <div key={player.player_id}>
                                     <button className="dropdown-button" onClick={() => handleModalClick(player.player_id)}>
-                                        {player.goals !== 0 && '⚽   '}
-                                        {player.assists > 0 && '🅰️'}
-                                        {player.minutes_played === 0 && '🪑'}
+                                        {renderGoalsIcons(player.goals)}
+                                        {player.assists > 0 && '🅰️ '}
                                         {player.yellow_cards === 1 && '🟡   '}
                                         {(player.yellow_cards > 1 || player.red_cards > 0) && '🔴   '}
                                         {player.player_name}
