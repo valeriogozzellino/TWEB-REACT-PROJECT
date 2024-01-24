@@ -16,7 +16,6 @@ import CardPlayers from "../components/CardPlayer";
 import Tooltip from '@mui/material/Tooltip';
 
 
-
 const CustomImageCell = ({value}) => (
     <img src={value} alt="Player" style={{width: '40px', height: '40px'}}/>
 );
@@ -30,63 +29,18 @@ export default function SingleTeam() {
     const [players, setPlayers] = useState(null);
     const [clubGames, setClubGames] = useState(null);
     const [team, setTeam] = useState(null);
-    const [currentView, setCurrentView] = useState('players'); // State to track current view
+    const [currentView, setCurrentView] = useState('players');
     const {checkCredentials} = useAuth();
     const [showGames, setShowGames] = useState(6);
     const [showPlayer, setShowPlayer] = useState(12);
 
 
-
-    const [gridDataPlayers, setGridDataPlayers] = useState({
-        rows: [],
-        columns: [
-            {field: 'id', headerName: 'ID', width: 200},
-            {
-                field: 'imageUrl',
-                headerName: 'Image',
-                width: 200,
-                renderCell: (params) => <CustomImageCell value={params.value}/>,
-            },
-            {field: 'firstName', headerName: 'First Name', width: 200},
-            {field: 'lastName', headerName: 'Last Name', width: 200},
-            {field: 'countryOfBirth', headerName: 'Country of Birth', width: 200},
-            {field: 'dateOfBirth', headerName: 'DOB', width: 200},
-            {field: 'position', headerName: 'Position', width: 200},
-        ],
-    });
-
-    const [gridDataGames, setGridDataGames] = useState({
-        rows: [],
-        columns: [
-            {field: 'game_id', headerName: 'ID', width: 200},
-            {field: 'opponent', headerName: 'Opponent', width: 200},
-            {field: 'own_goals', headerName: 'Own Goals', width: 200},
-            {field: 'opponent_goals', headerName: 'Opponent Goals', width: 200},
-        ],
-    });
-
-    const handleRowClickPlayers = (rowId, newState) => {
-        const player = players.find((player) => player.playerId === rowId);
-        navigate(`/player/${player.playerId}`);
-    }
-
-    const handleRowClickGames = (rowId, newState) => {
-        const game = gridDataGames.rows.find(game => game.id === rowId);
-        // console.log("GAME ID: ", game.game_id)
-        if (game) {
-            // console.log("Game ID: ", game.game_id);
-            navigate(`/single-game/${game.id}`);
-        } else {
-            console.error("Game not found");
-        }
-    }
-    
     const handleNumberPlayer = (param) => {
         if (param === 1) {
             setShowPlayer(showPlayer + 6);
         } else {
-            if(showPlayer === 6) return;
-            setShowPlayer(showPlayer-6); // Ensure showPlayer is never less than 1
+            if (showPlayer === 6) return;
+            setShowPlayer(showPlayer - 6); // Ensure showPlayer is never less than 1
         }
     };
 
@@ -94,31 +48,7 @@ export default function SingleTeam() {
         const apiUrl = `http://localhost:3001/player/get-player-by-team?filter=${filter}`;
         axios.get(apiUrl)
             .then(response => {
-                const filteredPlayers = response.data.filter(player =>
-                    player.playerId &&
-                    player.imageUrl &&
-                    player.firstName &&
-                    player.lastName &&
-                    player.countryOfBirth &&
-                    player.dateOfBirth &&
-                    player.position
-                );
-
-                const newRows = filteredPlayers.map((player) => ({
-                    id: player.playerId,
-                    imageUrl: player.imageUrl,
-                    firstName: player.firstName,
-                    lastName: player.lastName,
-                    countryOfBirth: player.countryOfBirth,
-                    dateOfBirth: player.dateOfBirth,
-                    position: player.position,
-                }));
-
-                setGridDataPlayers(prevGridData => ({
-                    ...prevGridData,
-                    rows: newRows,
-                }));
-                setPlayers(filteredPlayers);
+                setPlayers(response.data);
             })
             .catch(error => {
                 console.error("Error fetching players: ", error);
@@ -130,7 +60,7 @@ export default function SingleTeam() {
         const clubGamesApiUrl = `http://localhost:3001/games/get-club-games-by-id/${clubId}`;
         axios.get(clubGamesApiUrl)
             .then(response => {
-                
+
                 setClubGames(response.data);
                 console.log("Club Games: ", response.data);
             })
@@ -138,42 +68,6 @@ export default function SingleTeam() {
                 console.error("Error fetching club games: ", error);
             });
     }
-
-
-
-    const getPositionClass = (subPosition, player) => {
-        console.log("PLAYER: ", player.name, "pos: ", player.position, "sub: ", player.subPosition)
-        // console.log("SUB POS: ", subPosition)
-        switch (subPosition) {
-            case "Goalkeeper":
-                return "goalkeeper";
-            case "Left-Back":
-                return "left-back";
-            case "Centre-Back":
-                return Math.random() < 0.5 ? "center-back-left" : "center-back-right";
-            case "Right-Back":
-                return "right-back";
-            case "Left Midfield":
-                return "left-midfield";
-            case "Central Midfield":
-                return Math.random() < 0.5 ? "center-midfield-left" : "center-midfield-right";
-            case "Right Midfield":
-                return "right-midfield";
-            case "Centre-Forward":
-                return Math.random() < 0.5 ? "left-forward" : "right-forward";
-            case "Defensive Midfield":
-                return Math.random() < 0.5 ? "center-midfield-left" : "center-midfield-right";
-            case "Attacking Midfield":
-                return Math.random() < 0.5 ? "left-forward" : "right-forward";
-            case "Right Winger":
-                return "right-midfield";
-            case "Left Winger":
-                return "left-midfield";
-            default:
-                return "generic-position";
-        }
-    };
-
 
 
     const getTeamById = (clubId) => {
@@ -190,49 +84,30 @@ export default function SingleTeam() {
         getPlayers(clubId);
         getClubGames(clubId);
         getTeamById(clubId);
-    }, [clubId, showPlayer]); // Include showPlayer as a dependency to trigger re-fetching when it changes
+    }, [clubId, showPlayer]);
 
-
-    const handleViewChange = (event) => {
-        setCurrentView(event.target.value);
-    };
 
     const handleNumberGame = (number) => {
         if (number === 1) {
-            if(showGames === 6) return;
+            if (showGames === 6) return;
             setShowGames(showGames - 6);
         } else {
             setShowGames(showGames + 6);
-        }        
+        }
     };
 
     if (!players) {
         return (
             <div>
-            <TopAppBar links={links}/>
+                <TopAppBar links={links}/>
                 Loading...
             </div>
         );
     }
 
-    const handleChangeTab = (e) => {
-        console.log("PLAYERS:", players)
-        const id = e.target.id;
-        switch (id) {
-            case 'tabOne':
-                setView(0);
-                break;
-            case 'tabTwo':
-                
-                setView(1);
-                break;
-            case 'tabThree':
-                setView(2);
-                break;
-            default:
-                break;
-        }
-    }
+    const handleChangeTab = (event, newValue) => {
+        setView(newValue);
+    };
 
     const getUniquePlayersByPosition = (players) => {
         const uniquePositions = new Set();
@@ -247,17 +122,22 @@ export default function SingleTeam() {
         navigate(`/single-game/${game.game_id}`);
     }
 
+    function handlePlayerClick(player) {
+        console.log("++PLAYER: ", player)
+        navigate(`/player/${player.playerId}`);
+    }
+
 
     return (
         <div>
             <div id="container">
-                    <TopAppBar links={links}/>
+                <TopAppBar links={links}/>
                 <div className="team-header">
                     <div id="title-box">
                         <img src={logo} alt="Team" style={{width: '80px', height: '100px', margin: '10px'}}/>
                         <h1>{team ? team.name : 'Loading...'}</h1>
                     </div>
-                    <div className="team-stats">
+                    <div className="team-infos">
                         <p><strong>Stadium:</strong> {team ? team.stadiumName : 'Loading...'}</p>
                         <p><strong>Stadium Seats:</strong> {team ? team.stadiumSeats : 'Loading...'}</p>
                         <p><strong>Transfer Record:</strong> {team ? team.netTransferRecord : 'Loading...'}</p>
@@ -266,26 +146,27 @@ export default function SingleTeam() {
                 <div id="middle-container">
 
                     <Box sx={{borderBottom: 2, borderColor: 'divider', marginBottom: '5px'}}>
-                        <Tabs aria-label="basic tabs example">
-                            <Tab label="PLayers" id="tabOne" onClick={handleChangeTab}/>
-                            <Tab label="Games" id="tabTwo" onClick={handleChangeTab}/>
+                        <Tabs value={view} aria-label="basic tabs example" onChange={handleChangeTab}>
+                            <Tab label="Players" value={0} />
+                            <Tab label="Games" value={1} />
                         </Tabs>
                     </Box>
 
                     {view === 0 ? (
-                        <div className="singleTeam-data">
-                            <div  id="container-card-player">
+                        <div>
+                            <div id="players-card">
 
-                            {players.slice(0, showPlayer).map((player) => (
-                                <Tooltip title={player.position}>                                
-                                <div className="data-card-container">
-                                    <CardPlayers Id={player.playerId} image={player.imageUrl} firstName={player.lastName} />
-                                </div>
-                                </Tooltip>
-                            ))}
+                                {players.slice(0, showPlayer).map((player) => (
+                                    <Tooltip title={player.position} key={player.playerId}>
+                                        <div onClick={() => handlePlayerClick(player)}>
+                                            <CardPlayers Id={player.playerId} image={player.imageUrl} firstName={player.firstName} lastName={player.lastName} position={player.subPosition}/>
+                                        </div>
+                                    </Tooltip>
+                                ))}
+
                             </div>
                             <div id='button-end'>
-                             <Button variant="outlined" size="medium" onClick={() => handleNumberPlayer(1)}
+                                <Button variant="outlined" size="medium" onClick={() => handleNumberPlayer(1)}
                                         sx={{marginRight: '21px'}}>
                                     Show More
                                 </Button>
@@ -296,10 +177,10 @@ export default function SingleTeam() {
                         </div>
                     ) : view === 1 ? (
 
-                        <div className="game-info">
-                            <div id="section-card">
+                        <div>
+                            <div id="games-card">
                                 {clubGames.slice(0, showGames).map((game) => (
-                                    <div onClick={() => handleGameClick(game)} key={game}>
+                                    <div onClick={() => handleGameClick(game)} key={game.game_id}>
                                         <GameCard
                                             game={game}
                                             imageurl1={"https://tmssl.akamaized.net/images/wappen/head/" + clubId + ".png?"}
@@ -308,6 +189,7 @@ export default function SingleTeam() {
                                     </div>
                                 ))}
                             </div>
+
                             <div id='button-end'>
                                 <Button variant="outlined" size="medium" onClick={() => handleNumberGame(1)}
                                         sx={{marginRight: '21px'}}>
@@ -315,19 +197,13 @@ export default function SingleTeam() {
                                 </Button>
                                 <Button variant="outlined" size="medium" onClick={() => handleNumberGame(0)}>
                                     Show More
-                                </Button></div>
-                        </div>
+                                </Button>
+                            </div>
 
+                        </div>
                     ) : (
                         <div className="football-field">
-                            {getUniquePlayersByPosition(players).map(player => {
-                                let positionClass = getPositionClass(player.subPosition, player);
-                                return (
-                                    <div key={player.playerId} className={`player-position ${positionClass}`}>
-                                        {player.firstName} {player.lastName}
-                                    </div>
-                                );
-                            })}
+                            {/* Remove this  */}
                         </div>
                     )}
                 </div>

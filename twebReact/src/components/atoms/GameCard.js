@@ -24,7 +24,21 @@ export default function GameCard({ game, imageurl1, imageurl2 }) {
   }, [game]);
   
   return (
-    <Card sx={{ maxWidth: 300, marginBottom:'10px', height:'180px', width:'350px', backgroundColor:'rgba(255, 255, 255, 0.591)', border: clubWinView ? '3px solid rgb(111, 40, 40)' :'3px solid green'}} >
+      <Card
+          sx={{
+              maxWidth: 300,
+              marginBottom: '10px',
+              height: '180px',
+              width: '350px',
+              backgroundColor: 'rgba(255, 255, 255, 0.591)',
+              border: clubWinView ? '3px solid rgb(111, 40, 40)' : '3px solid green',
+              transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+              '&:hover': {
+                  transform: 'scale(1.05)',
+                  boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)'
+              }
+          }}
+      >
         <CardActionArea sx={{display:'flex', flexDirection:'row', justifyContent:'space-between', marginTop:'2px', height:'100%'}}>
         <div id='box-team-1'>
             <CardMedia
