@@ -18,7 +18,7 @@ const actions = [
 export default function ChatIcon() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
-  const { checkCredentials, user } = useAuth();
+  const { checkCredentials } = useAuth();
   const handleClose = () => setOpen(false);
   const navigate = useNavigate();
   const getChat = (name) => {

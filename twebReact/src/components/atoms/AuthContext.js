@@ -19,7 +19,10 @@ export const AuthProvider = ({ children }) => {
         (response) => {
           console.log(response.data);
           setUser(response.data);
-          localStorage.setItem('user', response.data);
+          // Save the JSON string in local storage
+          const userJSONString = JSON.stringify(response.data);
+          localStorage.setItem('user', userJSONString);
+
           if (response.data === null) {
             alert('Wrong credentials');
           } else {
@@ -32,6 +35,15 @@ export const AuthProvider = ({ children }) => {
       );
   };
 
+  const getUser = () => {
+    if (localStorage.getItem('user')) {
+      setCheckCredentials(true);
+      const userJSONString = localStorage.getItem('user');
+      console.log(userJSONString);
+      const userObject = JSON.parse(userJSONString);
+      setUser(userObject);
+    }
+  };
   const logout = (email, password) => {
     setCheckCredentials(false);
     localStorage.removeItem(user);
@@ -39,7 +51,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ checkCredentials, login, logout, user, setUser }}
+      value={{ checkCredentials, login, logout, user, setUser, getUser }}
     >
       {children}
     </AuthContext.Provider>

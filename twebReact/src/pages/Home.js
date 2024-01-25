@@ -27,7 +27,7 @@ function Home() {
     true,
     true,
   ];
-  const { checkCredentials, user } = useAuth();
+  const { checkCredentials, user, getUser } = useAuth();
   console.log('isUserLogged Home--->', checkCredentials);
   const [arrayNewsApi, setNewsApi] = useState([]);
   const [arrayNewsFavouriteTeam, setNewsFavouriteTeam] = useState([]);

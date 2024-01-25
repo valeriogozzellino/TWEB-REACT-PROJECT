@@ -33,6 +33,10 @@ function SignUp() {
   const [password, setPassword] = useState('');
   const [clubs, setClubs] = useState([]);
   const [players, setPlayers] = useState([]);
+  const uniquePlayerNames = new Set();
+
+  // Filter out players with the same name
+
   const steps = [
     'Informazioni Personali',
     'Preferenze Calcistiche',
@@ -72,6 +76,14 @@ function SignUp() {
         alert(JSON.stringify(error));
       });
   };
+
+  const filteredPlayers = players.filter((player) => {
+    if (!uniquePlayerNames.has(player.name)) {
+      uniquePlayerNames.add(player.name);
+      return true;
+    }
+    return false;
+  });
 
   useEffect(() => {
     getTeams('All', 0);
@@ -230,9 +242,11 @@ function SignUp() {
               <Autocomplete
                 id="combo-box-demo"
                 nome="giocatorePreferito"
-                options={players}
+                options={filteredPlayers}
                 getOptionLabel={(option) => option.name}
-                getOptionSelected={(option, value) => option.id === value.id} // Specifica come confrontare gli oggetti
+                getOptionSelected={(option, value) =>
+                  option.playerId === value.playerId
+                } // Specifica come confrontare gli oggetti
                 style={{ width: 300 }}
                 renderInput={(params) => (
                   <TextField {...params} label="Giocatore Preferito" />
