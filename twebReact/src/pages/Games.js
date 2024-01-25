@@ -51,7 +51,6 @@ export default function Games() {
           new Date(game.date).toDateString()
         );
         setGameDates(gameDates);
-        console.log('GAME sortedGames: ', sortedGames);
         setAllGames(sortedGames);
         // setGridData(prevGridData => ({
         //     ...prevGridData,
@@ -64,17 +63,6 @@ export default function Games() {
       });
   };
 
-  // const handleClick = (roww) => {
-  //     // Find the game using the rowId
-  //     // const game = gridData.rows.find(row => row.id === roww);
-  //     console.log("GAME ID: ", game.game_id)
-  //     if (game) {
-  //         console.log("Game ID: ", game.game_id);
-  //         navigate(`/single-game/${game.game_id}`);
-  //     } else {
-  //         console.error("Game not found");
-  //     }
-  // };
   function handleGameClick(game) {
     navigate(`/single-game/${game.game_id}`);
   }
@@ -86,7 +74,6 @@ export default function Games() {
     );
     setGames(gamesOnDate);
     setSelectedDate(formattedDate);
-    console.log('GAMES: ', gamesOnDate);
     setDateClicked(true);
   };
 

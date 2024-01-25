@@ -34,7 +34,6 @@ function Teams() {
       axios
         .get(apiUrl)
         .then((response) => {
-          console.log(response.data);
           setArrayCountry(response.data);
         })
         .catch((error) => {
@@ -47,7 +46,6 @@ function Teams() {
       axios
         .get(apiUrl)
         .then((response) => {
-          console.log(response.data);
           setArraySeason(response.data);
         })
         .catch((error) => {
@@ -61,8 +59,6 @@ function Teams() {
 
   /** filter Teams by Competitions, return data  */
   const getTeamsByCountry = (filterCountry, filterSeason) => {
-    console.log('filterCountry and filterSeason');
-    console.log(filterSeason, filterCountry);
     const apiUrl = `http://localhost:3001/teams/get-teams-by-season-and-country?filterCountry=${filterCountry}&filterSeason=${filterSeason}`;
     axios
       .get(apiUrl)

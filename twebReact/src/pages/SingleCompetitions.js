@@ -32,9 +32,7 @@ export default function SingleCompetitions() {
   const { checkCredentials } = useAuth();
 
   const getClub = (competitionId) => {
-    console.log('competitionId', competitionId);
     const filterCompetition = competitionId;
-    console.log('filterCompetition', filterCompetition);
     const competitionApiUrl = `http://localhost:3001/teams/get-teams-by-competition?filterCompetition=${filterCompetition}`;
     axios
       .get(competitionApiUrl)

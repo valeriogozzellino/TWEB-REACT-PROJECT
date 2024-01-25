@@ -1,4 +1,6 @@
 exports.init = function (io) {
+
+
     const playersChat = io.of('/PlayersChat').on('connection', function (socket) {
         try {
             socket.on('joined', function (room, firstName, userId) {
@@ -9,6 +11,7 @@ exports.init = function (io) {
 
             socket.on('send_message', function (room, message, userId) {
                 console.log("INVIO MESSAGGIO");
+                console.log("ROOM", room);
                 teamsChat.to(room).emit('chat_message',room,  message, userId);
             });
 

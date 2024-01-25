@@ -56,7 +56,6 @@ export default function SingleTeam() {
       .get(clubGamesApiUrl)
       .then((response) => {
         setClubGames(response.data);
-        console.log('Club Games: ', response.data);
       })
       .catch((error) => {
         console.error('Error fetching club games: ', error);
@@ -116,7 +115,6 @@ export default function SingleTeam() {
   }
 
   function handlePlayerClick(player) {
-    console.log('++PLAYER: ', player);
     navigate(`/player/${player.playerId}`);
   }
 

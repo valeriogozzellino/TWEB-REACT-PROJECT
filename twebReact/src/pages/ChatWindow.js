@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Box from '@mui/material/Box';
 import TopAppBar from '../components/atoms/TopAppBar';
 import Footer from '../components/atoms/Footer';
@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import '../style/global.css';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../components/atoms/AuthContext';
-import { socket } from '../services/socket';
+import { connectToRoom, disconnectSocket, sockets } from '../services/socket';
 import { useNavigate } from 'react-router-dom';
 import Drawer from '../components/atoms/DrawerVault';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -22,21 +22,16 @@ import IconButton from '@mui/material/IconButton';
 export default function ChatWindow() {
   const { checkCredentials, user } = useAuth(); //user details from AuthContext
   const links = [false, true, true, true, true, false, false, false];
-  const [userLogged, setUserLogged] = useState(checkCredentials); //only logged user can send messages
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const navigate = useNavigate();
-
+  const [view, setView] = useState(0); //view of the chat window
   //cancellazione di queste variabili ???
   const { chatRoom } = useParams();
-  console.log('chatRoom---> ', chatRoom);
-  const [currentRoom, setCurrentRoom] = useState(chatRoom);
+  const [currentRoom, setCurrentRoom] = useState('/' + chatRoom);
   const [messagesPlayers, setMessagesPlayers] = useState([]);
   const [messagesTeams, setMessagesTeams] = useState([]);
   const [messagesGames, setMessagesGames] = useState([]);
 
-  const room = '/' + chatRoom;
-
-  const socketServerUrl = 'http://localhost:3001';
   const [newMessage, setNewMessage] = useState({
     userId: '',
     text: '',
@@ -58,15 +53,29 @@ export default function ChatWindow() {
 
   useEffect(() => {
     console.log('currentRoom', currentRoom);
+    let selectedSocket;
+    if (currentRoom === '/PlayersChat') {
+      selectedSocket = sockets.playerSock;
+      setView(0);
+      console.log('messageplayer', messagesPlayers);
+    } else if (currentRoom === '/TeamsChat') {
+      selectedSocket = sockets.teamSock;
+      setView(1);
+      console.log('messageteam', messagesTeams);
+    } else {
+      selectedSocket = sockets.gameSock;
+      setView(2);
+      console.log('messagegame', messagesGames);
+    }
 
-    socket.connect();
-    //joined room
-    socket.emit('joined', room, user.firstName, user.userId);
-
+    connectToRoom(currentRoom, selectedSocket);
+    selectedSocket.emit('joined', currentRoom, user.firstName, user.userId);
     //definition of the receiver of the message
-    socket.on('chat_message', (room, newMessage) => {
+    selectedSocket.on('chat_message', (room, newMessage) => {
       console.log('newMessage', newMessage);
       console.log('MESSAGGIO ARRIVATO');
+      console.log('room messaggio in arrivo', room);
+
       if (room === '/PlayersChat' && newMessage.userId !== user.userId) {
         setMessagesPlayers((currentMessages) => [
           ...currentMessages,
@@ -85,7 +94,7 @@ export default function ChatWindow() {
     });
 
     //definition of notification of new user joined
-    socket.on('joined', (room, firstName, userId) => {
+    selectedSocket.on('joined', (room, firstName, userId) => {
       const joinMessage = {
         userId: 'userId',
         sender: 'System',
@@ -112,8 +121,12 @@ export default function ChatWindow() {
       }
     });
     //socket disconnected when compponents are unmounted
-    return () => socket.disconnect();
-  }, [currentRoom, room, user.firstName, user.userId]);
+    return () => {
+      selectedSocket.off('chat_message');
+      selectedSocket.off('joined');
+      disconnectSocket(selectedSocket);
+    };
+  }, [currentRoom, user.firstName, user.userId]);
 
   const handleSendMessage = () => {
     if (newMessage.text !== '') {
@@ -123,20 +136,104 @@ export default function ChatWindow() {
         sender: newMessage.sender,
         time: newMessage.time,
       };
-      if (room === '/PlayersChat') {
-        console.log('message', room, message);
+      if (currentRoom === '/PlayersChat') {
+        console.log('message player', currentRoom, message);
         setMessagesPlayers([...messagesPlayers, message]);
-      } else if (room === '/TeamsChat') {
-        console.log('message', message);
+        sockets.playerSock.emit('send_message', currentRoom, message);
+      } else if (currentRoom === '/TeamsChat') {
+        console.log('message team', message);
         setMessagesTeams([...messagesTeams, message]);
+        sockets.teamSock.emit('send_message', currentRoom, message);
       } else {
-        console.log('message', room, message);
+        console.log('message game', currentRoom, message);
         setMessagesGames([...messagesGames, message]);
+        sockets.gameSock.emit('send_message', currentRoom, message);
       }
-      socket.emit('send_message', room, message);
       setNewMessage({ userId: '', text: '', sender: '', time: '' });
     }
   };
+  const currentView = useMemo(() => {
+    return [
+      <List key="players">
+        {messagesPlayers.map((msg, index) => (
+          <ListItem
+            key={index}
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems:
+                msg.userId === user.userId ? 'flex-end' : 'flex-start',
+              color: 'black',
+            }}
+          >
+            <p style={{ color: 'white' }}>{msg.sender}</p>
+            <ListItemText
+              primary={msg.text}
+              secondary={msg.time}
+              sx={{
+                backgroundColor: msg.sender === 'user' ? '#cfe8fc' : '#f0f0f0',
+                borderRadius: '10px',
+                padding: '10px',
+                width: '40%',
+              }}
+            />
+          </ListItem>
+        ))}
+      </List>,
+      <List key="teams">
+        {messagesTeams.map((msg, index) => (
+          <ListItem
+            key={index}
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems:
+                msg.userId === user.userId ? 'flex-end' : 'flex-start',
+              color: 'black',
+            }}
+          >
+            <p style={{ color: 'white' }}>{msg.sender}</p>
+            <ListItemText
+              primary={msg.text}
+              secondary={msg.time}
+              sx={{
+                backgroundColor: msg.sender === 'user' ? '#cfe8fc' : '#f0f0f0',
+                borderRadius: '10px',
+                padding: '10px',
+                width: '40%',
+              }}
+            />
+          </ListItem>
+        ))}
+      </List>,
+      <List key="games">
+        {messagesGames.map((msg, index) => (
+          <ListItem
+            key={index}
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems:
+                msg.userId === user.userId ? 'flex-end' : 'flex-start',
+              color: 'black',
+            }}
+          >
+            <p style={{ color: 'white' }}>{msg.sender}</p>
+            <ListItemText
+              primary={msg.text}
+              secondary={msg.time}
+              sx={{
+                backgroundColor: msg.sender === 'user' ? '#cfe8fc' : '#f0f0f0',
+                borderRadius: '10px',
+                padding: '10px',
+                width: '40%',
+              }}
+            />
+          </ListItem>
+        ))}
+      </List>,
+    ];
+  }, [messagesPlayers, messagesTeams, messagesGames, user]);
 
   return (
     <>
@@ -179,91 +276,8 @@ export default function ChatWindow() {
               maxHeight: '70vh',
             }}
           >
-            <List>
-              {currentRoom === 'PlayersChat'
-                ? messagesGames.map((msg, index) => (
-                    <ListItem
-                      key={index}
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems:
-                          msg.userId === user.userId
-                            ? 'flex-end'
-                            : 'flex-start',
-                        color: 'black',
-                      }}
-                    >
-                      <p>{msg.sender}</p>
-                      <ListItemText
-                        primary={msg.text}
-                        secondary={msg.time}
-                        sx={{
-                          backgroundColor:
-                            msg.sender === 'user' ? '#cfe8fc' : '#f0f0f0',
-                          borderRadius: '10px',
-                          padding: '10px',
-                          width: '40%',
-                        }}
-                      />
-                    </ListItem>
-                  ))
-                : currentRoom === 'TeamsChat'
-                ? messagesTeams.map((msg, index) => (
-                    <ListItem
-                      key={index}
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems:
-                          msg.userId === user.userId
-                            ? 'flex-end'
-                            : 'flex-start',
-                        color: 'black',
-                      }}
-                    >
-                      <p>{msg.sender}</p>
-                      <ListItemText
-                        primary={msg.text}
-                        secondary={msg.time}
-                        sx={{
-                          backgroundColor:
-                            msg.sender === 'user' ? '#cfe8fc' : '#f0f0f0',
-                          borderRadius: '10px',
-                          padding: '10px',
-                          maxWidth: '50%',
-                        }}
-                      />
-                    </ListItem>
-                  ))
-                : messagesGames.map((msg, index) => (
-                    <ListItem
-                      key={index}
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        color: 'black',
-                        alignItems:
-                          msg.userId === user.userId
-                            ? 'flex-end'
-                            : 'flex-start',
-                      }}
-                    >
-                      <p>{msg.sender}</p>
-                      <ListItemText
-                        primary={msg.text}
-                        secondary={msg.time}
-                        sx={{
-                          backgroundColor:
-                            msg.sender === 'user' ? '#cfe8fc' : '#f0f0f0',
-                          borderRadius: '10px',
-                          padding: '10px',
-                          maxWidth: '50%',
-                        }}
-                      />
-                    </ListItem>
-                  ))}
-            </List>
+            {/* set the view of the chat */}
+            {currentView[view]}
           </Box>
           <Box
             component="form"
