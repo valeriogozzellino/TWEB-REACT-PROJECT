@@ -100,7 +100,7 @@ export default function Player() {
       <TopAppBar links={links} />
       <div>
         <div className="header-info-container">
-          <h1>
+          <h1 className="print-color">
             {player.firstName} {player.lastName}
           </h1>
           <img
@@ -110,17 +110,19 @@ export default function Player() {
         </div>
 
 
-        <div>
+        <div className="middle-container-background-color middle-container">
+          <div className="tabs">
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs aria-label="basic tabs example">
               <Tab label="Overview" id="tabOne" onClick={handleChangeTab} />
               <Tab label="Appearances" id="tabTwo" onClick={handleChangeTab} />
             </Tabs>
           </Box>
+          </div>
           {view === 0 ? (
               <div className="overall-info-container">
-                <div className="personal-info">
-                  <h1> Informazioni personali </h1>
+                <div className="single-player-card personal-info">
+                  <h1 className="print-color"> Informazioni personali </h1>
                   <span>Paese di nascita: {player.countryOfBirth}</span>
                   <span>Data di nascita: {player.dateOfBirth}</span>
                   <span>Città di nascita: {player.cityOfBirth}</span>
@@ -128,21 +130,20 @@ export default function Player() {
                   <span>Altezza (cm): {player.heightInCm}</span>
                 </div>
 
-                <div className="about-player">
-                  <h1> Specifiche </h1>
+                <div className="single-player-card about-player">
+                  <h1 className="print-color"> Specifiche </h1>
                   <span>Posizione: {player.position}</span>
                   <span>Posizione specifica: {player.subPosition}</span>
                   <span>Club: {player.currentClubName}</span>
                   <span>Piede: {player.foot}</span>
                 </div>
 
-                <div className="other-info">
-                  <h1> Mercato </h1>
+                <div className="single-player-card other-info">
+                  <h1 className="print-color"> Mercato </h1>
                   <span>Valore di mercato (Eur): {player.marketValueInEur}</span>
                   <span>Valore di mercato piuù alto (Eur): {player.highestMarketValueInEur}</span>
                   <span>Fine Contratto: {player.contractExpirationDate}</span>
-                  <a href={player.url} target="_blank" rel="noopener noreferrer">Altre Info</a>
-
+                  <a style={{ color: 'red' }} href={player.url} target="_blank" rel="noopener noreferrer">Altre Info</a>
                 </div>
               </div>
 
