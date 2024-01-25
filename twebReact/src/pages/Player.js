@@ -97,43 +97,62 @@ export default function Player() {
   return (
     <div className="player-container">
       <TopAppBar links={links} />
-      <div id="middle-box">
-        <div className="player-header">
+      <div>
+        <div className="header-info-container">
           <h1>
             {player.firstName} {player.lastName}
           </h1>
-        </div>
-        <div className="player-image">
           <img
             src={player.imageUrl}
             alt={`${player.firstName} ${player.lastName}`}
           />
         </div>
-        <div id="containerData">
+
+
+        <div>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs aria-label="basic tabs example">
-              <Tab label="Item One" id="tabOne" onClick={handleChangeTab} />
-              <Tab label="Item Two" id="tabTwo" onClick={handleChangeTab} />
-              <Tab label="Item Three" id="tabThree" onClick={handleChangeTab} />
+              <Tab label="Overview" id="tabOne" onClick={handleChangeTab} />
+              <Tab label="Appearances" id="tabTwo" onClick={handleChangeTab} />
             </Tabs>
           </Box>
           {view === 0 ? (
-            <div className="player-stats">
-              <span>Player position: {player.position}</span>
-              <span>countryOfBirth: {player.countryOfBirth}</span>
-              <span>Heigth: {player.heightInCm}</span>
-              <span>dateOfBirth: {player.dateOfBirth}</span>
-            </div>
+              <div className="overall-info-container">
+                <div className="personal-info">
+                  <h1> Informazioni personali </h1>
+                  <span>Paese di nascita: {player.countryOfBirth}</span>
+                  <span>Data di nascita: {player.dateOfBirth}</span>
+                  <span>Città di nascita: {player.cityOfBirth}</span>
+                  <span>Cittadinanza: {player.countryOfCitizenship}</span>
+                  <span>Altezza (cm): {player.heightInCm}</span>
+                </div>
+
+                <div className="about-player">
+                  <h1> Specifiche </h1>
+                  <span>Posizione: {player.position}</span>
+                  <span>Posizione specifica: {player.subPosition}</span>
+                  <span>Club: {player.currentClubName}</span>
+                  <span>Piede: {player.foot}</span>
+                </div>
+
+                <div className="other-info">
+                  <h1> Mercato </h1>
+                  <span>Valore di mercato (Eur): {player.marketValueInEur}</span>
+                  <span>Valore di mercato piuù alto (Eur): {player.highestMarketValueInEur}</span>
+                  <span>Fine Contratto: {player.contractExpirationDate}</span>
+                  <a href={player.url} target="_blank" rel="noopener noreferrer">Altre Info</a>
+
+                </div>
+              </div>
+
           ) : view === 1 ? (
-            <div className="player-info">
-              <h2>Position: {player.position}</h2>
-              <h3>{player.currentClubName}</h3>
-            </div>
+              <div className="grid-container">
+                <DataGridElement
+                    gridData={{ rows: playerAppearances, columns: columns }}
+                />
+              </div>
           ) : (
-            <div id="playerAppearancesGrid" style={{ height: '300px' }}>
-              <DataGridElement
-                gridData={{ rows: playerAppearances, columns: columns }}
-              />
+            <div style={{ height: '300px' }}>
             </div>
           )}
         </div>
