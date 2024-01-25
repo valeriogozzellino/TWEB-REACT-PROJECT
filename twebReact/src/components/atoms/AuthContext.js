@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
         (response) => {
           console.log(response.data);
           setUser(response.data);
-          localStorage.setItem(response.data.userId, response.data);
+          localStorage.setItem('user', response.data);
           if (response.data === null) {
             alert('Wrong credentials');
           } else {
@@ -38,7 +38,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ checkCredentials, login, logout, user }}>
+    <AuthContext.Provider
+      value={{ checkCredentials, login, logout, user, setUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

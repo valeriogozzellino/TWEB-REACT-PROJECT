@@ -15,4 +15,9 @@ public interface PlayersRepository extends JpaRepository<Players, String> {
             "FROM players " + "WHERE player_id = :filter ",
             nativeQuery = true)
     Players findPlayerByID(int filter);
+
+    @Query(value = "SELECT DISTINCT * " +
+            "FROM players ",
+            nativeQuery = true)
+    List<Players> getAllPlayers();
 }

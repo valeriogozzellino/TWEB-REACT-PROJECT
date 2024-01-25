@@ -20,10 +20,13 @@ import IconButton from '@mui/material/IconButton';
 //fare un check se id Utente uguale a quello che lo riceve per non inseririlo nella lista dei messaggi ricevuti
 
 export default function ChatWindow() {
-  const { checkCredentials, user } = useAuth(); //user details from AuthContext
+  const { user, setUser } = useAuth(); //user details from AuthContext
   const links = [false, true, true, true, true, false, false, false];
   const [drawerOpen, setDrawerOpen] = React.useState(false);
-  const navigate = useNavigate();
+
+  if (!localStorage.getItem('user')) {
+    setUser(localStorage.getItem('user'));
+  }
   const [view, setView] = useState(0); //view of the chat window
   //cancellazione di queste variabili ???
   const { chatRoom } = useParams();

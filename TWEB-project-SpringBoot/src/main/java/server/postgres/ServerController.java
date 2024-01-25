@@ -27,9 +27,9 @@ public class ServerController {
     }
 
     @GetMapping("/get-player-by-team")
-    public List<Players> getAllPlayers(@RequestParam(name = "filter") int filter) {
+    public List<Players> getPlayersByTeam(@RequestParam(name = "filter") int filter) {
         System.out.println("------FILTRO PLAYERs"+ filter);
-        List<Players> playersList = playersService.getAllPlayers(filter);
+        List<Players> playersList = playersService.getPlayersByTeam(filter);
         if(playersList.isEmpty()){
             System.out.println("-----LISTA PLAYERS VUOTA");
         }else{
@@ -44,6 +44,12 @@ public class ServerController {
 
         return player;
     }
+    @GetMapping("/get-all-players")
+    public List<Players> getAllPlayers() {
+        List<Players> players = playersService.getAllPlayers();
+        return players;
+    }
+
     @GetMapping("/get-competitions-country")
     public List<String> getCompetitionsCountry() {
         List<String> countryList = competitionsService.getCountry();
@@ -89,11 +95,12 @@ public class ServerController {
         return countryList;
     }
 
-    @PostMapping("/save-user")
-    public void  saveUserDB(@RequestParam(name = "filterSeason") Users newUser) {
+    @PostMapping("/sign-up")
+    public void  saveUserDB(@RequestBody Users newUser) {
         System.out.println("Stampo il filtro della season: " + newUser.getFirstName());
         usersService.saveUserDB(newUser);
     }
+
     @GetMapping("/check-credentials")
     public Users  checkCredentials(@RequestParam(name = "email") String email,
                                   @RequestParam(name = "password") String password) {

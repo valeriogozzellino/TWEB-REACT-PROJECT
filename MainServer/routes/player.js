@@ -25,6 +25,17 @@ router.get('/get-player-by-team', function(req, res) {
             res.status(500).json({ error: 'Internal Server Error' });
         });
 })
+router.get('/get-all-players', function(req, res) {
+    axios.get(`http://localhost:8081/get-all-players`)
+        .then(response => {
+            console.log("ho richiesto players");
+            res.json(response.data)
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        });
+})
 router.get('/get-player-by-playerId', function(req, res) {
     console.log("ho ricevuto la richiesta dei players")
     const { filter } = req.query;

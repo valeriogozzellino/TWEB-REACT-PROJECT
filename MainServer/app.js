@@ -17,6 +17,7 @@ var signUpRouter = require('./routes/signUp');
 var gamesRouter = require('./routes/games');
 var competitionRouter = require('./routes/competitions');
 var singleGameRouter = require('./routes/single_game');
+var userRouter = require('./routes/users');
 
 var app = express();
 
@@ -41,6 +42,7 @@ app.use('/logIn', logInRouter);
 app.use('/signUp', signUpRouter);
 app.use('/games', gamesRouter);
 app.use('/single-game', singleGameRouter);
+app.use('/users', userRouter);
 // Rimuovi i commenti da questa parte
 
 

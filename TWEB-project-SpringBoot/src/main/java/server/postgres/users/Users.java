@@ -25,8 +25,6 @@ public class Users {
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
 
-    @Column(name = "image_url", length = 255)
-    private String imageUrl;
 
     @Column(name = "favourite_club", length = 255)
     private String favouriteClub;
@@ -117,13 +115,6 @@ public class Users {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
 
     public Long getId() {
         return userId;

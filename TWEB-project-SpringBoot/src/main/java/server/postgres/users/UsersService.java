@@ -11,7 +11,7 @@ public class UsersService {
     }
 
     public void saveUserDB(Users newUsers) {
-        assert newUsers!=null;
+        assert newUsers != null;
         usersRepository.save(newUsers);
     }
     public Users checkCredentials(String email, String password) {
