@@ -11,6 +11,7 @@ import '../style/global.css';
 import CardElement from '../components/atoms/CardElement';
 import IndexPage from '../components/atoms/IndexPage';
 import ChatIcon from '../components/atoms/ChatIcon';
+import ArrowBack from "../components/atoms/ArrowBack";
 
 function Teams() {
   const [filterSeason, setSeason] = useState(0); // return all competition and set them for the filter
@@ -128,6 +129,7 @@ function Teams() {
           ))}
         </div>
       </div>
+      <ArrowBack />
       <ChatIcon />
       <Footer />
     </div>

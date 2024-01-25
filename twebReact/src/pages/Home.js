@@ -4,7 +4,7 @@ import TopAppBar from '../components/atoms/TopAppBar';
 import CardNews from '../components/atoms/CardNews';
 import '../style/Home.css';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../components/atoms/AuthContext';
 import Footer from '../components/atoms/Footer';
 import '../style/global.css';
@@ -13,6 +13,7 @@ import TeamsImage from '../Images/TeamsImage.png';
 import CompetitionsImage from '../Images/CompetitionsImage.jpg';
 import PlayersImage from '../Images/PlayersImage.jpg';
 import { useNavigate } from 'react-router-dom';
+import ArrowBack from "../components/atoms/ArrowBack";
 
 function Home() {
   const links = [
@@ -119,6 +120,7 @@ function Home() {
       <div id="bottomContainer">
         <Footer />
       </div>
+      <ArrowBack />
       <ChatIcon />
     </div>
   );

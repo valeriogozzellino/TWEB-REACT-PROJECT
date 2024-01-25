@@ -12,6 +12,7 @@ import Footer from '../components/atoms/Footer';
 import CardElement from '../components/atoms/CardElement';
 import '../style/global.css';
 import ChatIcon from '../components/atoms/ChatIcon';
+import ArrowBack from "../components/atoms/ArrowBack";
 
 const Competitions = () => {
   const links = [false, true, false, true, true, false, false, false];
@@ -123,6 +124,7 @@ const Competitions = () => {
           </div>
         </div>
       </div>
+      <ArrowBack />
       <ChatIcon />
       <Footer />
     </div>

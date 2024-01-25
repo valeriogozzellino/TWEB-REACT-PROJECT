@@ -10,6 +10,7 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import Footer from '../components/atoms/Footer';
 import ChatIcon from '../components/atoms/ChatIcon';
+import ArrowBack from '../components/atoms/ArrowBack';
 
 export default function Player() {
   const { player_Id } = useParams();
@@ -157,6 +158,7 @@ export default function Player() {
           )}
         </div>
       </div>
+      <ArrowBack />
       <ChatIcon />
       <Footer />
     </div>

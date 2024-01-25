@@ -17,6 +17,7 @@ import Box from '@mui/material/Box';
 import * as gameService from '../services/singleGameService';
 import * as playerService from '../services/playerService';
 import Modal from '../components/Modal';
+import ArrowBack from "../components/atoms/ArrowBack";
 
 const SingleGame = () => {
   const links = [false, true, true, true, true, false, false, false];
@@ -308,6 +309,7 @@ const SingleGame = () => {
         ) : (
           <div></div>
         )}
+        <ArrowBack />
         <Footer />
       </div>
     </div>

@@ -10,6 +10,7 @@ import Footer from '../components/atoms/Footer';
 import '../style/global.css';
 import CardElement from '../components/atoms/CardElement';
 import ChatIcon from '../components/atoms/ChatIcon';
+import ArrowBack from "../components/atoms/ArrowBack";
 
 const CustomImageCell = ({ value }) => (
   <img
@@ -115,6 +116,7 @@ export default function SingleCompetitions() {
           ))}
         </div>
       </div>
+      <ArrowBack />
       <ChatIcon />
       <Footer />
     </div>

@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import Drawer from '../components/atoms/DrawerVault';
 import MenuIcon from '@mui/icons-material/Menu';
 import IconButton from '@mui/material/IconButton';
+import ArrowBack from "../components/atoms/ArrowBack";
 //IMPORTANTE :
 //ancora da fare :
 //fare un check se id Utente uguale a quello che lo riceve per non inseririlo nella lista dei messaggi ricevuti
@@ -341,6 +342,7 @@ export default function ChatWindow() {
           onChangeRoom={handleChangeRoom}
           chattingRooms={['PlayersChat', 'TeamsChat', 'GamesChat']}
         />
+        <ArrowBack />
         <Footer />
       </div>
     </>

@@ -10,6 +10,7 @@ import Footer from '../components/atoms/Footer';
 import CalendarElement from '../components/atoms/CalendarElement';
 import GameCard from '../components/atoms/GameCard';
 import ChatIcon from '../components/atoms/ChatIcon';
+import ArrowBack from "../components/atoms/ArrowBack";
 
 export default function Games() {
   const [error, setError] = useState(null);
@@ -132,6 +133,7 @@ export default function Games() {
             ))}
         </div>
       </div>
+      <ArrowBack />
       <ChatIcon />
       <Footer />
       {error && <p>Error: {error.message}</p>}

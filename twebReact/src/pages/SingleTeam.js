@@ -14,6 +14,7 @@ import Button from '@mui/material/Button';
 import ChatIcon from '../components/atoms/ChatIcon';
 import CardPlayers from '../components/CardPlayer';
 import Tooltip from '@mui/material/Tooltip';
+import ArrowBack from "../components/atoms/ArrowBack";
 
 export default function SingleTeam() {
   const links = [false, true, true, true, true, false, false, false];
@@ -242,6 +243,7 @@ export default function SingleTeam() {
             <div className="football-field">{/* Remove this  */}</div>
           )}
         </div>
+        <ArrowBack />
         <ChatIcon />
       </div>
       <Footer />
