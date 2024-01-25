@@ -11,22 +11,25 @@ import MailIcon from '@mui/icons-material/Mail';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
+import SportsSoccerIcon from '@mui/icons-material/SportsSoccer';
+import SportsIcon from '@mui/icons-material/Sports';
+import GroupsIcon from '@mui/icons-material/Groups';
 
-export default function DrawerVault({ open, onClose, pages }) {
-  const page = pages;
-  const navigate = useNavigate();
+export default function DrawerVault({
+  open,
+  onClose,
+  chattingRooms,
+  onChangeRoom,
+}) {
+  const roomLink = [
+    { icon: <SportsSoccerIcon />, name: 'PlayersChat' },
+    { icon: <GroupsIcon />, name: 'TeamsChat' },
+    { icon: <SportsIcon />, name: 'GamesChat' },
+  ];
 
-  const redirectToPage = (page) => () => {
-    if (page === "Home") {
-      navigate("/");
-    } else {
-      navigate(`/${page.toLowerCase()}`);
-    }
-  };
   //if you want to insert more page in drawervault you can add a new element in the array below
   return (
     <Drawer
-      
       sx={{
         width: 240,
         flexShrink: 0,
@@ -39,19 +42,19 @@ export default function DrawerVault({ open, onClose, pages }) {
       variant="temporary"
       size="sm"
       anchor="left"
-          open={open}
-            onClose={onClose}
+      open={open}
+      onClose={onClose}
     >
-          <Toolbar />
-          <Button onClick={onClose}>Close</Button>
+      <Toolbar />
+      <Button onClick={onClose}>Close</Button>
       <Divider />
       <List>
-        { page.map((text, index)  => (
+        {chattingRooms.map((text, index) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton onClick={redirectToPage(text)} >
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
+            <ListItemButton
+              onClick={() => onChangeRoom('/' + roomLink[index].name)}
+            >
+              <ListItemIcon>{roomLink[index].icon}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
           </ListItem>

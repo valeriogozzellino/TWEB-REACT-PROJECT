@@ -10,9 +10,11 @@ import Button from '@mui/material/Button';
 import '../style/global.css';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../components/atoms/AuthContext';
-import io from 'socket.io-client';
+import { socket } from '../services/socket';
 import { useNavigate } from 'react-router-dom';
-
+import Drawer from '../components/atoms/DrawerVault';
+import MenuIcon from '@mui/icons-material/Menu';
+import IconButton from '@mui/material/IconButton';
 //IMPORTANTE :
 //ancora da fare :
 //fare un check se id Utente uguale a quello che lo riceve per non inseririlo nella lista dei messaggi ricevuti
@@ -21,18 +23,20 @@ export default function ChatWindow() {
   const { checkCredentials, user } = useAuth(); //user details from AuthContext
   const links = [false, true, true, true, true, false, false, false];
   const [userLogged, setUserLogged] = useState(checkCredentials); //only logged user can send messages
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
   const navigate = useNavigate();
 
   //cancellazione di queste variabili ???
   const { chatRoom } = useParams();
   console.log('chatRoom---> ', chatRoom);
+  const [currentRoom, setCurrentRoom] = useState(chatRoom);
   const [messagesPlayers, setMessagesPlayers] = useState([]);
   const [messagesTeams, setMessagesTeams] = useState([]);
   const [messagesGames, setMessagesGames] = useState([]);
-  const [room, setRoom] = useState('/' + chatRoom);
+
+  const room = '/' + chatRoom;
 
   const socketServerUrl = 'http://localhost:3001';
-  const [socket, setSocket] = useState(null);
   const [newMessage, setNewMessage] = useState({
     userId: '',
     text: '',
@@ -40,16 +44,27 @@ export default function ChatWindow() {
     time: '',
   });
 
-  useEffect(() => {
-    //inizialize socket when component mounts
-    const newSocket = io(`${socketServerUrl}/${chatRoom}`);
-    setSocket(newSocket);
+  const handleDrawerOpen = () => {
+    setDrawerOpen(true);
+  };
 
+  const handleDrawerClose = () => {
+    setDrawerOpen(false);
+  };
+  const handleChangeRoom = (newRoom) => {
+    setCurrentRoom(newRoom);
+    setDrawerOpen(false);
+  };
+
+  useEffect(() => {
+    console.log('currentRoom', currentRoom);
+
+    socket.connect();
     //joined room
-    newSocket.emit('joined', room, user.firstName, user.userId);
+    socket.emit('joined', room, user.firstName, user.userId);
 
     //definition of the receiver of the message
-    newSocket.on('chat_message', (room, newMessage) => {
+    socket.on('chat_message', (room, newMessage) => {
       console.log('newMessage', newMessage);
       console.log('MESSAGGIO ARRIVATO');
       if (room === '/PlayersChat' && newMessage.userId !== user.userId) {
@@ -70,7 +85,7 @@ export default function ChatWindow() {
     });
 
     //definition of notification of new user joined
-    newSocket.on('joined', (room, firstName, userId) => {
+    socket.on('joined', (room, firstName, userId) => {
       const joinMessage = {
         userId: 'userId',
         sender: 'System',
@@ -97,8 +112,8 @@ export default function ChatWindow() {
       }
     });
     //socket disconnected when compponents are unmounted
-    return () => newSocket.disconnect();
-  }, [chatRoom]);
+    return () => socket.disconnect();
+  }, [currentRoom, room, user.firstName, user.userId]);
 
   const handleSendMessage = () => {
     if (newMessage.text !== '') {
@@ -125,197 +140,192 @@ export default function ChatWindow() {
 
   return (
     <>
-      {/* eliminare questa coindizione verificata nella chatIcon */}
-      {!userLogged ? (
-        <div>
-          <h1>Log in to join the chat</h1>
-          <Button
-            variant="contained"
-            sx={{ marginLeft: 1 }}
-            onClick={() => navigate('/logIn')}
-          >
-            Log in
-          </Button>
-          <Button
-            variant="contained"
-            sx={{ marginLeft: 1 }}
-            onClick={() => navigate('/signup')}
-          >
-            Sign up
-          </Button>
-        </div>
-      ) : (
-        <div id="chat-box">
+      <div id="chat-box">
+        <div
+          className="container-background-color"
+          style={{ minHeight: '120vh' }}
+        >
+          <TopAppBar links={links} />
           <div
-            className="container-background-color"
-            style={{ minHeight: '120vh' }}
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              margin: '15px',
+              minHeight: '10vh',
+            }}
           >
-            <TopAppBar links={links} />
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'center',
-                margin: '15px',
-                minHeight: '10vh',
-              }}
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2, marginBottom: 3 }}
+              onClick={handleDrawerOpen} // Aggiungi l'evento onClick per aprire il DrawerVault
             >
-              <h1> {chatRoom} </h1>
-            </div>
-            <Box
-              sx={{
-                width: '90%',
-                overflow: 'auto',
-                minHeight: 350,
-                marginTop: 2,
-                marginLeft: 10,
-                borderRadius: '10px',
-                backgroundColor: '#08325792',
-                maxHeight: '70vh',
-              }}
-            >
-              <List>
-                {chatRoom === 'PlayersChat'
-                  ? messagesGames.map((msg, index) => (
-                      <ListItem
-                        key={index}
-                        sx={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          alignItems:
-                            msg.userId === user.userId
-                              ? 'flex-end'
-                              : 'flex-start',
-                          color: 'black',
-                        }}
-                      >
-                        <p>{msg.sender}</p>
-                        <ListItemText
-                          primary={msg.text}
-                          secondary={msg.time}
-                          sx={{
-                            backgroundColor:
-                              msg.sender === 'user' ? '#cfe8fc' : '#f0f0f0',
-                            borderRadius: '10px',
-                            padding: '10px',
-                            width: '40%',
-                          }}
-                        />
-                      </ListItem>
-                    ))
-                  : chatRoom === 'TeamsChat'
-                  ? messagesTeams.map((msg, index) => (
-                      <ListItem
-                        key={index}
-                        sx={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          alignItems:
-                            msg.userId === user.userId
-                              ? 'flex-end'
-                              : 'flex-start',
-                          color: 'black',
-                        }}
-                      >
-                        <p>{msg.sender}</p>
-                        <ListItemText
-                          primary={msg.text}
-                          secondary={msg.time}
-                          sx={{
-                            backgroundColor:
-                              msg.sender === 'user' ? '#cfe8fc' : '#f0f0f0',
-                            borderRadius: '10px',
-                            padding: '10px',
-                            maxWidth: '50%',
-                          }}
-                        />
-                      </ListItem>
-                    ))
-                  : messagesGames.map((msg, index) => (
-                      <ListItem
-                        key={index}
-                        sx={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          color: 'black',
-                          alignItems:
-                            msg.userId === user.userId
-                              ? 'flex-end'
-                              : 'flex-start',
-                        }}
-                      >
-                        <p>{msg.sender}</p>
-                        <ListItemText
-                          primary={msg.text}
-                          secondary={msg.time}
-                          sx={{
-                            backgroundColor:
-                              msg.sender === 'user' ? '#cfe8fc' : '#f0f0f0',
-                            borderRadius: '10px',
-                            padding: '10px',
-                            maxWidth: '50%',
-                          }}
-                        />
-                      </ListItem>
-                    ))}
-              </List>
-            </Box>
-            <Box
-              component="form"
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                marginTop: 10,
-                marginBottom: 30,
-                color: 'white',
-              }}
-            >
-              <TextField
-                sx={{
-                  width: '60%',
-                  marginBottom: 2,
-                  '& .MuiOutlinedInput-root': {
-                    '& fieldset': {
-                      borderColor: 'white', // Colore del bordo del TextField
-                    },
-                    '&:hover fieldset': {
-                      borderColor: 'white', // Colore del bordo del TextField durante l'hover
-                    },
-                    '&.Mui-focused fieldset': {
-                      borderColor: 'white', // Colore del bordo del TextField quando è focalizzato
-                    },
-                  },
-                  '& .MuiInputBase-input': {
-                    color: 'white', // Colore del testo all'interno del TextField
-                  },
-                }}
-                label="Scrivi un messaggio"
-                color="primary"
-                variant="outlined"
-                value={newMessage.text}
-                onChange={(e) =>
-                  setNewMessage({
-                    ...newMessage,
-                    text: e.target.value,
-                    sender: user.firstName + ' ' + user.lastName,
-                    time: new Date().toISOString(),
-                  })
-                }
-              />
-              <Button
-                variant="contained"
-                sx={{ marginLeft: 1 }}
-                onClick={handleSendMessage}
-              >
-                Send message
-              </Button>
-            </Box>
+              <MenuIcon />
+            </IconButton>
+            <h1>{currentRoom.replace('/', '')}</h1>
           </div>
-          <Footer />
+          <Box
+            sx={{
+              width: '90%',
+              overflow: 'auto',
+              minHeight: 350,
+              marginTop: 2,
+              marginLeft: 10,
+              borderRadius: '10px',
+              backgroundColor: '#08325792',
+              maxHeight: '70vh',
+            }}
+          >
+            <List>
+              {currentRoom === 'PlayersChat'
+                ? messagesGames.map((msg, index) => (
+                    <ListItem
+                      key={index}
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems:
+                          msg.userId === user.userId
+                            ? 'flex-end'
+                            : 'flex-start',
+                        color: 'black',
+                      }}
+                    >
+                      <p>{msg.sender}</p>
+                      <ListItemText
+                        primary={msg.text}
+                        secondary={msg.time}
+                        sx={{
+                          backgroundColor:
+                            msg.sender === 'user' ? '#cfe8fc' : '#f0f0f0',
+                          borderRadius: '10px',
+                          padding: '10px',
+                          width: '40%',
+                        }}
+                      />
+                    </ListItem>
+                  ))
+                : currentRoom === 'TeamsChat'
+                ? messagesTeams.map((msg, index) => (
+                    <ListItem
+                      key={index}
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems:
+                          msg.userId === user.userId
+                            ? 'flex-end'
+                            : 'flex-start',
+                        color: 'black',
+                      }}
+                    >
+                      <p>{msg.sender}</p>
+                      <ListItemText
+                        primary={msg.text}
+                        secondary={msg.time}
+                        sx={{
+                          backgroundColor:
+                            msg.sender === 'user' ? '#cfe8fc' : '#f0f0f0',
+                          borderRadius: '10px',
+                          padding: '10px',
+                          maxWidth: '50%',
+                        }}
+                      />
+                    </ListItem>
+                  ))
+                : messagesGames.map((msg, index) => (
+                    <ListItem
+                      key={index}
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        color: 'black',
+                        alignItems:
+                          msg.userId === user.userId
+                            ? 'flex-end'
+                            : 'flex-start',
+                      }}
+                    >
+                      <p>{msg.sender}</p>
+                      <ListItemText
+                        primary={msg.text}
+                        secondary={msg.time}
+                        sx={{
+                          backgroundColor:
+                            msg.sender === 'user' ? '#cfe8fc' : '#f0f0f0',
+                          borderRadius: '10px',
+                          padding: '10px',
+                          maxWidth: '50%',
+                        }}
+                      />
+                    </ListItem>
+                  ))}
+            </List>
+          </Box>
+          <Box
+            component="form"
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginTop: 10,
+              marginBottom: 30,
+              color: 'white',
+            }}
+          >
+            <TextField
+              sx={{
+                width: '60%',
+                marginBottom: 2,
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderColor: 'white', // Colore del bordo del TextField
+                  },
+                  '&:hover fieldset': {
+                    borderColor: 'white', // Colore del bordo del TextField durante l'hover
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: 'white', // Colore del bordo del TextField quando è focalizzato
+                  },
+                },
+                '& .MuiInputBase-input': {
+                  color: 'white', // Colore del testo all'interno del TextField
+                },
+              }}
+              label="Scrivi un messaggio"
+              color="primary"
+              variant="outlined"
+              value={newMessage.text}
+              onChange={(e) =>
+                setNewMessage({
+                  ...newMessage,
+                  text: e.target.value,
+                  sender: user.firstName + ' ' + user.lastName,
+                  time: new Date().toISOString(),
+                })
+              }
+            />
+            <Button
+              variant="contained"
+              sx={{ marginLeft: 1 }}
+              onClick={handleSendMessage}
+            >
+              Send message
+            </Button>
+          </Box>
         </div>
-      )}
+        <Drawer
+          open={drawerOpen}
+          onClose={handleDrawerClose}
+          onChangeRoom={handleChangeRoom}
+          chattingRooms={['PlayersChat', 'TeamsChat', 'GamesChat']}
+        />
+        <Footer />
+      </div>
     </>
   );
 }

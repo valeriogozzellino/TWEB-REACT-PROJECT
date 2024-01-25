@@ -3,7 +3,6 @@ const { GameEventModel } = require('../models/game_events_model');
 const { ClubGamesModel } = require('../models/club_games_model');
 
 function getAllGames() {
-    console.log("+++ GAMES");
     return new Promise((resolve, reject) => {
         GameModel.find({ season: { $gte: 2022 } })
             .then(result => {
@@ -38,8 +37,6 @@ module.exports.getGameByID = getGameByID;
 
 
 function getClubGameByID(club_id) {
-    console.log("+++ CLUB GAMEEEEEEEEE");
-    console.log("club iD---> ", club_id);
     return new Promise((resolve, reject) => {
         GameModel.find({ home_club_id: club_id })
             .then(result => {
@@ -60,7 +57,6 @@ function getAllGamesEvents(game_id) {
     return new Promise((resolve, reject) => {
         GameEventModel.find({ game_id: game_id } ) // Use GameModel directly
             .then(result => {
-                console.log("RES: ", result);
                 resolve(result);
             })
             .catch(error => {
@@ -73,7 +69,6 @@ function getAllGamesEvents(game_id) {
 module.exports.getAllGamesEvents = getAllGamesEvents;
 
 function getGameEventById(game_id) {
-    console.log("+++ GAME EVENTS");
     return new Promise((resolve, reject) => {
         GameEventModel.find({ game_id: game_id } )
             .then(result => {

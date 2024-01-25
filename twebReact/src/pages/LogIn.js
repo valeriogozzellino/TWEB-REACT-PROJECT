@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useState, useEffect, useContext, createContext } from "react";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,12 +12,16 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import axios from 'axios';
 import { useAuth } from '../components/atoms/AuthContext';
 
 function Copyright(props) {
   return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
         Your Website
@@ -33,26 +36,25 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function LogIn({handleLogIN}) {
+export default function LogIn({ handleLogIN }) {
   //const [checkCredentials, setCheckCredentials] = useState(false);
   const { checkCredentials, login } = useAuth();
   const navigate = useNavigate();
-
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const email = data.get('email'),
-    password = data.get('password');
+      password = data.get('password');
     login(email, password);
-    if(checkCredentials){
-      console.log("isUserLogged LogIn--->" , checkCredentials);
+    if (checkCredentials) {
+      console.log('isUserLogged LogIn--->', checkCredentials);
       window.history.back(); //modificare e iserire la pagina che l'ha chiamato
     }
   };
   const handleSignUP = (event) => {
     event.preventDefault();
-     navigate('/signUp');
+    navigate('/signUp');
   };
 
   return (
@@ -73,7 +75,12 @@ export default function LogIn({handleLogIN}) {
           <Typography component="h1" variant="h5">
             Log In
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
             <TextField
               margin="normal"
               required
