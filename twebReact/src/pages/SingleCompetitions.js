@@ -12,7 +12,7 @@ import ChatIcon from '../components/atoms/ChatIcon';
 import ArrowBack from '../components/atoms/ArrowBack';
 
 export default function SingleCompetitions() {
-  const links = [false, true, true, true, true, false, false, false];
+  const links = [true, true, true];
   const { competitionId } = useParams();
   const logoCompetition =
     'https://tmssl.akamaized.net/images/logo/header/' +

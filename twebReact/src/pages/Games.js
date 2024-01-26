@@ -20,7 +20,7 @@ export default function Games() {
   const [gameDates, setGameDates] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [dateClicked, setDateClicked] = useState(false);
-  const links = [false, true, false, true, true, false, false, false];
+  const links = [true, true, true];
   const navigate = useNavigate();
 
   const handleGetAllGames = () => {

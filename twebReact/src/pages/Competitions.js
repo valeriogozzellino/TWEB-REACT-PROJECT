@@ -15,7 +15,7 @@ import Button from '@mui/material/Button';
 import ArrowCircleUpTwoToneIcon from '@mui/icons-material/ArrowCircleUpTwoTone';
 
 const Competitions = () => {
-  const links = [false, true, false, true, true, false, false, false];
+  const links = [true, true, true];
   const [country, setCountry] = useState([]);
   const [competitions, setCompetitions] = useState([]);
   const [filter, setFilter] = useState('All'); // Imposta il valore di default a "All"

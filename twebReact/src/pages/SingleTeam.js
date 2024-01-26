@@ -14,10 +14,10 @@ import ChatIcon from '../components/atoms/ChatIcon';
 import CardPlayers from '../components/atoms/card/CardPlayer';
 import Tooltip from '@mui/material/Tooltip';
 import ArrowBack from '../components/atoms/ArrowBack';
-import LoadingComponent from "../components/Loading";
+import LoadingComponent from '../components/Loading';
 
 export default function SingleTeam() {
-  const links = [false, true, true, true, true, false, false, false];
+  const links = [true, true, true];
   const navigate = useNavigate();
   const { clubId } = useParams();
   const logo =
@@ -39,42 +39,38 @@ export default function SingleTeam() {
     }
   };
 
-
   useEffect(() => {
-    let promises: Promise[] = []
-     promises.push(
-         axios
-             .get(`http://localhost:3001/single-team/get-team-by-id/${clubId}`)
-             .then((response) => {
-               setTeam(response.data);
-             })
-             .catch((error) => {
-               console.error('Error fetching team: ', error);
-             }),
-
-         axios
-             .get(`http://localhost:3001/games/get-club-games-by-id/${clubId}`)
-             .then((response) => {
-               setClubGames(response.data);
-             })
-             .catch((error) => {
-               console.error('Error fetching club games: ', error);
-             }),
-         axios
-             .get( `http://localhost:3001/player/get-player-by-team?filter=${clubId}`)
-             .then((response) => {
-               setPlayers(response.data);
-             })
-             .catch((error) => {
-               console.error('Error fetching players: ', error);
-             })
-
-     )
-    Promise.all(promises)
-        .then(value => {
-          setIsLoading(false)
+    let promises: Promise[] = [];
+    promises.push(
+      axios
+        .get(`http://localhost:3001/single-team/get-team-by-id/${clubId}`)
+        .then((response) => {
+          setTeam(response.data);
         })
+        .catch((error) => {
+          console.error('Error fetching team: ', error);
+        }),
 
+      axios
+        .get(`http://localhost:3001/games/get-club-games-by-id/${clubId}`)
+        .then((response) => {
+          setClubGames(response.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching club games: ', error);
+        }),
+      axios
+        .get(`http://localhost:3001/player/get-player-by-team?filter=${clubId}`)
+        .then((response) => {
+          setPlayers(response.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching players: ', error);
+        })
+    );
+    Promise.all(promises).then((value) => {
+      setIsLoading(false);
+    });
   }, [clubId, showPlayer]);
 
   const handleNumberGame = (number) => {
@@ -99,7 +95,6 @@ export default function SingleTeam() {
     setView(newValue);
   };
 
-
   function handleGameClick(game) {
     navigate(`/single-game/${game.game_id}`);
   }
@@ -108,8 +103,8 @@ export default function SingleTeam() {
     navigate(`/player/${player.playerId}`);
   }
 
-  if(isLoading){
-    return <LoadingComponent type={"spinningBubbles"} color={"#0c2840"}/>;
+  if (isLoading) {
+    return <LoadingComponent type={'spinningBubbles'} color={'#0c2840'} />;
   }
 
   return (

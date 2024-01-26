@@ -21,7 +21,7 @@ import ArrowBack from '../components/atoms/ArrowBack';
 
 export default function ChatWindow() {
   const { user } = useAuth(); //user details from AuthContext
-  const links = [false, true, true, true, true, false, false, false];
+  const links = [true, true, true];
   const [drawerOpen, setDrawerOpen] = React.useState(false);
 
   const [view, setView] = useState(0); //view of the chat window

@@ -5,7 +5,6 @@ import CardNews from '../components/atoms/card/CardNews';
 import '../style/Home.css';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../components/AuthContext';
 import Footer from '../components/Footer';
 import '../style/global.css';
 import ChatIcon from '../components/atoms/ChatIcon';
@@ -16,20 +15,7 @@ import { useNavigate } from 'react-router-dom';
 // import ArrowBack from '../components/atoms/ArrowBack';
 
 function Home() {
-  const links = [
-    false,
-    true,
-    true,
-    true,
-    true,
-    false,
-    false,
-    false,
-    true,
-    true,
-  ];
-  const { checkCredentials } = useAuth();
-  console.log('isUserLogged Home--->', checkCredentials);
+  const links = [true, true, true];
   const [arrayNewsApi, setNewsApi] = useState([]);
   const [arrayNewsFavouriteTeam, setNewsFavouriteTeam] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -75,51 +61,57 @@ function Home() {
             </b>
           </h1>
         </div>
-        <div className="middle-title">
-          <h4 id="titleNewsFavourite">Choose category</h4>
-        </div>
-        <div id="container-img-link">
-          <img src={PlayersImage} alt="players" className="image-link" />
-          <img
-            src={TeamsImage}
-            alt="teams"
-            onClick={() => handleClickImage(1)}
-            className="image-link"
-          />
-          <img
-            src={CompetitionsImage}
-            alt="competitions"
-            onClick={() => handleClickImage(2)}
-            className="image-link"
-          />
-        </div>
-        <div id="boxNewsFavourite">
-          {loading ? (
-            <p>Loading...</p>
-          ) : (
-            arrayNewsFavouriteTeam.map((newsApi, index) => (
-              <CardNews key={index} newsApi={newsApi} />
-            ))
-          )}
-        </div>
+        <div className="middle-box-home">
+          <div id="box-imp-news">
+            {/* <img
+              src={arrayNewsApi[0].image}
+              alt={arrayNewsApi[0].title}
+              style={{ width: '50%', height: '100%' }}
+            /> */}
+            {/* <div id="box-description-news">
+              <h4>{arrayNewsApi[0].title}</h4>
+              <p>{arrayNewsApi[0].description}</p>
+              <a href={arrayNewsApi[0].url} target="_blank" rel="noreferrer">
+                <button className="btn btn-primary">Read more</button>
+              </a>
+            </div> */}
+          </div>
+          <div className="middle-title">
+            <h4 id="titleNewsFavourite">Choose category</h4>
+          </div>
+          <div id="container-img-link">
+            <img src={PlayersImage} alt="players" className="image-link" />
+            <img
+              src={TeamsImage}
+              alt="teams"
+              onClick={() => handleClickImage(1)}
+              className="image-link"
+            />
+            <img
+              src={CompetitionsImage}
+              alt="competitions"
+              onClick={() => handleClickImage(2)}
+              className="image-link"
+            />
+          </div>
 
-        <div className="middle-title">
-          <h4>Most popular news</h4>
-        </div>
-        <div id="boxNews">
-          {loading ? (
-            <p>Loading...</p>
-          ) : (
-            arrayNewsApi.map((newsApi, index) => (
-              <CardNews key={index} newsApi={newsApi} />
-            ))
-          )}
+          <div className="middle-title">
+            <h4>Most popular news</h4>
+          </div>
+          <div id="boxNews">
+            {loading ? (
+              <p>Loading...</p>
+            ) : (
+              arrayNewsApi.map((newsApi, index) => (
+                <CardNews key={index} newsApi={newsApi} />
+              ))
+            )}
+          </div>
         </div>
       </div>
       <div id="bottomContainer">
         <Footer />
       </div>
-      {/* <ArrowBack /> */}
       <ChatIcon />
     </div>
   );

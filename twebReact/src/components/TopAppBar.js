@@ -12,21 +12,10 @@ import { useEffect } from 'react';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 
 export default function TopAppBar(props) {
-  const [drawerOpen, setDrawerOpen] = React.useState(false);
   const links = props.links;
   const { checkCredentials, user, getUser } = useAuth();
   const navigate = useNavigate();
-  const [itemClicked, setItemClicked] = React.useState(false);
 
-  const getLoginPage = () => {
-    navigate('/logIn');
-  };
-  const getSignUpPage = () => {
-    navigate('/signup');
-  };
-  const getPreviousPage = () => {
-    window.history.back();
-  };
   const rerouteHome = () => {
     window.location.href = '/';
   };
@@ -74,16 +63,6 @@ export default function TopAppBar(props) {
 
               <div id="links-topbar">
                 {links[0] && (
-                  <Typography
-                    variant="p"
-                    component="div"
-                    sx={{ flexGrow: 1 }}
-                    onClick={redirectToPage}
-                  >
-                    Home
-                  </Typography>
-                )}
-                {links[1] && (
                   <Button
                     size="small"
                     sx={{
@@ -105,29 +84,7 @@ export default function TopAppBar(props) {
                     </Typography>
                   </Button>
                 )}
-                {links[2] && (
-                  <Button
-                    size="small"
-                    sx={{
-                      color: 'white',
-                      ':hover': {
-                        borderBottomColor: 'white',
-                        borderBottomWidth: 1,
-                        borderBottomStyle: 'solid',
-                      },
-                    }}
-                    onClick={redirectToPage('Ranking')}
-                  >
-                    <Typography
-                      variant="p"
-                      component="div"
-                      sx={{ flexGrow: 1, marginRight: '5px' }}
-                    >
-                      <b>Ranking</b>
-                    </Typography>
-                  </Button>
-                )}
-                {links[3] && (
+                {links[1] && (
                   <Button
                     size="small"
                     sx={{
@@ -149,7 +106,7 @@ export default function TopAppBar(props) {
                     </Typography>
                   </Button>
                 )}
-                {links[4] && (
+                {links[2] && (
                   <Button
                     size="small"
                     sx={{
@@ -171,36 +128,8 @@ export default function TopAppBar(props) {
                     </Typography>
                   </Button>
                 )}
-                {links[5] && (
-                  <Typography
-                    variant="p"
-                    component="div"
-                    sx={{ flexGrow: 1, marginRight: '5px' }}
-                  >
-                    <b>Single Competitions</b>
-                  </Typography>
-                )}
-                {links[6] && (
-                  <Typography
-                    variant="p"
-                    component="div"
-                    sx={{ flexGrow: 1, marginRight: '5px' }}
-                  >
-                    <b>Single Team</b>
-                  </Typography>
-                )}
-                {links[7] && (
-                  <Typography
-                    variant="p"
-                    component="div"
-                    sx={{ flexGrow: 1, marginRight: '5px' }}
-                  >
-                    <b>Player</b>
-                  </Typography>
-                )}
               </div>
             </div>
-            {/* <Button color="inherit" variant='outlined' onClick={getPreviousPage}>Back</Button> */}
 
             <div id="bottom-page">
               {checkCredentials ? (

@@ -16,7 +16,7 @@ export default function Player() {
   const { player_Id } = useParams();
   const [player, setPlayer] = useState(null);
   const [playerAppearances, setPlayerAppearances] = useState([]);
-  const links = [false, true, true, true, true, false, false, false];
+  const links = [true, true, true];
   const [view, setView] = useState(0);
   const columns = [
     { field: 'date', headerName: 'Date', width: 20 },

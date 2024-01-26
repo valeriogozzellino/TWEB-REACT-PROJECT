@@ -15,7 +15,7 @@ function Teams() {
   const [filterCountry, setFilterCountry] = useState('All'); // return all country and set them for the filter
   const [arrayCountry, setArrayCountry] = useState([]); // return all country and set them for the filter
   const [arraySeason, setArraySeason] = useState([]); // return all country and set them for the filter
-  const links = [false, true, true, true, true, false, false, false];
+  const links = [true, true, true];
   const [clubs, setClubs] = useState([]);
 
   const handleFilterSeason = (event) => {
