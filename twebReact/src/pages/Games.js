@@ -10,7 +10,7 @@ import Footer from '../components/atoms/Footer';
 import CalendarElement from '../components/atoms/CalendarElement';
 import GameCard from '../components/atoms/GameCard';
 import ChatIcon from '../components/atoms/ChatIcon';
-import ArrowBack from "../components/atoms/ArrowBack";
+import ArrowBack from '../components/atoms/ArrowBack';
 
 export default function Games() {
   const [error, setError] = useState(null);
@@ -24,6 +24,7 @@ export default function Games() {
   const [dateClicked, setDateClicked] = useState(false);
   const { checkCredentials } = useAuth();
   const links = [false, true, false, true, true, false, false, false];
+  const navigate = useNavigate();
 
   const handleGetAllGames = () => {
     axios
@@ -53,10 +54,6 @@ export default function Games() {
         );
         setGameDates(gameDates);
         setAllGames(sortedGames);
-        // setGridData(prevGridData => ({
-        //     ...prevGridData,
-        //     rows: newRows,
-        // }));
         setError(null);
       })
       .catch((err) => {
@@ -68,6 +65,13 @@ export default function Games() {
     navigate(`/single-game/${game.game_id}`);
   }
 
+  function scrollToBottom() {
+    window.scrollTo({
+      top: 800,
+      behavior: 'smooth', // Utilizza lo scorrimento animato se il browser lo supporta
+    });
+  }
+
   const handleDateClick = (date) => {
     const formattedDate = new Date(date).toDateString(); // Formatta la data in modo da confrontarla correttamente
     const gamesOnDate = allGames.filter(
@@ -76,9 +80,8 @@ export default function Games() {
     setGames(gamesOnDate);
     setSelectedDate(formattedDate);
     setDateClicked(true);
+    scrollToBottom();
   };
-
-  const navigate = useNavigate();
 
   const handleFilterSeason = (event) => {
     setSeason(event.target.value);

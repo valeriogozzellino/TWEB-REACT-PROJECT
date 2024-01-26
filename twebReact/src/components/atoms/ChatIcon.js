@@ -32,9 +32,11 @@ export default function ChatIcon() {
   return (
     <Box
       sx={{
-        height: '100%',
         transform: 'translateZ(0px)',
         flexGrow: 1,
+        position: 'fixed',
+        top: 700,
+        right: 16,
       }}
     >
       <Backdrop open={open} />

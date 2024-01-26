@@ -15,21 +15,17 @@ import { useNavigate } from 'react-router-dom';
 import Drawer from '../components/atoms/DrawerVault';
 import MenuIcon from '@mui/icons-material/Menu';
 import IconButton from '@mui/material/IconButton';
-import ArrowBack from "../components/atoms/ArrowBack";
+import ArrowBack from '../components/atoms/ArrowBack';
 //IMPORTANTE :
 //ancora da fare :
 //fare un check se id Utente uguale a quello che lo riceve per non inseririlo nella lista dei messaggi ricevuti
 
 export default function ChatWindow() {
-  const { user, setUser } = useAuth(); //user details from AuthContext
+  const { user } = useAuth(); //user details from AuthContext
   const links = [false, true, true, true, true, false, false, false];
   const [drawerOpen, setDrawerOpen] = React.useState(false);
 
-  if (!localStorage.getItem('user')) {
-    setUser(localStorage.getItem('user'));
-  }
   const [view, setView] = useState(0); //view of the chat window
-  //cancellazione di queste variabili ???
   const { chatRoom } = useParams();
   const [currentRoom, setCurrentRoom] = useState('/' + chatRoom);
   const [messagesPlayers, setMessagesPlayers] = useState([]);
@@ -55,6 +51,17 @@ export default function ChatWindow() {
     setDrawerOpen(false);
   };
 
+  // add an event listener for the "Enter" key
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      // Prevent the default form submission behavior
+      event.preventDefault();
+
+      // Se il tasto premuto è "Invio", esegui la funzione handleSendMessage
+      handleSendMessage();
+    }
+  };
+  //connect to the socket and join the room
   useEffect(() => {
     console.log('currentRoom', currentRoom);
     let selectedSocket;
@@ -74,6 +81,7 @@ export default function ChatWindow() {
 
     connectToRoom(currentRoom, selectedSocket);
     selectedSocket.emit('joined', currentRoom, user.firstName, user.userId);
+
     //definition of the receiver of the message
     selectedSocket.on('chat_message', (room, newMessage) => {
       console.log('newMessage', newMessage);
@@ -105,6 +113,7 @@ export default function ChatWindow() {
         text: `${firstName} joined ${room}`,
         time: new Date().toISOString(),
       };
+
       if (room === '/PlayersChat' && userId !== user.userId) {
         setMessagesPlayers((currentMessages) => [
           ...currentMessages,
@@ -124,6 +133,7 @@ export default function ChatWindow() {
         }
       }
     });
+
     //socket disconnected when compponents are unmounted
     return () => {
       selectedSocket.off('chat_message');
@@ -132,6 +142,7 @@ export default function ChatWindow() {
     };
   }, [currentRoom, user.firstName, user.userId]);
 
+  //send message to the server and update the view
   const handleSendMessage = () => {
     if (newMessage.text !== '') {
       const message = {
@@ -156,6 +167,8 @@ export default function ChatWindow() {
       setNewMessage({ userId: '', text: '', sender: '', time: '' });
     }
   };
+
+  //set the view of the chat using an array of components
   const currentView = useMemo(() => {
     return [
       <List key="players">
@@ -277,7 +290,7 @@ export default function ChatWindow() {
               marginLeft: 10,
               borderRadius: '10px',
               backgroundColor: '#08325792',
-              maxHeight: '70vh',
+              maxHeight: '60vh',
             }}
           >
             {/* set the view of the chat */}
@@ -318,6 +331,7 @@ export default function ChatWindow() {
               color="primary"
               variant="outlined"
               value={newMessage.text}
+              onKeyDown={handleKeyDown}
               onChange={(e) =>
                 setNewMessage({
                   ...newMessage,

@@ -13,7 +13,7 @@ import TeamsImage from '../Images/TeamsImage.png';
 import CompetitionsImage from '../Images/CompetitionsImage.jpg';
 import PlayersImage from '../Images/PlayersImage.jpg';
 import { useNavigate } from 'react-router-dom';
-import ArrowBack from "../components/atoms/ArrowBack";
+// import ArrowBack from '../components/atoms/ArrowBack';
 
 function Home() {
   const links = [
@@ -120,7 +120,7 @@ function Home() {
       <div id="bottomContainer">
         <Footer />
       </div>
-      <ArrowBack />
+      {/* <ArrowBack /> */}
       <ChatIcon />
     </div>
   );

@@ -132,6 +132,11 @@
   justify-content: flex-start;
   align-items: center;
   font-weight: bold;
+  color: aliceblue;
+}
+
+#block-single-competition {
+  height: 100vh;
 }
 
 #middle-container {

@@ -11,8 +11,6 @@ export default function CardElement({
   position,
 }) {
   const navigate = useNavigate();
-  console.log('clubId', clubId);
-  console.log('imageUrl', image);
   const handleClickCard = () => {
     navigate(`/${type}/${clubId}`);
   };

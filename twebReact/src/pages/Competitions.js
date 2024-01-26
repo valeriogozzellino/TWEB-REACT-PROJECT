@@ -12,7 +12,9 @@ import Footer from '../components/atoms/Footer';
 import CardElement from '../components/atoms/CardElement';
 import '../style/global.css';
 import ChatIcon from '../components/atoms/ChatIcon';
-import ArrowBack from "../components/atoms/ArrowBack";
+import ArrowBack from '../components/atoms/ArrowBack';
+import Button from '@mui/material/Button';
+import ArrowCircleUpTwoToneIcon from '@mui/icons-material/ArrowCircleUpTwoTone';
 
 const Competitions = () => {
   const links = [false, true, false, true, true, false, false, false];
@@ -23,6 +25,7 @@ const Competitions = () => {
   const [clickedCompetition, setClickedCompetition] = useState(); //set on click of the row in dataGrid
   const { checkCredentials } = useAuth();
   const navigate = useNavigate(); //to one team
+  const [scrollPosition, setScrollPosition] = useState(0);
 
   const handleChangeFilter = (event) => {
     setFilter(event.target.value);
@@ -33,8 +36,14 @@ const Competitions = () => {
     const competitionId = rowId;
     navigate(`/single-competition/${competitionId}`);
   };
-
+  // fare due useeffect uno per lo scorll e uno che cambia in base al filter
   useEffect(() => {
+    const handleScroll = () => {
+      // Ottieni la posizione corrente di scroll
+      const currentPosition = window.scrollY;
+      setScrollPosition(currentPosition);
+    };
+
     const getAllCountry = () => {
       const apiUrl = `http://localhost:3001/competitions/get-competitions-country`;
       axios
@@ -46,7 +55,15 @@ const Competitions = () => {
           alert(JSON.stringify(error));
         });
     };
+    //modificare questa chiamata fare lo useEffect ogni volta che country cambia e non solo la prima volta
     getAllCountry();
+
+    window.addEventListener('scroll', handleScroll);
+
+    // Pulisci il listener quando il componente viene smontato
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   const getAllCompetitions = (filter) => {
@@ -77,11 +94,14 @@ const Competitions = () => {
       <div id="topBox">
         <TopAppBar links={links} />
       </div>
-      <div className="container-background-color">
+      <div
+        className="container-background-color"
+        style={{ minHeight: '100vh' }}
+      >
         <div id="title">
           <h1 className="titleHome">Competitions</h1>
         </div>
-        <div id="middleBox">
+        <div>
           <div id="blockid">
             <p>
               <b>Select a country: </b>
@@ -124,6 +144,17 @@ const Competitions = () => {
           </div>
         </div>
       </div>
+      {scrollPosition > 100 && (
+        <div
+          className="go-top"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          style={{ position: 'fixed', bottom: '60px', right: '685px' }}
+        >
+          <Button size="large" variant="contained">
+            <ArrowCircleUpTwoToneIcon sx={{ size: '200px' }} />
+          </Button>
+        </div>
+      )}
       <ArrowBack />
       <ChatIcon />
       <Footer />
