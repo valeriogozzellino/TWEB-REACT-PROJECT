@@ -15,10 +15,11 @@ import Drawer from '../components/DrawerVault';
 import MenuIcon from '@mui/icons-material/Menu';
 import IconButton from '@mui/material/IconButton';
 import ArrowBack from '../components/atoms/ArrowBack';
+
 //IMPORTANTE :
 //ancora da fare :
 //fare un check se id Utente uguale a quello che lo riceve per non inseririlo nella lista dei messaggi ricevuti
-
+// gift href: <a href="https://lordicon.com/">Icons by Lordicon.com</a>
 export default function ChatWindow() {
   const { user } = useAuth(); //user details from AuthContext
   const links = [true, true, true];
