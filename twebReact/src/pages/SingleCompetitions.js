@@ -3,26 +3,16 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../style/Teams.css';
 import { useParams } from 'react-router-dom';
-import TopAppBar from '../components/atoms/TopAppBar';
-import { useAuth } from '../components/atoms/AuthContext';
+import TopAppBar from '../components/TopAppBar';
 import '../style/Single-Team.css';
-import Footer from '../components/atoms/Footer';
+import Footer from '../components/Footer';
 import '../style/global.css';
-import CardElement from '../components/atoms/CardElement';
+import CardElement from '../components/atoms/card/CardElement';
 import ChatIcon from '../components/atoms/ChatIcon';
-import ArrowBack from "../components/atoms/ArrowBack";
-
-const CustomImageCell = ({ value }) => (
-  <img
-    src={value}
-    alt="Competitions"
-    style={{ width: '40px', height: '40px' }}
-  />
-);
+import ArrowBack from '../components/atoms/ArrowBack';
 
 export default function SingleCompetitions() {
   const links = [false, true, true, true, true, false, false, false];
-  const navigate = useNavigate(); //to one team
   const { competitionId } = useParams();
   const logoCompetition =
     'https://tmssl.akamaized.net/images/logo/header/' +
@@ -30,7 +20,6 @@ export default function SingleCompetitions() {
     '.png?';
   const [clubs, setClubs] = useState([]);
   const [competition, setCompetition] = useState(null);
-  const { checkCredentials } = useAuth();
 
   const getClub = (competitionId) => {
     const filterCompetition = competitionId;

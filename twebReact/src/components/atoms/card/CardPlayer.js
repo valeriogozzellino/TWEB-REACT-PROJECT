@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Image } from '@nextui-org/react';
-import '../style/global.css';
+import '../../../style/global.css';
 import { useNavigate } from 'react-router-dom';
 
 export default function CardPlayers({

@@ -4,12 +4,8 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import DrawerVault from './DrawerVault'; // Assicurati di importare correttamente il componente DrawerVault
-import HomeIcon from '@mui/icons-material/Home';
-import '../../style/AppBar.css';
-import IconLogo from '../../Images/logo.png';
+import '../style/AppBar.css';
+import IconLogo from '../Images/logo.png';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import { useEffect } from 'react';

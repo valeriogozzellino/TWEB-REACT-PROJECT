@@ -1,12 +1,12 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import TopAppBar from '../components/atoms/TopAppBar';
-import CardNews from '../components/atoms/CardNews';
+import TopAppBar from '../components/TopAppBar';
+import CardNews from '../components/atoms/card/CardNews';
 import '../style/Home.css';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../components/atoms/AuthContext';
-import Footer from '../components/atoms/Footer';
+import { useAuth } from '../components/AuthContext';
+import Footer from '../components/Footer';
 import '../style/global.css';
 import ChatIcon from '../components/atoms/ChatIcon';
 import TeamsImage from '../Images/TeamsImage.png';
@@ -28,11 +28,10 @@ function Home() {
     true,
     true,
   ];
-  const { checkCredentials, user, getUser } = useAuth();
+  const { checkCredentials } = useAuth();
   console.log('isUserLogged Home--->', checkCredentials);
   const [arrayNewsApi, setNewsApi] = useState([]);
   const [arrayNewsFavouriteTeam, setNewsFavouriteTeam] = useState([]);
-  const [arrayNewsFavouritePlayer, setNewsFavouritePlayer] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 

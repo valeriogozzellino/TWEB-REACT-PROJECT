@@ -7,8 +7,6 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null); // fare in modo che se è loggato mostri il nome utente e altre cose devo ritonarle dalla chiamata
 
   const login = (email, password) => {
-    console.log('login function in AuthContext.js');
-
     const apiUrl = `http://localhost:3001/logIn/check-credentials?email=${email}&password=${password}`;
     axios
       .get(apiUrl, {

@@ -1,15 +1,13 @@
-import TopAppBar from '../components/atoms/TopAppBar';
+import TopAppBar from '../components/TopAppBar';
 import React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import MenuItem from '@mui/material/MenuItem';
-import DataGridElement from '../components/atoms/DataGrid';
 import Select from '@mui/material/Select';
 import { useNavigate } from 'react-router-dom';
 import '../style/Competitions.css';
-import { useAuth } from '../components/atoms/AuthContext';
-import Footer from '../components/atoms/Footer';
-import CardElement from '../components/atoms/CardElement';
+import Footer from '../components/Footer';
+import CardElement from '../components/atoms/card/CardElement';
 import '../style/global.css';
 import ChatIcon from '../components/atoms/ChatIcon';
 import ArrowBack from '../components/atoms/ArrowBack';
@@ -21,9 +19,6 @@ const Competitions = () => {
   const [country, setCountry] = useState([]);
   const [competitions, setCompetitions] = useState([]);
   const [filter, setFilter] = useState('All'); // Imposta il valore di default a "All"
-  const [detailsCompetitions, setDetailsCompetitions] = useState(false); //set on click of the row in dataGrid
-  const [clickedCompetition, setClickedCompetition] = useState(); //set on click of the row in dataGrid
-  const { checkCredentials } = useAuth();
   const navigate = useNavigate(); //to one team
   const [scrollPosition, setScrollPosition] = useState(0);
 
@@ -31,11 +26,6 @@ const Competitions = () => {
     setFilter(event.target.value);
   };
 
-  const handleRowClick = (rowId, newState) => {
-    console.log('Riga selezionata:', rowId);
-    const competitionId = rowId;
-    navigate(`/single-competition/${competitionId}`);
-  };
   // fare due useeffect uno per lo scorll e uno che cambia in base al filter
   useEffect(() => {
     const handleScroll = () => {

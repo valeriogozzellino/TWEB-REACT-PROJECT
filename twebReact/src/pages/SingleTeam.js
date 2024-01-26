@@ -2,19 +2,18 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import '../style/Teams.css';
-import TopAppBar from '../components/atoms/TopAppBar';
-import { useAuth } from '../components/atoms/AuthContext';
+import TopAppBar from '../components/TopAppBar';
 import '../style/Single-Team.css';
-import Footer from '../components/atoms/Footer';
+import Footer from '../components/Footer';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import GameCard from '../components/atoms/GameCard';
+import GameCard from '../components/atoms/card/GameCard';
 import Button from '@mui/material/Button';
 import ChatIcon from '../components/atoms/ChatIcon';
-import CardPlayers from '../components/CardPlayer';
+import CardPlayers from '../components/atoms/card/CardPlayer';
 import Tooltip from '@mui/material/Tooltip';
-import ArrowBack from "../components/atoms/ArrowBack";
+import ArrowBack from '../components/atoms/ArrowBack';
 
 export default function SingleTeam() {
   const links = [false, true, true, true, true, false, false, false];
@@ -26,7 +25,6 @@ export default function SingleTeam() {
   const [players, setPlayers] = useState(null);
   const [clubGames, setClubGames] = useState(null);
   const [team, setTeam] = useState(null);
-  const { checkCredentials } = useAuth();
   const [showGames, setShowGames] = useState(6);
   const [showPlayer, setShowPlayer] = useState(12);
 
@@ -146,7 +144,7 @@ export default function SingleTeam() {
             </p>
           </div>
         </div>
-        <div id="middle-container">
+        <div id="middle-container-team">
           <Box
             sx={{
               borderBottom: 2,

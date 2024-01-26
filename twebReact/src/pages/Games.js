@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import DataGridElement from '../components/atoms/DataGrid';
 import { useNavigate } from 'react-router-dom';
-import TopAppBar from '../components/atoms/TopAppBar';
-import { useAuth } from '../components/atoms/AuthContext';
+import TopAppBar from '../components/TopAppBar';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import Footer from '../components/atoms/Footer';
-import CalendarElement from '../components/atoms/CalendarElement';
-import GameCard from '../components/atoms/GameCard';
+import Footer from '../components/Footer';
+import CalendarElement from '../components/CalendarElement';
+import GameCard from '../components/atoms/card/GameCard';
 import ChatIcon from '../components/atoms/ChatIcon';
 import ArrowBack from '../components/atoms/ArrowBack';
 
@@ -22,7 +20,6 @@ export default function Games() {
   const [gameDates, setGameDates] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [dateClicked, setDateClicked] = useState(false);
-  const { checkCredentials } = useAuth();
   const links = [false, true, false, true, true, false, false, false];
   const navigate = useNavigate();
 

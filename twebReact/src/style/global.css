@@ -3,9 +3,8 @@
   color: aliceblue;
 }
 
-.middle-container-background-color {
-  background: #11669b;
-  color: aliceblue;
+.middle-container {
+  min-height: 100vh;
 }
 
 #chat-box {

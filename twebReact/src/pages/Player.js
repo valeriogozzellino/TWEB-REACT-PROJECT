@@ -1,25 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import DataGridElement from '../components/atoms/DataGrid';
-import TopAppBar from '../components/atoms/TopAppBar';
-import { useAuth } from '../components/atoms/AuthContext';
+import DataGridElement from '../components/DataGrid';
+import TopAppBar from '../components/TopAppBar';
 import '../style/Player.css';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import Footer from '../components/atoms/Footer';
+import Footer from '../components/Footer';
 import ChatIcon from '../components/atoms/ChatIcon';
 import ArrowBack from '../components/atoms/ArrowBack';
+import { set } from 'mongoose';
 
 export default function Player() {
   const { player_Id } = useParams();
   const [player, setPlayer] = useState(null);
   const [playerAppearances, setPlayerAppearances] = useState([]);
   const links = [false, true, true, true, true, false, false, false];
-  const { checkCredentials } = useAuth();
   const [view, setView] = useState(0);
-
   const columns = [
     { field: 'date', headerName: 'Date', width: 20 },
     { field: 'competition_id', headerName: 'Competition', width: 20 },
@@ -78,9 +76,6 @@ export default function Player() {
       case 'tabTwo':
         setView(1);
         break;
-      case 'tabThree':
-        setView(2);
-        break;
       default:
         break;
     }
@@ -100,62 +95,88 @@ export default function Player() {
       <TopAppBar links={links} />
       <div>
         <div className="header-info-container">
-          <h1 className="print-color">
-            {player.firstName} {player.lastName}
-          </h1>
           <img
             src={player.imageUrl}
             alt={`${player.firstName} ${player.lastName}`}
           />
+          <h1 className="print-color" style={{ margin: '20px' }}>
+            {player.firstName} {player.lastName}
+          </h1>
         </div>
 
-
-        <div className="middle-container-background-color middle-container">
+        <div className="container-background-color middle-container">
           <div className="tabs">
-          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <Tabs aria-label="basic tabs example">
-              <Tab label="Overview" id="tabOne" onClick={handleChangeTab} />
-              <Tab label="Appearances" id="tabTwo" onClick={handleChangeTab} />
-            </Tabs>
-          </Box>
+            <Box
+              sx={{
+                borderBottom: 2,
+                borderColor: 'divider',
+              }}
+            >
+              <Tabs aria-label="basic tabs">
+                <Tab
+                  label="Overview"
+                  id="tabOne"
+                  onClick={handleChangeTab}
+                  sx={{
+                    color: 'white',
+                  }}
+                />
+                <Tab
+                  label="Appearances"
+                  id="tabTwo"
+                  onClick={handleChangeTab}
+                  sx={{
+                    color: 'white',
+                  }}
+                />
+              </Tabs>
+            </Box>
           </div>
           {view === 0 ? (
-              <div className="overall-info-container">
-                <div className="single-player-card personal-info">
-                  <h1 className="print-color"> Informazioni personali </h1>
-                  <span>Paese di nascita: {player.countryOfBirth}</span>
-                  <span>Data di nascita: {player.dateOfBirth}</span>
-                  <span>Città di nascita: {player.cityOfBirth}</span>
-                  <span>Cittadinanza: {player.countryOfCitizenship}</span>
-                  <span>Altezza (cm): {player.heightInCm}</span>
-                </div>
-
-                <div className="single-player-card about-player">
-                  <h1 className="print-color"> Specifiche </h1>
-                  <span>Posizione: {player.position}</span>
-                  <span>Posizione specifica: {player.subPosition}</span>
-                  <span>Club: {player.currentClubName}</span>
-                  <span>Piede: {player.foot}</span>
-                </div>
-
-                <div className="single-player-card other-info">
-                  <h1 className="print-color"> Mercato </h1>
-                  <span>Valore di mercato (Eur): {player.marketValueInEur}</span>
-                  <span>Valore di mercato piuù alto (Eur): {player.highestMarketValueInEur}</span>
-                  <span>Fine Contratto: {player.contractExpirationDate}</span>
-                  <a style={{ color: 'red' }} href={player.url} target="_blank" rel="noopener noreferrer">Altre Info</a>
-                </div>
+            <div className="overall-info-container">
+              <div className="single-player-card personal-info">
+                <h1 className="print-color"> Informazioni personali </h1>
+                <span>Paese di nascita: {player.countryOfBirth}</span>
+                <span>Data di nascita: {player.dateOfBirth}</span>
+                <span>Città di nascita: {player.cityOfBirth}</span>
+                <span>Cittadinanza: {player.countryOfCitizenship}</span>
+                <span>Altezza (cm): {player.heightInCm}</span>
               </div>
 
-          ) : view === 1 ? (
-              <div className="grid-container">
-                <DataGridElement
-                    gridData={{ rows: playerAppearances, columns: columns }}
-                />
+              <div className="single-player-card about-player">
+                <h1 className="print-color"> Specifiche </h1>
+                <span>Posizione: {player.position}</span>
+                <span>Posizione specifica: {player.subPosition}</span>
+                <span>Club: {player.currentClubName}</span>
+                <span>Piede: {player.foot}</span>
               </div>
-          ) : (
-            <div style={{ height: '300px' }}>
+
+              <div className="single-player-card other-info">
+                <h1 className="print-color"> Mercato </h1>
+                <span>Valore di mercato (Eur): {player.marketValueInEur}</span>
+                <span>
+                  Valore di mercato piuù alto (Eur):{' '}
+                  {player.highestMarketValueInEur}
+                </span>
+                <span>Fine Contratto: {player.contractExpirationDate}</span>
+                <a
+                  style={{ color: 'red' }}
+                  href={player.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Altre Info
+                </a>
+              </div>
             </div>
+          ) : view === 1 ? (
+            <div className="grid-container">
+              <DataGridElement
+                gridData={{ rows: playerAppearances, columns: columns }}
+              />
+            </div>
+          ) : (
+            <div style={{ height: '300px' }}></div>
           )}
         </div>
       </div>

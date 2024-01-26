@@ -5,7 +5,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import Box from '@mui/material/Box';
-import '../../style/Card.css';
+import '../../../style/Card.css';
 
 export default function GameCard({ game, imageurl1, imageurl2 }) {
   const [clubWinView, setClubWinView] = React.useState(false);

@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Stepper,
-  Step,
-  StepLabel,
-  Button,
-  TextField,
-  IconButton,
-} from '@mui/material';
-import { useAuth } from '../components/atoms/AuthContext';
-import { Login, PhotoCamera } from '@mui/icons-material';
+import { Button, TextField } from '@mui/material';
+import { useAuth } from '../components/AuthContext';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Avatar from '@mui/material/Avatar';
@@ -22,7 +14,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function SignUp() {
   const [activeStep, setActiveStep] = useState(0);
-  const { setUser, user } = useAuth();
+  const { setUser } = useAuth();
   const [nome, setNome] = useState(null);
   const [surname, setSurname] = useState('');
   const [annoDiNascita, setAnnoDiNascita] = useState('');

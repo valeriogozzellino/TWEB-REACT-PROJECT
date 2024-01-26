@@ -2,16 +2,13 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../components/atoms/AuthContext';
 import '../style/Teams.css';
-import TopAppBar from '../components/atoms/TopAppBar';
-import Footer from '../components/atoms/Footer';
+import TopAppBar from '../components/TopAppBar';
+import Footer from '../components/Footer';
 import '../style/global.css';
-import CardElement from '../components/atoms/CardElement';
-import IndexPage from '../components/atoms/IndexPage';
+import CardElement from '../components/atoms/card/CardElement';
 import ChatIcon from '../components/atoms/ChatIcon';
-import ArrowBack from "../components/atoms/ArrowBack";
+import ArrowBack from '../components/atoms/ArrowBack';
 
 function Teams() {
   const [filterSeason, setSeason] = useState(0); // return all competition and set them for the filter
@@ -19,7 +16,6 @@ function Teams() {
   const [arrayCountry, setArrayCountry] = useState([]); // return all country and set them for the filter
   const [arraySeason, setArraySeason] = useState([]); // return all country and set them for the filter
   const links = [false, true, true, true, true, false, false, false];
-  const { checkCredentials } = useAuth();
   const [clubs, setClubs] = useState([]);
 
   const handleFilterSeason = (event) => {
@@ -80,7 +76,6 @@ function Teams() {
         <TopAppBar links={links} />
       </div>
       <div className="container-background-color">
-        <IndexPage page="teams" />
         <div id="container-title">
           <h1 className="page-title">Teams</h1>
         </div>

@@ -12,7 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useAuth } from '../components/atoms/AuthContext';
+import { useAuth } from '../components/AuthContext';
 
 function Copyright(props) {
   return (
@@ -37,7 +37,6 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function LogIn({ handleLogIN }) {
-  //const [checkCredentials, setCheckCredentials] = useState(false);
   const { checkCredentials, login } = useAuth();
   const navigate = useNavigate();
 
