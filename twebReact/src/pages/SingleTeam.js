@@ -14,6 +14,7 @@ import ChatIcon from '../components/atoms/ChatIcon';
 import CardPlayers from '../components/atoms/card/CardPlayer';
 import Tooltip from '@mui/material/Tooltip';
 import ArrowBack from '../components/atoms/ArrowBack';
+import LoadingComponent from "../components/Loading";
 
 export default function SingleTeam() {
   const links = [false, true, true, true, true, false, false, false];
@@ -27,55 +28,53 @@ export default function SingleTeam() {
   const [team, setTeam] = useState(null);
   const [showGames, setShowGames] = useState(6);
   const [showPlayer, setShowPlayer] = useState(12);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleNumberPlayer = (param) => {
     if (param === 1) {
       setShowPlayer(showPlayer + 6);
     } else {
       if (showPlayer === 6) return;
-      setShowPlayer(showPlayer - 6); // Ensure showPlayer is never less than 1
+      setShowPlayer(showPlayer - 6);
     }
   };
 
-  const getPlayers = (filter) => {
-    const apiUrl = `http://localhost:3001/player/get-player-by-team?filter=${filter}`;
-    axios
-      .get(apiUrl)
-      .then((response) => {
-        setPlayers(response.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching players: ', error);
-      });
-  };
-
-  const getClubGames = (clubId) => {
-    const clubGamesApiUrl = `http://localhost:3001/games/get-club-games-by-id/${clubId}`;
-    axios
-      .get(clubGamesApiUrl)
-      .then((response) => {
-        setClubGames(response.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching club games: ', error);
-      });
-  };
-
-  const getTeamById = (clubId) => {
-    axios
-      .get(`http://localhost:3001/single-team/get-team-by-id/${clubId}`)
-      .then((response) => {
-        setTeam(response.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching team: ', error);
-      });
-  };
 
   useEffect(() => {
-    getPlayers(clubId);
-    getClubGames(clubId);
-    getTeamById(clubId);
+    let promises: Promise[] = []
+     promises.push(
+         axios
+             .get(`http://localhost:3001/single-team/get-team-by-id/${clubId}`)
+             .then((response) => {
+               setTeam(response.data);
+             })
+             .catch((error) => {
+               console.error('Error fetching team: ', error);
+             }),
+
+         axios
+             .get(`http://localhost:3001/games/get-club-games-by-id/${clubId}`)
+             .then((response) => {
+               setClubGames(response.data);
+             })
+             .catch((error) => {
+               console.error('Error fetching club games: ', error);
+             }),
+         axios
+             .get( `http://localhost:3001/player/get-player-by-team?filter=${clubId}`)
+             .then((response) => {
+               setPlayers(response.data);
+             })
+             .catch((error) => {
+               console.error('Error fetching players: ', error);
+             })
+
+     )
+    Promise.all(promises)
+        .then(value => {
+          setIsLoading(false)
+        })
+
   }, [clubId, showPlayer]);
 
   const handleNumberGame = (number) => {
@@ -100,14 +99,6 @@ export default function SingleTeam() {
     setView(newValue);
   };
 
-  const getUniquePlayersByPosition = (players) => {
-    const uniquePositions = new Set();
-    return players.filter((player) => {
-      const isUnique = !uniquePositions.has(player.subPosition);
-      uniquePositions.add(player.subPosition);
-      return isUnique;
-    });
-  };
 
   function handleGameClick(game) {
     navigate(`/single-game/${game.game_id}`);
@@ -115,6 +106,10 @@ export default function SingleTeam() {
 
   function handlePlayerClick(player) {
     navigate(`/player/${player.playerId}`);
+  }
+
+  if(isLoading){
+    return <LoadingComponent type={"spinningBubbles"} color={"#0c2840"}/>;
   }
 
   return (
