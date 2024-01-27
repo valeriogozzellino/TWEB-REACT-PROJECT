@@ -7,7 +7,7 @@ router.get('/get-game-events-by-id/:game_id', function(req, res) {
     // GET request to /players/all-player
     const game_id = req.params.game_id;
 
-    axios.get(`http://localhost:3000/get-game-events-by-id/${game_id}`)
+    axios.get(`http://localhost:3000/games/get-game-events-by-id/${game_id}`)
         .then(response => {
             res.json(response.data)
         })
@@ -22,9 +22,8 @@ module.exports = router;
 router.get('/get-game-by-id/:game_id', function(req, res) {
     // GET request to /players/all-player
     const game_id = req.params.game_id;
-    console.log("GET GAME BY ID")
 
-    axios.get(`http://localhost:3000/get-game-by-id/${game_id}`)
+    axios.get(`http://localhost:3000/games/get-game-by-id/${game_id}`)
         .then(response => {
             res.json(response.data)
         })

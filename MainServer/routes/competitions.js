@@ -11,9 +11,7 @@ const axios = require("axios");
 
 
 router.get('/all-competitions', function(req, res) {
-    console.log("sono nella get");
     const { filter } = req.query;
-    console.log("sono nella get, filter: "+ filter);
 
     axios.get(`http://localhost:8081/all-competitions?filter=${filter}`)
         .then(response => {
@@ -26,9 +24,7 @@ router.get('/all-competitions', function(req, res) {
 })
 
 router.get('/get-competitions-by-id', function(req, res) {
-    console.log("sono nella get");
     const { competitionId } = req.query;
-    console.log("sono nella get, filter: "+ competitionId);
 
     axios.get(`http://localhost:8081/get-competitions-by-id?competitionId=${competitionId}`)
         .then(response => {

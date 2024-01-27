@@ -11,12 +11,9 @@ router.get('/', function(req, res) {
 
 // /*request Teams using Competitions filter */
 router.get('/get-teams-by-competition', function (req, res) {
-    console.log("ho ricevuto la richiesta dei teams")
     const { filterCompetition } = req.query;
-    console.log("parametrooooo " + filterCompetition)
     axios.get(`http://localhost:8081/get-teams-by-competition?filterCompetition=${filterCompetition}`)
         .then(response => {
-            console.log("Sto richiedendo i teams");
             res.json(response.data);
         })
         .catch(error => {
@@ -26,15 +23,11 @@ router.get('/get-teams-by-competition', function (req, res) {
 });
 /*request Teams using Country filter and Competition filter */
 router.get('/get-teams-by-season-and-country', function (req, res) {
-    console.log("Ho ricevuto la richiesta dei teams");
 
     const { filterCountry, filterSeason } = req.query;
-    console.log("Parametro 1: " + filterCountry);
-    console.log("Parametro 2: " + filterSeason);
 
     axios.get(`http://localhost:8081/get-teams-by-season-and-country?filterCountry=${filterCountry}&filterSeason=${filterSeason}`)
         .then(response => {
-            console.log("Sto richiedendo i teams");
             res.json(response.data);
         })
         .catch(error => {
@@ -57,7 +50,6 @@ router.get('/get-teams-country', function(req, res) {
 router.get('/get-club-season', function(req, res) {
     axios.get(`http://localhost:8081/get-club-season`)
         .then(response => {
-            console.log("richiesto le season")
             res.json(response.data)
         })
         .catch(error => {
@@ -65,19 +57,4 @@ router.get('/get-club-season', function(req, res) {
             res.status(500).json({ error: 'Internal Server Error' });
         });
 })
-module.exports = router;
-
-router.get('/get-name-by-club-id/:clubId', function(req, res) {
-    const clubId = req.params.clubId;
-    axios.get(`http://localhost:3000/get-name-by-club-id/${clubId}`)
-        .then(response => {
-            const clubName = response.data.clubName;
-            res.json({ clubName });
-        })
-        .catch(error => {
-            console.error(error);
-            res.status(500).json({ error: 'Internal Server Error' });
-        });
-});
-
 module.exports = router;

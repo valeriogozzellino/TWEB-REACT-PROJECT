@@ -64,7 +64,7 @@ function Teams() {
         });
 
 
-    });
+    }, [filterSeason, filterCountry]);
 
     if (isLoading) {
         return <LoadingComponent type={'spinningBubbles'} color={'#0c2840'}/>;

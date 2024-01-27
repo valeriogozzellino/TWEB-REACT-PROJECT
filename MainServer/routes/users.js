@@ -9,8 +9,6 @@ router.get('/', function(req, res, next) {
 
 
 router.post('/sign-up', function(req, res) {
-  console.log("sono nella post");
-
   const data = req.body; // Utilizza req.body per ottenere i dati dal corpo della richiesta
 
   axios.post('http://localhost:8081/sign-up', data)
