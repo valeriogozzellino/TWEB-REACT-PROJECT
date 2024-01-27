@@ -1,22 +1,5 @@
-const { PlayerModel} = require('../models/player_model');
 const { AppearancesModel } = require('../models/appearances_model');
 
-
-function getAllPlayers() {
-    return new Promise((resolve, reject) => {
-        PlayerModel.find({})
-            .then((result) =>{
-                resolve(result);
-            })
-            .catch(error=>{
-                console.error("Error in getAllPlayers:", error);
-                reject(error);
-            });
-    });
-}
-
-
-module.exports.getAllPlayers = getAllPlayers;
 
 function getAllPlayerAppearances(player_id) {
     return new Promise((resolve, reject) => {
