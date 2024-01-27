@@ -1,22 +1,3 @@
-// const mongoose = require('mongoose');
-//
-// const TeamSchema = new mongoose.Schema(
-//     {
-//         team_name: {type: String, required: true, max: 100},
-//         team_city: {type: String, required: true, max: 100},
-//         nationality: {type: String, required: true, max: 100},
-//         team_id: {type: String, required: true, max: 100},
-//     }
-// );
-//
-//
-// // setting the virtual property
-// TeamSchema.set('toObject', {getters: true, virtuals: true});
-//
-//
-// const TeamModel = mongoose.model('teams', TeamSchema);
-// module.exports.TeamModel = TeamModel;
-
 const mongoose = require('mongoose');
 
 const TeamSchema = new mongoose.Schema(
@@ -40,10 +21,9 @@ const TeamSchema = new mongoose.Schema(
             image: { type: String, required: true },
         },
     },
-    { _id: false } // Disabling automatic generation of _id
+    { _id: false }
 );
 
-// setting the virtual property
 TeamSchema.set('toObject', { getters: true, virtuals: true });
 
 const TeamModel = mongoose.model('teams', TeamSchema);

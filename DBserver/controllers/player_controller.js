@@ -6,11 +6,10 @@ function getAllPlayers() {
     return new Promise((resolve, reject) => {
         PlayerModel.find({})
             .then((result) =>{
-                console.log("+++++RES: ", result);
                 resolve(result);
             })
             .catch(error=>{
-                console.log("++++++ERROR");
+                console.error("Error in getAllPlayers:", error);
                 reject(error);
             });
     });
@@ -23,11 +22,10 @@ function getAllPlayerAppearances(player_id) {
     return new Promise((resolve, reject) => {
          AppearancesModel.find({ "player_id" : player_id})
             .then((result) =>{
-                console.log("+++++ APPEARANCES RES: ", result);
                 resolve(result);
             })
             .catch(error=>{
-                console.log("++++++ERROR");
+                console.error("Error in getAllPlayerAppearances:", error);
                 reject(error);
             });
     });
@@ -40,11 +38,10 @@ function getAllPlayerAppearancesByGameId(game_id) {
     return new Promise((resolve, reject) => {
         AppearancesModel.find({ "game_id" : game_id})
             .then((result) =>{
-                console.log("+++++ APPEARANCES BY GAME ID RES: ", result);
                 resolve(result);
             })
             .catch(error=>{
-                console.log("++++++ERROR");
+                console.error("Error in getAllPlayerAppearancesByGameId:", error);
                 reject(error);
             });
     });
@@ -52,6 +49,7 @@ function getAllPlayerAppearancesByGameId(game_id) {
 
 
 module.exports.getAllPlayerAppearancesByGameId = getAllPlayerAppearancesByGameId;
+
 
 function insert(body) {
     return new Promise((resolve, reject) => {
@@ -73,7 +71,6 @@ function query() {
     return new Promise((resolve, reject) => {
         Model.find()
             .then((result) =>{
-                console.log(result);
                 resolve.json(result);
             })
             .catch(error=>{

@@ -6,11 +6,10 @@ function getAllTeams() {
     return new Promise((resolve, reject) => {
         Model.TeamModel.find({})
             .then((result) =>{
-                console.log("+++++RES TEAMS: ", result);
                 resolve(result);
             })
             .catch(error=>{
-                console.log("++++++ERROR");
+                console.error("Error in getAllTeams:", error);
                 reject(error);
             });
     });
@@ -21,11 +20,10 @@ function getTeamById(team_id) {
     return new Promise((resolve, reject) => {
         Model.TeamModel.find({"team.id" : team_id})
             .then((result) =>{
-                console.log("+++++RES TEAMS: ", result);
                 resolve(result);
             })
             .catch(error=>{
-                console.log("++++++ERROR");
+                console.error("Error in getTeamById:", error);
                 reject(error);
             });
     });
@@ -33,15 +31,13 @@ function getTeamById(team_id) {
 module.exports.getTeamById = getTeamById;
 
 function getPlayerByTeamId(team_id) {
-    console.log("+++++++++ GIOCATORI: ")
     return new Promise((resolve, reject) => {
         PlayerModel.PlayerModel.find({"team_id" : team_id})
             .then((result) =>{
-                console.log("+++++RES PLAYERS: ", result);
                 resolve(result);
             })
             .catch(error=>{
-                console.log("++++++ERROR");
+                console.error("Error in getPlayerByTeamId:", error);
                 reject(error);
             });
     });
@@ -50,15 +46,13 @@ function getPlayerByTeamId(team_id) {
 module.exports.getPlayerByTeamId = getPlayerByTeamId;
 
 function getPlayerById(player_id) {
-    console.log("+++++++++ GIOCATORE: ")
     return new Promise((resolve, reject) => {
         PlayerModel.PlayerModel.find({"id" : player_id})
             .then((result) =>{
-                console.log("+++++RES PLAYER: ", result);
                 resolve(result);
             })
             .catch(error=>{
-                console.log("++++++ERROR");
+                console.error("Error in getPlayerById:", error);
                 reject(error);
             });
     });

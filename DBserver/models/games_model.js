@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-// Define the schema for the game documents
 const GameSchema = new mongoose.Schema(
     {
             game_id: { type: Number, required: true },
@@ -27,10 +26,8 @@ const GameSchema = new mongoose.Schema(
     }
 );
 
-// Apply additional settings to the schema
 GameSchema.set('toObject', { getters: true, virtuals: true });
 
 const GameModel = mongoose.model('Game', GameSchema, 'games');
 
-// Export the model
 module.exports.GameModel = GameModel;

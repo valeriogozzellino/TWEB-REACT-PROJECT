@@ -1,12 +1,10 @@
 const { GameModel } = require('../models/games_model');
 const { GameEventModel } = require('../models/game_events_model');
-const { ClubGamesModel } = require('../models/club_games_model');
 
 function getAllGames() {
     return new Promise((resolve, reject) => {
         GameModel.find({ season: { $gte: 2022 } })
             .then(result => {
-                // console.log("RES: ", result);
                 resolve(result);
             })
             .catch(error => {
@@ -19,11 +17,9 @@ function getAllGames() {
 module.exports.getAllGames = getAllGames;
 
 function getGameByID(game_id) {
-    console.log("+++ GAMEEEEEEEEE");
     return new Promise((resolve, reject) => {
         GameModel.find({ game_id: game_id })
             .then(result => {
-                // console.log("RES: ", result);
                 resolve(result);
             })
             .catch(error => {
@@ -40,7 +36,6 @@ function getClubGameByID(club_id) {
     return new Promise((resolve, reject) => {
         GameModel.find({ home_club_id: club_id })
             .then(result => {
-                console.log(result);
                 resolve(result);
             })
             .catch(error => {
@@ -55,12 +50,12 @@ module.exports.getClubGameByID = getClubGameByID;
 
 function getAllGamesEvents(game_id) {
     return new Promise((resolve, reject) => {
-        GameEventModel.find({ game_id: game_id } ) // Use GameModel directly
+        GameEventModel.find({ game_id: game_id } )
             .then(result => {
                 resolve(result);
             })
             .catch(error => {
-                console.error("Error in getGamesEvent:", error); // More specific error log
+                console.error("Error in getGamesEvent:", error);
                 reject(error);
             });
     });
@@ -72,7 +67,6 @@ function getGameEventById(game_id) {
     return new Promise((resolve, reject) => {
         GameEventModel.find({ game_id: game_id } )
             .then(result => {
-                // console.log("RES: ", result);
                 resolve(result);
             })
             .catch(error => {

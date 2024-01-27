@@ -14,11 +14,8 @@ const GameEventSchema = new mongoose.Schema(
     }
 );
 
-// Apply additional settings to the schema
 GameEventSchema.set('toObject', { getters: true, virtuals: true });
 
-// Create the model for the 'game_events' collection
 const GameEventModel = mongoose.model('GameEvent', GameEventSchema, 'game_events');
 
-// Export the model
 module.exports.GameEventModel = GameEventModel;
