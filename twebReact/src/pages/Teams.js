@@ -9,6 +9,7 @@ import CardElement from '../components/atoms/card/CardElement';
 import ChatIcon from '../components/atoms/ChatIcon';
 import ArrowBack from '../components/atoms/ArrowBack';
 import * as teamService from '../services/teamService';
+import LoadingComponent from '../components/Loading';
 
 
 function Teams() {
@@ -16,6 +17,7 @@ function Teams() {
     const [filterCountry, setFilterCountry] = useState('All'); // return all country and set them for the filter
     const [arrayCountry, setArrayCountry] = useState([]); // return all country and set them for the filter
     const [arraySeason, setArraySeason] = useState([]); // return all country and set them for the filter
+    const [isLoading, setIsLoading] = useState(true);
     const links = [true, true, true];
     const [clubs, setClubs] = useState([]);
 
@@ -27,34 +29,46 @@ function Teams() {
     };
 
     useEffect(() => {
-        teamService
-            .getAllCountry()
-            .then((response) => {
-                setArrayCountry(response.data);
-            })
-            .catch((error) => {
-                alert(JSON.stringify(error));
-            });
 
-        teamService
-            .getClubBySeason()
-            .then((response) => {
-                setArraySeason(response.data);
-            })
-            .catch((error) => {
-                alert(JSON.stringify(error));
-            });
+        let promises = [];
+        promises.push(
+            teamService
+                .getAllCountry()
+                .then((response) => {
+                    setArrayCountry(response.data);
+                })
+                .catch((error) => {
+                    alert(JSON.stringify(error));
+                }),
 
-        teamService
-            .getTeamsBySeasonAndCountry(filterCountry, filterSeason)
-            .then((response) => {
-                setClubs(response.data);
-            })
-            .catch((error) => {
-                alert(JSON.stringify(error));
-            });
+            teamService
+                .getClubBySeason()
+                .then((response) => {
+                    setArraySeason(response.data);
+                })
+                .catch((error) => {
+                    alert(JSON.stringify(error));
+                }),
+
+            teamService
+                .getTeamsBySeasonAndCountry(filterCountry, filterSeason)
+                .then((response) => {
+                    setClubs(response.data);
+                })
+                .catch((error) => {
+                    alert(JSON.stringify(error));
+                })
+        );
+        Promise.all(promises).then((value) => {
+            setIsLoading(false);
+        });
+
+
     });
 
+    if (isLoading) {
+        return <LoadingComponent type={'spinningBubbles'} color={'#0c2840'}/>;
+    }
 
     return (
         <div className="teams-container">

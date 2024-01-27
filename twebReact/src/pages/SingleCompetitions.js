@@ -10,6 +10,7 @@ import ChatIcon from '../components/atoms/ChatIcon';
 import ArrowBack from '../components/atoms/ArrowBack';
 import * as competitionService from '../services/competitionsService';
 import * as teamService from '../services/teamService';
+import LoadingComponent from '../components/Loading';
 
 
 export default function SingleCompetitions() {
@@ -21,43 +22,48 @@ export default function SingleCompetitions() {
         '.png?';
     const [clubs, setClubs] = useState([]);
     const [competition, setCompetition] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+
 
     useEffect(() => {
-        // todo: Eliminare rows
-        teamService
-            .getTeamsByCompetition(competitionId)
-            .then((response) => {
-                const newRows = response.data.map((clubs) => ({
-                    id: clubs.clubId,
-                    name: clubs.name,
-                    squadSize: clubs.squadSize,
-                    stadiumName: clubs.stadiumName,
-                    stadiumSeats: clubs.stadiumSeats,
-                }));
 
-                setClubs(response.data);
-            })
-            .catch((error) => {
-                console.error('Error fetching club games: ', error);
-            });
+        let promises = [];
+        promises.push(
+            // todo: Eliminare rows
+            teamService
+                .getTeamsByCompetition(competitionId)
+                .then((response) => {
+                    const newRows = response.data.map((clubs) => ({
+                        id: clubs.clubId,
+                        name: clubs.name,
+                        squadSize: clubs.squadSize,
+                        stadiumName: clubs.stadiumName,
+                        stadiumSeats: clubs.stadiumSeats,
+                    }));
 
-        competitionService
-            .getCompetitionsById(competitionId)
-            .then((response) => {
-                setCompetition(response.data);
-            })
-            .catch((error) => {
-                alert(JSON.stringify(error));
-            });
+                    setClubs(response.data);
+                })
+                .catch((error) => {
+                    console.error('Error fetching club games: ', error);
+                }),
+
+            competitionService
+                .getCompetitionsById(competitionId)
+                .then((response) => {
+                    setCompetition(response.data);
+                })
+                .catch((error) => {
+                    alert(JSON.stringify(error));
+                })
+        );
+        Promise.all(promises).then((value) => {
+            setIsLoading(false);
+        });
+
     }, [competitionId]);
 
-    if (!clubs) {
-        return (
-            <div>
-                <TopAppBar links={links}/>
-                Loading...
-            </div>
-        );
+    if (isLoading) {
+        return <LoadingComponent type={'spinningBubbles'} color={'#0c2840'} />;
     }
 
     return (

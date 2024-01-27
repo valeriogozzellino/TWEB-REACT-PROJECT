@@ -10,10 +10,13 @@ import Footer from '../components/Footer';
 import ChatIcon from '../components/atoms/ChatIcon';
 import ArrowBack from '../components/atoms/ArrowBack';
 import * as playerService from '../services/playerService';
+import LoadingComponent from '../components/Loading';
+
 
 export default function Player() {
     const {player_Id} = useParams();
     const [player, setPlayer] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
     const [playerAppearances, setPlayerAppearances] = useState([]);
     const links = [true, true, true];
     const [view, setView] = useState(0);
@@ -28,34 +31,39 @@ export default function Player() {
     ];
 
     useEffect(() => {
+        let promises = [];
+        promises.push(
+            playerService
+                .getPlayerByPlayerId(player_Id)
+                .then((response) => {
+                    setPlayer(response.data);
+                })
+                .catch((response) => {
+                    alert(JSON.stringify(response));
+                }),
 
-        playerService
-            .getPlayerByPlayerId(player_Id)
-            .then((response) => {
-                setPlayer(response.data);
-            })
-            .catch((response) => {
-                alert(JSON.stringify(response));
-            });
-
-        playerService
-            .getAppearancesByPlayerId(player_Id)
-            .then((response) => {
-                const appearancesData = response.data.map((appearance, index) => ({
-                    id: index,
-                    date: new Date(appearance.date).toDateString(),
-                    competition_id: appearance.competition_id,
-                    yellow_cards: appearance.yellow_cards,
-                    red_cards: appearance.red_cards,
-                    goals: appearance.goals,
-                    assists: appearance.assists,
-                    minutes_played: appearance.minutes_played,
-                }));
-                setPlayerAppearances(appearancesData);
-            })
-            .catch((response) => {
-                alert(JSON.stringify(response));
-            });
+            playerService
+                .getAppearancesByPlayerId(player_Id)
+                .then((response) => {
+                    const appearancesData = response.data.map((appearance, index) => ({
+                        id: index,
+                        date: new Date(appearance.date).toDateString(),
+                        competition_id: appearance.competition_id,
+                        yellow_cards: appearance.yellow_cards,
+                        red_cards: appearance.red_cards,
+                        goals: appearance.goals,
+                        assists: appearance.assists,
+                        minutes_played: appearance.minutes_played,
+                    }));
+                    setPlayerAppearances(appearancesData);
+                })
+                .catch((response) => {
+                    alert(JSON.stringify(response));
+                })
+        );
+        Promise.all(promises).then((value) => {
+            setIsLoading(false);
+        });
 
     }, [player_Id]);
 
@@ -73,13 +81,8 @@ export default function Player() {
         }
     };
 
-    if (!player) {
-        return (
-            <div className="player-loading">
-                <TopAppBar links={links}/>
-                Loading...
-            </div>
-        );
+    if (isLoading) {
+        return <LoadingComponent type={'spinningBubbles'} color={'#0c2840'} />;
     }
 
     return (

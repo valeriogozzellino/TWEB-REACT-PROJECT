@@ -12,12 +12,14 @@ import ArrowBack from '../components/atoms/ArrowBack';
 import Button from '@mui/material/Button';
 import ArrowCircleUpTwoToneIcon from '@mui/icons-material/ArrowCircleUpTwoTone';
 import * as competitionService from "../services/competitionsService";
+import LoadingComponent from '../components/Loading';
 
 
 const Competitions = () => {
     const links = [true, true, true];
     const [country, setCountry] = useState([]);
     const [competitions, setCompetitions] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [filter, setFilter] = useState('All'); // Imposta il valore di default a "All"
     const navigate = useNavigate(); //to one team
     const [scrollPosition, setScrollPosition] = useState(0);
@@ -29,31 +31,38 @@ const Competitions = () => {
     // fare due useeffect uno per lo scorll e uno che cambia in base al filter
     useEffect(() => {
 
-        competitionService
-            .getAllCompetitions(filter)
-            .then((response) => {
-                const newRows = response.data.map((competitions) => ({
-                    id: competitions.competitionId,
-                    name: competitions.name,
-                    subType: competitions.subType,
-                    confederation: competitions.confederation,
-                }));
+        let promises = [];
+        promises.push(
+            competitionService
+                .getAllCompetitions(filter)
+                .then((response) => {
+                    const newRows = response.data.map((competitions) => ({
+                        id: competitions.competitionId,
+                        name: competitions.name,
+                        subType: competitions.subType,
+                        confederation: competitions.confederation,
+                    }));
 
-                setCompetitions(response.data);
-            })
-            .catch((error) => {
-                alert(JSON.stringify(error));
-            });
+                    setCompetitions(response.data);
+                })
+                .catch((error) => {
+                    alert(JSON.stringify(error));
+                }),
 
-        //modificare questa chiamata fare lo useEffect ogni volta che country cambia e non solo la prima volta
-        competitionService
-            .getAllCountries()
-            .then((response) => {
-                setCountry(response.data);
-            })
-            .catch((error) => {
-                alert(JSON.stringify(error));
-            });
+            //modificare questa chiamata fare lo useEffect ogni volta che country cambia e non solo la prima volta
+            competitionService
+                .getAllCountries()
+                .then((response) => {
+                    setCountry(response.data);
+                })
+                .catch((error) => {
+                    alert(JSON.stringify(error));
+                })
+        );
+
+        Promise.all(promises).then((value) => {
+            setIsLoading(false);
+        });
 
         const handleScroll = () => {
             // Ottieni la posizione corrente di scroll
@@ -69,6 +78,9 @@ const Competitions = () => {
         };
     }, [filter]);
 
+    if (isLoading) {
+        return <LoadingComponent type={'spinningBubbles'} color={'#0c2840'} />;
+    }
 
     return (
         <div id="container">

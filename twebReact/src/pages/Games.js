@@ -7,6 +7,7 @@ import GameCard from '../components/atoms/card/GameCard';
 import ChatIcon from '../components/atoms/ChatIcon';
 import ArrowBack from '../components/atoms/ArrowBack';
 import * as gameService from "../services/gameService";
+import LoadingComponent from '../components/Loading';
 
 export default function Games() {
     const [error, setError] = useState(null);
@@ -15,6 +16,7 @@ export default function Games() {
     const [gameDates, setGameDates] = useState([]);
     const [selectedDate, setSelectedDate] = useState(null);
     const [dateClicked, setDateClicked] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const links = [true, true, true];
     const navigate = useNavigate();
 
@@ -44,39 +46,52 @@ export default function Games() {
 
 
     useEffect(() => {
-        gameService
-            .getAllGames()
-            .then((response) => {
-                const sortedGames = response.data
-                    .filter(
-                        (game) =>
-                            game.date &&
-                            game.home_club_name &&
-                            game.away_club_name &&
-                            game.aggregate != null &&
-                            game.game_id
-                    )
-                    .sort((a, b) => new Date(b.date) - new Date(a.date));
+        let promises = [];
+        promises.push(
+            gameService
+                .getAllGames()
+                .then((response) => {
+                    const sortedGames = response.data
+                        .filter(
+                            (game) =>
+                                game.date &&
+                                game.home_club_name &&
+                                game.away_club_name &&
+                                game.aggregate != null &&
+                                game.game_id
+                        )
+                        .sort((a, b) => new Date(b.date) - new Date(a.date));
 
-                const newRows = sortedGames.map((game, index) => ({
-                    id: index,
-                    gameDate: new Date(game.date).toDateString(),
-                    homeTeam: game.home_club_name,
-                    aggregate: game.aggregate,
-                    awayTeam: game.away_club_name,
-                    game_id: game.game_id,
-                }));
-                const gameDates = sortedGames.map((game) =>
-                    new Date(game.date).toDateString()
-                );
-                setGameDates(gameDates);
-                setAllGames(sortedGames);
-                setError(null);
-            })
-            .catch((err) => {
-                setError(err);
-            });
+                    const newRows = sortedGames.map((game, index) => ({
+                        id: index,
+                        gameDate: new Date(game.date).toDateString(),
+                        homeTeam: game.home_club_name,
+                        aggregate: game.aggregate,
+                        awayTeam: game.away_club_name,
+                        game_id: game.game_id,
+                    }));
+                    const gameDates = sortedGames.map((game) =>
+                        new Date(game.date).toDateString()
+                    );
+                    setGameDates(gameDates);
+                    setAllGames(sortedGames);
+                    setError(null);
+                })
+                .catch((err) => {
+                    setError(err);
+                })
+        );
+
+        Promise.all(promises).then((value) => {
+            setIsLoading(false);
+        });
+
+
     }, []);
+
+    if (isLoading) {
+        return <LoadingComponent type={'spinningBubbles'} color={'#0c2840'} />;
+    }
 
     return (
         <div className="teams-container">

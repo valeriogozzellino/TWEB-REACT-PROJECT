@@ -12,24 +12,33 @@ import CompetitionsImage from '../Images/CompetitionsImage.jpg';
 import GamesImage from '../Images/img-link-games.jpg';
 import {useNavigate} from 'react-router-dom';
 import * as homeService from "../services/homeService";
+import LoadingComponent from '../components/Loading';
+
 
 
 function Home() {
     const links = [true, true, true];
     const [arrayNewsApi, setNewsApi] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
-        homeService
-            .getNews()
-            .then((response) => {
-                setNewsApi(response.data.articles);
-                setLoading(false);
-            })
-            .catch((error) => {
-                setLoading(false);
-            });
+
+        let promises = [];
+        promises.push(
+            homeService
+                .getNews()
+                .then((response) => {
+                    setNewsApi(response.data.articles);
+                })
+                .catch((error) => {
+                })
+        );
+
+        Promise.all(promises).then((value) => {
+            setIsLoading(false);
+        });
+
     }, []);
 
     console.log('elemento 0 nell array', arrayNewsApi[0]);
@@ -43,8 +52,12 @@ function Home() {
         }
     };
 
-    //memoizedNewsApi and arrayNewsApi are the same thing
     const memoizedNewsApi = useMemo(() => arrayNewsApi, [arrayNewsApi]);
+
+    if (isLoading) {
+        return <LoadingComponent type={'spinningBubbles'} color={'#0c2840'} />;
+    }
+    //memoizedNewsApi and arrayNewsApi are the same thing
     return (
         <div id="container">
             <div id="topContainer">
@@ -140,7 +153,7 @@ function Home() {
                         <h4>Most popular news</h4>
                     </div>
                     <div id="boxNews">
-                        {loading ? (
+                        {isLoading ? (
                             <p>Loading...</p>
                         ) : (
                             memoizedNewsApi
