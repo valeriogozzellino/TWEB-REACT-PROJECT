@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import '../style/Single-Game.css';
-// import TopAppBar from '../components/atoms/TopAppBar';
 import SportsSoccerIcon from '@mui/icons-material/SportsSoccer';
 import { GiCardPlay } from 'react-icons/gi';
 import { AiOutlineSwap } from 'react-icons/ai';
@@ -47,13 +46,11 @@ const SingleGame = () => {
       '.png?';
   }
 
-  const [openDropdownId, setOpenDropdownId] = useState(null);
-
   const handleModalClick = (playerId) => {
     if (openModalPlayerId === playerId) {
-      setOpenModalPlayerId(null); // Close the modal if it's already open for this player
+      setOpenModalPlayerId(null);
     } else {
-      setOpenModalPlayerId(playerId); // Open this player's modal
+      setOpenModalPlayerId(playerId);
     }
   };
 
@@ -62,8 +59,7 @@ const SingleGame = () => {
   };
 
   const handleModalClose = () => {
-    setOpenModalPlayerId(null); // Reset the modal open state
-    // setIsModalOpen(false);
+    setOpenModalPlayerId(null);
   };
 
   function getEventIcon(eventType) {
@@ -80,9 +76,8 @@ const SingleGame = () => {
   }
 
   useEffect(() => {
-    // Get game events
 
-    let promises: Promise[] = [];
+    let promises = [];
     promises.push(
       gameService
         .getGameEventsById(gameId)

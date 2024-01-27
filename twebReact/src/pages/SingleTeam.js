@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import '../style/Teams.css';
 import TopAppBar from '../components/TopAppBar';
@@ -15,6 +14,10 @@ import CardPlayers from '../components/atoms/card/CardPlayer';
 import Tooltip from '@mui/material/Tooltip';
 import ArrowBack from '../components/atoms/ArrowBack';
 import LoadingComponent from '../components/Loading';
+import * as gameService from '../services/gameService';
+import * as singleTeamService from '../services/singleTeamService';
+import * as playerService from '../services/playerService';
+
 
 export default function SingleTeam() {
   const links = [true, true, true];
@@ -42,8 +45,8 @@ export default function SingleTeam() {
   useEffect(() => {
     let promises: Promise[] = [];
     promises.push(
-      axios
-        .get(`http://localhost:3001/single-team/get-team-by-id/${clubId}`)
+      singleTeamService
+          .getTeamById(clubId)
         .then((response) => {
           setTeam(response.data);
         })
@@ -51,16 +54,17 @@ export default function SingleTeam() {
           console.error('Error fetching team: ', error);
         }),
 
-      axios
-        .get(`http://localhost:3001/games/get-club-games-by-id/${clubId}`)
+      gameService
+          .getClubGamesById(clubId)
         .then((response) => {
           setClubGames(response.data);
         })
         .catch((error) => {
           console.error('Error fetching club games: ', error);
         }),
-      axios
-        .get(`http://localhost:3001/player/get-player-by-team?filter=${clubId}`)
+
+      playerService
+          .getPlayerByTeamId(clubId)
         .then((response) => {
           setPlayers(response.data);
         })
