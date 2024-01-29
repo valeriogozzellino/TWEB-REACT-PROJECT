@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import Box from '@mui/material/Box';
 import TopAppBar from '../components/TopAppBar';
 import Footer from '../components/Footer';
@@ -16,22 +16,18 @@ import MenuIcon from '@mui/icons-material/Menu';
 import IconButton from '@mui/material/IconButton';
 import ArrowBack from '../components/atoms/ArrowBack';
 
-//IMPORTANTE :
-//ancora da fare :
-//fare un check se id Utente uguale a quello che lo riceve per non inseririlo nella lista dei messaggi ricevuti
-// gift href: <a href="https://lordicon.com/">Icons by Lordicon.com</a>
 export default function ChatWindow() {
   const { user } = useAuth(); //user details from AuthContext
   const links = [true, true, true];
   const [drawerOpen, setDrawerOpen] = React.useState(false);
-
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const bottomRef = useRef(null);
   const [view, setView] = useState(0); //view of the chat window
   const { chatRoom } = useParams();
   const [currentRoom, setCurrentRoom] = useState('/' + chatRoom);
   const [messagesPlayers, setMessagesPlayers] = useState([]);
   const [messagesTeams, setMessagesTeams] = useState([]);
   const [messagesGames, setMessagesGames] = useState([]);
-
   const [newMessage, setNewMessage] = useState({
     userId: '',
     text: '',
@@ -56,7 +52,7 @@ export default function ChatWindow() {
     if (event.key === 'Enter') {
       // Prevent the default form submission behavior
       event.preventDefault();
-
+      window.scrollTo({ bottom: 0, behavior: 'smooth' });
       // Se il tasto premuto è "Invio", esegui la funzione handleSendMessage
       handleSendMessage();
     }
@@ -103,6 +99,7 @@ export default function ChatWindow() {
           ]);
         }
       }
+      // handleScroll();
     });
 
     //definition of notification of new user joined
@@ -132,15 +129,34 @@ export default function ChatWindow() {
           ]);
         }
       }
+      // handleScroll();
     });
+
+    // const handleScroll = () => {
+    //   // Qui puoi gestire lo scroll del div
+    //   if (bottomRef.current) {
+    //     bottomRef.current.scrollIntoView({ behavior: 'smooth' });
+    //   }
+    // };
+
+    // // Aggiungi l'event listener di scroll al div
+    // bottomRef.current.addEventListener('scroll', handleScroll);
 
     //socket disconnected when compponents are unmounted
     return () => {
       selectedSocket.off('chat_message');
       selectedSocket.off('joined');
       disconnectSocket(selectedSocket);
+      // bottomRef.current.removeEventListener('scroll', handleScroll);
     };
-  }, [currentRoom, user.firstName, user.userId]);
+  }, [
+    currentRoom,
+    messagesGames,
+    messagesPlayers,
+    messagesTeams,
+    user.firstName,
+    user.userId,
+  ]);
 
   //send message to the server and update the view
   const handleSendMessage = () => {
@@ -284,7 +300,7 @@ export default function ChatWindow() {
           <Box
             sx={{
               width: '90%',
-              overflow: 'auto',
+              overflowY: 'scroll',
               minHeight: 350,
               marginTop: 2,
               marginLeft: 10,
@@ -292,6 +308,7 @@ export default function ChatWindow() {
               backgroundColor: '#08325792',
               maxHeight: '60vh',
             }}
+            // ref={bottomRef}
           >
             {/* set the view of the chat */}
             {currentView[view]}
