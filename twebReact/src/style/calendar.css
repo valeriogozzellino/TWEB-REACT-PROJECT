@@ -1,0 +1,74 @@
+/* custom-calendar.css */
+.react-calendar {
+  border: none;
+  font-family: Arial, sans-serif;
+  color: #e6e6e6;
+}
+
+.react-calendar__navigation {
+  background-color: #1a1a2e; /* Dark background for the header */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.react-calendar__navigation button {
+  color: #e6e6e6;
+  background-color: #16213e; /* Slightly lighter blue than the header background */
+  border-radius: 10px;
+  margin: 5px;
+  font-size: 16px;
+}
+
+.react-calendar__navigation button:enabled:hover,
+.react-calendar__navigation button:enabled:focus {
+  background-color: #0f3460; /* A different shade for hover */
+  color: #e6e6e6;
+}
+
+.react-calendar__month-view__days__day--weekend {
+  color: #e94560; /* A soft red color for weekends */
+}
+
+.react-calendar__tile {
+  background: #1a1a2e; /* Matching the main background */
+  color: #ffffff; /* White color for the day numbers */
+  border-radius: 5px;
+}
+
+.react-calendar__tile--weekend {
+  color: #e94560; /* Use this class to change weekend day numbers to red */
+}
+
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+  background: #16213e; /* Slightly lighter blue for hover */
+  color: #e6e6e6;
+  border-radius: 5px;
+}
+
+.react-calendar__tile--active,
+.react-calendar__tile--active:hover {
+  background: #0f3460; /* A different shade for the active/hovered date */
+  color: white;
+}
+
+/* Adjusting the dots for game days */
+.react-calendar__tile--hasActive {
+  position: relative;
+}
+
+.react-calendar__tile--hasActive::after {
+  content: '•';
+  color: #e94560; /* Soft red color for the dot */
+  position: absolute;
+  bottom: 5px;
+  left: calc(50% - (0.5em / 2));
+}
+
+/* Today's tile styling */
+.react-calendar__tile--now {
+  background: #0f3460;
+  color: white;
+}

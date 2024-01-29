@@ -131,17 +131,13 @@
   color: aliceblue;
 }
 
-#block-single-competition {
-  height: 100vh;
-}
-
 #middle-container-team {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100vh;
+  height: 100%;
 }
 #botton-end {
   display: flex;
@@ -154,9 +150,11 @@
 
 #games-card {
   display: flex;
+  width: 90%;
   flex-wrap: wrap;
   align-items: center;
-  margin-left: 180px;
+  justify-content: center;
+  margin-left: 110px;
 }
 
 #games-card > div {
@@ -167,8 +165,9 @@
 
 #players-card {
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
-  margin-left: 180px;
+  width: 90%;
   align-items: center;
 }
 
@@ -182,5 +181,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 30px;
+}
+
+.container-data-team {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 100%;
+  margin-bottom: 90px;
   margin-top: 30px;
 }

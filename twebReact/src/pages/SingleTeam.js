@@ -18,7 +18,6 @@ import * as gameService from '../services/gameService';
 import * as singleTeamService from '../services/singleTeamService';
 import * as playerService from '../services/playerService';
 
-
 export default function SingleTeam() {
   const links = [true, true, true];
   const navigate = useNavigate();
@@ -35,6 +34,7 @@ export default function SingleTeam() {
 
   const handleNumberPlayer = (param) => {
     if (param === 1) {
+      if (players.length <= showPlayer) return;
       setShowPlayer(showPlayer + 6);
     } else {
       if (showPlayer === 6) return;
@@ -46,7 +46,7 @@ export default function SingleTeam() {
     let promises: Promise[] = [];
     promises.push(
       singleTeamService
-          .getTeamById(clubId)
+        .getTeamById(clubId)
         .then((response) => {
           setTeam(response.data);
         })
@@ -55,7 +55,7 @@ export default function SingleTeam() {
         }),
 
       gameService
-          .getClubGamesById(clubId)
+        .getClubGamesById(clubId)
         .then((response) => {
           setClubGames(response.data);
         })
@@ -64,7 +64,7 @@ export default function SingleTeam() {
         }),
 
       playerService
-          .getPlayerByTeamId(clubId)
+        .getPlayerByTeamId(clubId)
         .then((response) => {
           setPlayers(response.data);
         })
@@ -157,7 +157,7 @@ export default function SingleTeam() {
           </Box>
 
           {view === 0 ? (
-            <div>
+            <div className="container-data-team">
               <div id="players-card">
                 {players.slice(0, showPlayer).map((player) => (
                   <Tooltip title={player.position} key={player.playerId}>
@@ -177,22 +177,22 @@ export default function SingleTeam() {
                 <Button
                   variant="outlined"
                   size="medium"
+                  onClick={() => handleNumberPlayer(0)}
+                >
+                  Show Less
+                </Button>
+                <Button
+                  variant="outlined"
+                  size="medium"
                   onClick={() => handleNumberPlayer(1)}
                   sx={{ marginRight: '21px' }}
                 >
                   Show More
                 </Button>
-                <Button
-                  variant="outlined"
-                  size="medium"
-                  onClick={() => handleNumberPlayer(0)}
-                >
-                  Show Less
-                </Button>
               </div>
             </div>
           ) : view === 1 ? (
-            <div>
+            <div className="container-data-team">
               <div id="games-card">
                 {clubGames.slice(0, showGames).map((game) => (
                   <div onClick={() => handleGameClick(game)} key={game.game_id}>

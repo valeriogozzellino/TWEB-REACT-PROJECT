@@ -76,7 +76,6 @@ const SingleGame = () => {
   }
 
   useEffect(() => {
-
     let promises = [];
     promises.push(
       gameService
@@ -239,6 +238,7 @@ const SingleGame = () => {
                       className="dropdown-button"
                       onClick={() => handleModalClick(player.player_id)}
                     >
+                      {console.log(player)}
                       {renderGoalsIcons(player.goals)}
                       {player.assists > 0 && '🅰️  '}
                       {player.yellow_cards === 1 && '🟡   '}
@@ -246,6 +246,7 @@ const SingleGame = () => {
                         '🔴   '}
                       {player.player_name}
                     </button>
+
                     <Modal
                       player_id={player.player_id}
                       open={isModalOpenForPlayer(player.player_id)}

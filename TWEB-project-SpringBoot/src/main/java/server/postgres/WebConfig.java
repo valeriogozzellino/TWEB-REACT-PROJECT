@@ -1,4 +1,4 @@
-package server.postgres.players;
+package server.postgres;
 
 
 import org.springframework.context.annotation.Configuration;

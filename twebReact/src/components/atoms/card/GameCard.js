@@ -25,7 +25,8 @@ export default function GameCard({ game, imageurl1, imageurl2 }) {
         marginBottom: '10px',
         height: '180px',
         width: '350px',
-        backgroundColor: 'rgba(255, 255, 255, 0.591)',
+        color: 'white',
+        backgroundColor: '#1a1a2e',
         border: clubWinView ? '3px solid rgb(111, 40, 40)' : '3px solid green',
         transition: 'transform 0.3s ease, box-shadow 0.3s ease',
         '&:hover': {
@@ -46,7 +47,7 @@ export default function GameCard({ game, imageurl1, imageurl2 }) {
         <div id="box-team-1">
           <CardMedia
             component="img"
-            sx={{ width: 50, height: 50 }}
+            sx={{ width: 50, height: 70 }}
             image={imageurl1}
             alt="club"
           />
@@ -62,14 +63,14 @@ export default function GameCard({ game, imageurl1, imageurl2 }) {
           </CardContent>
         </div>
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="white">
             {game.home_club_goals} : {game.away_club_goals}
           </Typography>
         </Box>
         <div id="box-team-2">
           <CardMedia
             component="img"
-            sx={{ width: 50, height: 50 }}
+            sx={{ width: 50, height: 70 }}
             image={imageurl2}
             alt="opponent"
           />

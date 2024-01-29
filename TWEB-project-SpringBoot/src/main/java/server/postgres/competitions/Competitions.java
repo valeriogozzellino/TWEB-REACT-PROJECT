@@ -125,5 +125,4 @@ public class Competitions {
         this.url = url;
     }
 
-    // Altri metodi, se necessari
 }

@@ -42,11 +42,9 @@ public class Clubs {
     @Column(name = "url", length = 255)
     private String url;
 
-    // Costruttore vuoto
     public Clubs() {
     }
 
-    // Getter e Setter per ogni campo
 
     public int getClubId() {
         return clubId;

@@ -53,7 +53,7 @@
   border-radius: 5px;
   border-color: #0c2840;
   min-height: 70px;
-  background-color: #ffffff87;
+  background-color: #ffffffe8;
   /* Angoli arrotondati dei singoli giorni */
 }
 
@@ -82,4 +82,9 @@
 .card-hover-effect:hover {
   transform: scale(1.05); /* Scales up the card */
   background-color: #05568d; /* Changes the background color */
+}
+
+.middle-container-background-color {
+  background: #04233f;
+  color: aliceblue;
 }

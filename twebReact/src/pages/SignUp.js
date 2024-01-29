@@ -26,6 +26,7 @@ function SignUp() {
   const [clubs, setClubs] = useState([]);
   const [players, setPlayers] = useState([]);
   const uniquePlayerNames = new Set();
+  const [isFocused, setIsFocused] = useState(false);
 
   // Filter out players with the same name
 
@@ -42,6 +43,14 @@ function SignUp() {
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+
+  const handleBlur = () => {
+    setIsFocused(false);
   };
 
   const getTeams = (filterCountry, filterSeason) => {
@@ -164,25 +173,24 @@ function SignUp() {
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <SensorOccupiedTwoToneIcon />
             </Avatar>
-            <Typography component="h1" variant="h5">
+            <Typography component="h1" variant="h4">
               Sign Up
             </Typography>
           </Container>
         </Container>
         {activeStep === 0 ? (
           <div id="containerLabel">
-            <h3>Informazioni Personali</h3>
+            <h6>Informazioni Personali</h6>
 
-            <Grid sx={{ marginLeft: '10px' }} xs={6}>
+            <Grid sx={{ marginLeft: '10px' }} xs={9}>
               <TextField
                 label="Nome"
                 name="nome"
+                fullWidth
                 value={nome}
                 onChange={handleInputChange}
                 margin="normal"
               />
-            </Grid>
-            <Grid xs={6}>
               <TextField
                 label="Surname"
                 name="surname"
@@ -192,31 +200,32 @@ function SignUp() {
                 margin="surname"
               />
             </Grid>
-            <Grid xs={8}>
+            <Grid xs={6}>
               <TextField
-                label="Anno di Nascita"
+                label={isFocused || annoDiNascita ? 'Anno di Nascita' : ''}
                 name="annoDiNascita"
                 value={annoDiNascita}
                 onChange={handleInputChange}
-                type="date"
-                fullWidth
+                onFocus={handleFocus}
+                onBlur={handleBlur}
                 margin="normal"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                type="date"
               />
-            </Grid>
-            <Grid sx={{ margin: '5px' }} xs={6}>
               <TextField
                 label="Paese di Provenienza"
                 name="paeseDiProvenienza"
                 value={paeseDiProvenienza}
                 onChange={handleInputChange}
-                fullWidth
                 margin="normal"
               />
             </Grid>
           </div>
         ) : activeStep === 1 ? (
           <div id="containerFavourite">
-            <h3>Preferenze Calcistiche</h3>
+            <h6>Preferenze Calcistiche</h6>
 
             <Grid xs={8}>
               <Autocomplete
@@ -248,19 +257,17 @@ function SignUp() {
           </div>
         ) : (
           <div id="contaninerCredentials">
-            <h3>Credenziali</h3>
-            <Grid xs={8}>
+            <h6>Credenziali</h6>
+            <Grid xs={9}>
               <TextField
                 label="Email"
+                fullWidth
                 name="email"
                 type="email"
                 value={email}
                 onChange={handleInputChange}
-                fullWidth
                 margin="normal"
               />
-            </Grid>
-            <Grid xs={8}>
               <TextField
                 label="Password"
                 name="password"

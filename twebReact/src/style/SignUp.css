@@ -1,56 +1,66 @@
 #containerSignUp {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100vh;
-    /* background: url('../Images/messiVSRonaldo.jpeg') no-repeat center center fixed; */
-    background-size: cover;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  /* background: url('../Images/messiVSRonaldo.jpeg') no-repeat center center fixed; */
+  background-size: cover;
 }
 
 #containerForm {
-    background-color: rgba(255, 255, 255, 0.8);
-    /* White background with opacity */
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-radius: 10px;
-    max-width: 500px;
-    /* Maximum width */
-    width: 100%;
-    height: 535px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  background-color: rgba(255, 255, 255, 0.8);
+  /* White background with opacity */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  max-width: 500px;
+  /* Maximum width */
+  width: 100%;
+  height: 535px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 #containerImage {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 50%;
-    height: 100%;
-    /* background: url('../Images/messiVSRonaldo.jpeg') no-repeat center center fixed; */
-    background-size: cover;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: 100%;
+  /* background: url('../Images/messiVSRonaldo.jpeg') no-repeat center center fixed; */
+  background-size: cover;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
 }
 
-#containerLabel{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    align-content: flex-start;
-    width: 100%;
-    /* border-top-right-radius: 10px; */
-    /* border-bottom-right-radius: 10px; */
+#containerLabel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  align-content: center;
+  width: 100%;
+  margin-top: 40px;
 }
-#contaninerCredentials{
-    width: 100%;
+#contaninerCredentials {
+  width: 100%;
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-#containerFavourite{
-    margin-top: 20px;
+
+#containerFavourite {
+  width: 100%;
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

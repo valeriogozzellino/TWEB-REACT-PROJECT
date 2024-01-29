@@ -15,7 +15,6 @@ export const AuthProvider = ({ children }) => {
       })
       .then(
         (response) => {
-          console.log(response.data);
           setUser(response.data);
           // Save the JSON string in local storage
           const userJSONString = JSON.stringify(response.data);
@@ -37,7 +36,6 @@ export const AuthProvider = ({ children }) => {
     if (localStorage.getItem('user')) {
       setCheckCredentials(true);
       const userJSONString = localStorage.getItem('user');
-      console.log(userJSONString);
       const userObject = JSON.parse(userJSONString);
       setUser(userObject);
     }
