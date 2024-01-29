@@ -88,3 +88,7 @@
   background: #04233f;
   color: aliceblue;
 }
+
+#block-single-competition {
+  min-height: 70vh;
+}

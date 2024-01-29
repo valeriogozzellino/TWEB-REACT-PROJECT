@@ -36,7 +36,7 @@ export default function CardPlayers({
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'start',
-          background: '#04233f',
+          background: '#1a1a2e',
           borderRadius: '10px',
           cursor: 'pointer',
           overflow: 'hidden',

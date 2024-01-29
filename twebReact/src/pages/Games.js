@@ -26,7 +26,7 @@ export default function Games() {
 
   function scrollToBottom() {
     window.scrollTo({
-      top: 800,
+      top: 900,
       behavior: 'smooth', // Utilizza lo scorrimento animato se il browser lo supporta
     });
   }
@@ -87,7 +87,9 @@ export default function Games() {
       </div>
       <div className="container-background-color">
         <div id="container-title">
-          <h1 className="titleHome">Games</h1>
+          <h1 className="titleHome">
+            <b>Games</b>
+          </h1>
         </div>
         <div className="data-grid-container">
           <h3 className="page-subtitle">Select a date to see more details</h3>

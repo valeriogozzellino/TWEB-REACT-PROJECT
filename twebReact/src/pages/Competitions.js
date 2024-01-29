@@ -89,7 +89,9 @@ const Competitions = () => {
         style={{ minHeight: '100vh' }}
       >
         <div id="title">
-          <h1 className="titleHome">Competitions</h1>
+          <h1 className="titleHome">
+            <b>Competitions</b>
+          </h1>
         </div>
         <div>
           <div id="blockid">
@@ -102,8 +104,9 @@ const Competitions = () => {
                 width: 100,
                 height: 50,
                 color: 'white',
+                border: '1px solid white',
                 backgroundColor: '#1d3557',
-                borderColor: '#1d3557',
+                marginLeft: '10px',
               }}
               value={filter}
               label="Country"

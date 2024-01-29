@@ -11,7 +11,6 @@ import ArrowBack from '../components/atoms/ArrowBack';
 import * as teamService from '../services/teamService';
 import LoadingComponent from '../components/Loading';
 import ButtonGoTop from '../components/atoms/ButtonGoTop';
-import FormHelperText from '@mui/material/FormHelperText';
 
 function Teams() {
   const [filterSeason, setSeason] = useState(0); // return all competition and set them for the filter
@@ -88,7 +87,9 @@ function Teams() {
       </div>
       <div className="container-background-color">
         <div id="container-title">
-          <h1 className="page-title">Teams</h1>
+          <h1 className="titleHome">
+            <b>Teams</b>
+          </h1>
         </div>
         <div className="filters-container">
           <div
@@ -101,9 +102,9 @@ function Teams() {
           >
             <h5 className="filter-title">Select a season:</h5>
             <Select
-              margin="dense"
               className="season-select"
               value={filterSeason}
+              style={{ color: 'white' }}
               placeholder=""
               onChange={handleFilterSeason}
             >
@@ -126,6 +127,7 @@ function Teams() {
             <Select
               className="country-select"
               value={filterCountry}
+              style={{ color: 'white' }}
               placeholder="Select a country"
               onChange={handleFilterCountry}
             >

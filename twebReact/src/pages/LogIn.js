@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useAuth } from '../components/AuthContext';
+import HomeIcon from '@mui/icons-material/Home';
 
 function Copyright(props) {
   return (
@@ -60,6 +61,7 @@ export default function LogIn({ handleLogIN }) {
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
+
         <Box
           sx={{
             marginTop: 8,
@@ -125,6 +127,11 @@ export default function LogIn({ handleLogIN }) {
               </Grid>
             </Grid>
           </Box>
+          <div style={{}}>
+            <Button onClick={() => navigate('/')}>
+              <HomeIcon />
+            </Button>
+          </div>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>

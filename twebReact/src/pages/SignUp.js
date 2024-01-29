@@ -11,6 +11,7 @@ import SensorOccupiedTwoToneIcon from '@mui/icons-material/SensorOccupiedTwoTone
 import '../style/SignUp.css';
 import imagePlayers from '../Images/messiVSRonaldo.jpeg';
 import { Link, useNavigate } from 'react-router-dom';
+import HomeIcon from '@mui/icons-material/Home';
 
 function SignUp() {
   const [activeStep, setActiveStep] = useState(0);
@@ -124,11 +125,20 @@ function SignUp() {
     }
   };
 
-  const handleFileChange = (e) => {
-    //insert image
-  };
-
   const handleSubmit = () => {
+    if (
+      !nome ||
+      !surname ||
+      !annoDiNascita ||
+      !paeseDiProvenienza ||
+      !email ||
+      !password
+    ) {
+      alert(
+        'Compila tutti i campi obbligatori prima di procedere con la registrazione.'
+      );
+      return; // Non procedere con la registrazione se i campi obbligatori sono vuoti
+    }
     const data = {
       firstName: nome,
       lastName: surname,
@@ -155,6 +165,11 @@ function SignUp() {
   return (
     <div id="containerSignUp">
       <div id="containerForm">
+        <div style={{ width: '100%' }}>
+          <Button onClick={() => navigate('/')}>
+            <HomeIcon />
+          </Button>
+        </div>
         <Container
           sx={{
             alignItems: 'center',
@@ -184,6 +199,7 @@ function SignUp() {
 
             <Grid sx={{ marginLeft: '10px' }} xs={9}>
               <TextField
+                required
                 label="Nome"
                 name="nome"
                 fullWidth
@@ -192,6 +208,7 @@ function SignUp() {
                 margin="normal"
               />
               <TextField
+                required
                 label="Surname"
                 name="surname"
                 value={surname}
@@ -202,6 +219,7 @@ function SignUp() {
             </Grid>
             <Grid xs={6}>
               <TextField
+                required
                 label={isFocused || annoDiNascita ? 'Anno di Nascita' : ''}
                 name="annoDiNascita"
                 value={annoDiNascita}
@@ -215,6 +233,7 @@ function SignUp() {
                 type="date"
               />
               <TextField
+                required
                 label="Paese di Provenienza"
                 name="paeseDiProvenienza"
                 value={paeseDiProvenienza}
@@ -260,6 +279,7 @@ function SignUp() {
             <h6>Credenziali</h6>
             <Grid xs={9}>
               <TextField
+                required
                 label="Email"
                 fullWidth
                 name="email"
@@ -269,6 +289,7 @@ function SignUp() {
                 margin="normal"
               />
               <TextField
+                required
                 label="Password"
                 name="password"
                 type="password"
