@@ -15,6 +15,21 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useAuth } from '../components/AuthContext';
 import HomeIcon from '@mui/icons-material/Home';
 
+/**
+ * LogIn Component:
+ *
+ * Provides a form for user authentication. It allows users to enter their email and password,
+ * and it performs the login operation.
+ *
+ * Behavior:
+ * - Validates the user input and submits the data for authentication.
+ * - Provides additional links for users to navigate to the SignUp page or to recover their password.
+ * - Uses the `useAuth` hook to manage the authentication state and perform the login operation.
+ *
+ * @param {Function} handleLogIN Function to manage the login state of the user.
+ * @returns {JSX.Element} The JSX for the LogIn page.
+ */
+
 function Copyright(props) {
   return (
     <Typography
@@ -51,10 +66,6 @@ export default function LogIn({ handleLogIN }) {
       console.log('isUserLogged LogIn--->', checkCredentials);
       window.history.back(); //modificare e iserire la pagina che l'ha chiamato
     }
-  };
-  const handleSignUP = (event) => {
-    event.preventDefault();
-    navigate('/signUp');
   };
 
   return (

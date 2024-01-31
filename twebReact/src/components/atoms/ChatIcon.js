@@ -7,13 +7,23 @@ import SpeedDialAction from '@mui/material/SpeedDialAction';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import ForumIcon from '@mui/icons-material/Forum';
 import { useAuth } from '../AuthContext';
-import ThreePIcon from '@mui/icons-material/ThreeP';
 
 const actions = [
   { icon: <ForumIcon />, name: 'PlayersChat' },
   { icon: <ForumIcon />, name: 'TeamsChat' },
   { icon: <ForumIcon />, name: 'GamesChat' },
 ];
+/**
+ * ChatIcon Component:
+ *
+ * Provides a floating action button with speed dial actions for navigating to different chat rooms.
+ *
+ * Behavior:
+ * - Displays different chat room options on click.
+ * - Navigates the user to the selected chat room.
+ *
+ * @returns {JSX.Element} The JSX for the ChatIcon component.
+ */
 
 export default function ChatIcon() {
   const [open, setOpen] = React.useState(false);

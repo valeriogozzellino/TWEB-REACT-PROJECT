@@ -1,10 +1,18 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import SpeedDial from '@mui/material/SpeedDial';
-import SpeedDialAction from '@mui/material/SpeedDialAction';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/joy/Button';
+/**
+ * ArrowBackCircle Component:
+ *
+ * Provides a button for navigating back to the previous page.
+ *
+ * Behavior:
+ * - On button click, navigates the user back to the previous page in the browser's history.
+ *
+ * @returns {JSX.Element} The JSX for the ArrowBackCircle button.
+ */
 
 export default function ArrowBackCircle() {
   const navigate = useNavigate();

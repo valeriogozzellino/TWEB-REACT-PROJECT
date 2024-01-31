@@ -8,13 +8,15 @@ import ChatIcon from '../components/atoms/ChatIcon';
 import ArrowBack from '../components/atoms/ArrowBack';
 import * as gameService from '../services/gameService';
 import LoadingComponent from '../components/Loading';
-
+/**
+ *
+ * @returns
+ */
 export default function Games() {
-  const [error, setError] = useState(null);
   const [games, setGames] = useState([]); // return all country and set them for the filter
   const [allGames, setAllGames] = useState([]); // return all country and set them for the filter
   const [gameDates, setGameDates] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(null);
+  // const [selectedDate, setSelectedDate] = useState('');
   const [dateClicked, setDateClicked] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const links = [true, true, true];
@@ -27,17 +29,17 @@ export default function Games() {
   function scrollToBottom() {
     window.scrollTo({
       top: 900,
-      behavior: 'smooth', // Utilizza lo scorrimento animato se il browser lo supporta
+      behavior: 'smooth',
     });
   }
 
   const handleDateClick = (date) => {
-    const formattedDate = new Date(date).toDateString(); // Formatta la data in modo da confrontarla correttamente
+    const formattedDate = new Date(date).toDateString();
     const gamesOnDate = allGames.filter(
       (game) => new Date(game.date).toDateString() === formattedDate
     );
     setGames(gamesOnDate);
-    setSelectedDate(formattedDate);
+    // setSelectedDate(formattedDate);
     setDateClicked(true);
     scrollToBottom();
   };
@@ -64,10 +66,9 @@ export default function Games() {
           );
           setGameDates(gameDates);
           setAllGames(sortedGames);
-          setError(null);
         })
         .catch((err) => {
-          setError(err);
+          console.error(err);
         })
     );
 

@@ -32,7 +32,7 @@ export default function SingleCompetitions() {
           setClubs(response.data);
         })
         .catch((error) => {
-          console.error('Error fetching club games: ', error);
+          console.error(error);
         }),
 
       competitionService
@@ -41,7 +41,7 @@ export default function SingleCompetitions() {
           setCompetition(response.data);
         })
         .catch((error) => {
-          alert(JSON.stringify(error));
+          console.error(error);
         })
     );
     Promise.all(promises).then((value) => {

@@ -2,7 +2,6 @@ import TopAppBar from '../components/TopAppBar';
 import React, { useEffect, useState } from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import { useNavigate } from 'react-router-dom';
 import '../style/Competitions.css';
 import Footer from '../components/Footer';
 import CardElement from '../components/atoms/card/CardElement';
@@ -13,47 +12,54 @@ import * as competitionService from '../services/competitionsService';
 import LoadingComponent from '../components/Loading';
 import ButtonGoTop from '../components/atoms/ButtonGoTop';
 
+/**
+ * Competitions Component:
+ *
+ * Displays a list of sports competitions. Users can filter the list by country.
+ * The list of competitions is fetched from the `competitionService`.
+ *
+ * Props:
+ * - None directly, but uses global state or services to fetch competition data.
+ *
+ * Behavior:
+ * - On load, fetches a list of all competitions and countries using the `competitionService`.
+ * - Users can select a country from the dropdown to filter the competitions.
+ * - Displays each competition in a CardElement.
+ *
+ * @returns {JSX.Element} The JSX for the Competitions page.
+ */
+
 const Competitions = () => {
   const links = [true, true, true];
   const [country, setCountry] = useState([]);
   const [competitions, setCompetitions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState('All'); // Imposta il valore di default a "All"
-  const navigate = useNavigate(); //to one team
   const [scrollPosition, setScrollPosition] = useState(0);
 
   const handleChangeFilter = (event) => {
     setFilter(event.target.value);
   };
 
-  // fare due useeffect uno per lo scorll e uno che cambia in base al filter
   useEffect(() => {
     let promises = [];
     promises.push(
       competitionService
         .getAllCompetitions(filter)
         .then((response) => {
-          const newRows = response.data.map((competitions) => ({
-            id: competitions.competitionId,
-            name: competitions.name,
-            subType: competitions.subType,
-            confederation: competitions.confederation,
-          }));
-
           setCompetitions(response.data);
         })
         .catch((error) => {
-          alert(JSON.stringify(error));
+          console.error(error);
         }),
 
-      //modificare questa chiamata fare lo useEffect ogni volta che country cambia e non solo la prima volta
       competitionService
         .getAllCountries()
         .then((response) => {
           setCountry(response.data);
         })
         .catch((error) => {
-          alert(JSON.stringify(error));
+          console.error(error);
         })
     );
 
@@ -62,14 +68,12 @@ const Competitions = () => {
     });
 
     const handleScroll = () => {
-      // Ottieni la posizione corrente di scroll
       const currentPosition = window.scrollY;
       setScrollPosition(currentPosition);
     };
 
     window.addEventListener('scroll', handleScroll);
 
-    // Pulisci il listener quando il componente viene smontato
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };

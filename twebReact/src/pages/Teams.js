@@ -11,6 +11,20 @@ import ArrowBack from '../components/atoms/ArrowBack';
 import * as teamService from '../services/teamService';
 import LoadingComponent from '../components/Loading';
 import ButtonGoTop from '../components/atoms/ButtonGoTop';
+/**
+ * Teams Component:
+ *
+ * Displays a list of football teams. Users can filter the list by season and country.
+ * The component fetches data about teams, countries, and seasons and allows the user to select
+ * specific criteria for filtering the displayed teams.
+ *
+ * Behavior:
+ * - On load, fetches lists of countries, seasons, and teams based on the selected filters using the `teamService`.
+ * - Users can select a season and a country from the dropdowns to filter the teams.
+ * - Displays each team in a CardElement.
+ *
+ * @returns {JSX.Element} The JSX for the Teams page.
+ */
 
 function Teams() {
   const [filterSeason, setSeason] = useState(0); // return all competition and set them for the filter
@@ -38,7 +52,7 @@ function Teams() {
           setArrayCountry(response.data);
         })
         .catch((error) => {
-          alert(JSON.stringify(error));
+          console.error(error);
         }),
 
       teamService
@@ -47,7 +61,7 @@ function Teams() {
           setArraySeason(response.data);
         })
         .catch((error) => {
-          alert(JSON.stringify(error));
+          console.error(error);
         }),
 
       teamService
@@ -56,7 +70,7 @@ function Teams() {
           setClubs(response.data);
         })
         .catch((error) => {
-          alert(JSON.stringify(error));
+          console.error(error);
         })
     );
     Promise.all(promises).then((value) => {

@@ -17,6 +17,19 @@ import LoadingComponent from '../components/Loading';
 import * as gameService from '../services/gameService';
 import * as singleTeamService from '../services/singleTeamService';
 import * as playerService from '../services/playerService';
+/**
+ * SingleTeam Component:
+ *
+ * Displays details about a single team, including players, recent games, and basic team information.
+ * Users can view more players or games by interacting with the 'Show More/Less' buttons.
+ *
+ * Behavior:
+ * - On load, fetches the team details, players, and recent games using the `singleTeamService` and `gameService`.
+ * - Displays team information, a list of players, and recent games.
+ * - Users can click on a player or a game to navigate to their respective detailed view.
+ *
+ * @returns {JSX.Element} The JSX for the SingleTeam page.
+ */
 
 export default function SingleTeam() {
   const links = [true, true, true];
@@ -37,7 +50,7 @@ export default function SingleTeam() {
       if (players.length <= showPlayer) return;
       setShowPlayer(showPlayer + 6);
     } else {
-      if (showPlayer === 6) return;
+      if (showPlayer <= 6) return;
       setShowPlayer(showPlayer - 6);
     }
   };
@@ -51,7 +64,7 @@ export default function SingleTeam() {
           setTeam(response.data);
         })
         .catch((error) => {
-          console.error('Error fetching team: ', error);
+          console.error(error);
         }),
 
       gameService
@@ -60,7 +73,7 @@ export default function SingleTeam() {
           setClubGames(response.data);
         })
         .catch((error) => {
-          console.error('Error fetching club games: ', error);
+          console.error(error);
         }),
 
       playerService
@@ -69,7 +82,7 @@ export default function SingleTeam() {
           setPlayers(response.data);
         })
         .catch((error) => {
-          console.error('Error fetching players: ', error);
+          console.error(error);
         })
     );
     Promise.all(promises).then((value) => {
@@ -177,6 +190,7 @@ export default function SingleTeam() {
                 <Button
                   variant="outlined"
                   size="medium"
+                  sx={{ marginRight: '21px' }}
                   onClick={() => handleNumberPlayer(0)}
                 >
                   Show Less
@@ -185,7 +199,6 @@ export default function SingleTeam() {
                   variant="outlined"
                   size="medium"
                   onClick={() => handleNumberPlayer(1)}
-                  sx={{ marginRight: '21px' }}
                 >
                   Show More
                 </Button>

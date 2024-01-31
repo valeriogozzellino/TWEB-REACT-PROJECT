@@ -1,8 +1,14 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import '../style/DataGrid.css';
 
+//controllare se viene import
+/**
+ *
+ * @param {} param0
+ * @returns
+ */
 export default function DataGridElement({ gridData, onRowClick }) {
   const handleCellClick = (params, event) => {
     const rowId = params.id;

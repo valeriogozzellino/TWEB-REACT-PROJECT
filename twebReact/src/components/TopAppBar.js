@@ -10,6 +10,20 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import { useEffect } from 'react';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import ButtonLogOut from './atoms/ButtonLogOut';
+/**
+ * TopAppBar Component:
+ *
+ * Provides a top navigation bar for the application.
+ *
+ * Behavior:
+ * - Displays the application logo and title.
+ * - Provides navigation links to different pages based on the provided props.
+ * - Displays user login status and options for login, logout, or sign up.
+ *
+ * @param {Object} props Contains the links to display in the navigation bar.
+ * @returns {JSX.Element} The JSX for the TopAppBar component.
+ */
 
 export default function TopAppBar(props) {
   const links = props.links;
@@ -23,7 +37,7 @@ export default function TopAppBar(props) {
   useEffect(() => {
     console.log('INIZIALIZZO LO USER');
     getUser();
-  }, []);
+  }, [getUser]);
 
   const redirectToPage = (page) => () => {
     if (page === 'Home') {
@@ -141,6 +155,7 @@ export default function TopAppBar(props) {
                     {user.firstName} {user.lastName}
                   </Typography>
                   <PersonOutlineOutlinedIcon />
+                  <ButtonLogOut />
                 </div>
               ) : (
                 <div className="user-bar">

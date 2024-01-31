@@ -67,6 +67,14 @@
 }
 /* Stili aggiuntivi possono essere aggiunti qui */
 
+#event-card {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 90%;
+  align-items: center;
+}
+
 .index-page {
   display: flex;
   flex-direction: row;

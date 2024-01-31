@@ -1,38 +1,37 @@
-#bottom-page{
-    width: 25%;
+#bottom-page {
+  width: 35%;
 }
 
-#logoTopBar{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-
+#logoTopBar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
-#text-page{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: full;
-    height: inherit;    
+#text-page {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: full;
+  height: inherit;
 }
-#links-topbar{
-    margin-left: 10px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+#links-topbar {
+  margin-left: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
-#container-bar{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 98%;
+#container-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 98%;
 }
-.user-bar{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+.user-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }

@@ -1,6 +1,18 @@
 import { createContext, useState, useContext } from 'react';
 import axios from 'axios';
 
+/**
+ * AuthContext Component:
+ *
+ * Provides an authentication context for managing user login, logout, and credentials checking.
+ *
+ * Behavior:
+ * - Manages user authentication state.
+ * - Provides functions for logging in, logging out, and checking if a user is logged in.
+ *
+ * @returns {JSX.Element} The JSX for the AuthContext provider.
+ */
+
 export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [checkCredentials, setCheckCredentials] = useState(false);

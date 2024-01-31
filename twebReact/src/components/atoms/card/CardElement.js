@@ -1,7 +1,13 @@
 import React from 'react';
-import { Card, CardBody, Image } from '@nextui-org/react';
+import { Card, CardBody } from '@nextui-org/react';
 import '../../../style/global.css';
 import { useNavigate } from 'react-router-dom';
+
+/**
+ *
+ * @param {} param0
+ * @returns
+ */
 export default function CardElement({
   clubId,
   title,

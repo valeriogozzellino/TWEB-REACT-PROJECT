@@ -1,8 +1,13 @@
 import React from 'react';
-import { Card, Image } from '@nextui-org/react';
+import { Card } from '@nextui-org/react';
 import '../../../style/global.css';
 import { useNavigate } from 'react-router-dom';
 
+/**
+ *
+ * @param {} param0
+ * @returns
+ */
 export default function CardPlayers({
   Id,
   firstName,

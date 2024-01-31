@@ -12,6 +12,20 @@ import '../style/SignUp.css';
 import imagePlayers from '../Images/messiVSRonaldo.jpeg';
 import { Link, useNavigate } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
+/**
+ * SignUp Component:
+ *
+ * Provides a form for user registration. It collects personal information, football preferences,
+ * and account credentials (email and password).
+ *
+ * Behavior:
+ * - Consists of a multi-step form that guides the user through different sections of the registration process.
+ * - Fetches a list of football teams and players for the user to select their favorites.
+ * - Validates the user input and submits the data to a registration endpoint.
+ *
+ * @param {Function} handleLogIN Function to handle the login process after successful registration.
+ * @returns {JSX.Element} The JSX for the SignUp page.
+ */
 
 function SignUp() {
   const [activeStep, setActiveStep] = useState(0);
@@ -64,7 +78,7 @@ function SignUp() {
         setClubs(response.data);
       })
       .catch((error) => {
-        alert(JSON.stringify(error));
+        console.error(error);
       });
   };
   const getPlayers = () => {
@@ -75,7 +89,7 @@ function SignUp() {
         setPlayers(response.data);
       })
       .catch((error) => {
-        alert(JSON.stringify(error));
+        console.error(error);
       });
   };
 
@@ -158,7 +172,7 @@ function SignUp() {
         navigate('/');
       })
       .catch((error) => {
-        alert(JSON.stringify(error));
+        console.error(error);
       });
   };
 
@@ -175,7 +189,6 @@ function SignUp() {
             alignItems: 'center',
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'stretch',
           }}
         >
           <Container

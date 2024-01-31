@@ -6,14 +6,26 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
-import { useNavigate } from 'react-router-dom';
 import SportsSoccerIcon from '@mui/icons-material/SportsSoccer';
 import SportsIcon from '@mui/icons-material/Sports';
 import GroupsIcon from '@mui/icons-material/Groups';
+/**
+ * DrawerVault Component:
+ *
+ * Provides a navigation drawer for switching between different chat rooms.
+ *
+ * Behavior:
+ * - Displays a list of chat rooms.
+ * - Allows users to select and switch to different chat rooms.
+ *
+ * @param {boolean} open Indicates if the drawer is open.
+ * @param {Function} onClose Function to handle closing the drawer.
+ * @param {Array} chattingRooms The list of available chat rooms.
+ * @param {Function} onChangeRoom Function to handle changing the room.
+ * @returns {JSX.Element} The JSX for the DrawerVault component.
+ */
 
 export default function DrawerVault({
   open,

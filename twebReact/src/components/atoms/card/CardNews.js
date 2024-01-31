@@ -7,8 +7,11 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 
-//modificare il codice in modo che possa ricevere un titolo una immagine un link e una description
-//modificare poi a propio piacimento la card
+/**
+ *
+ * @param {} param0
+ * @returns
+ */
 export default function CardNews({ newsApi }) {
   return (
     <Card

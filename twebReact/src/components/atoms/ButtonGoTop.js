@@ -1,7 +1,18 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 import ArrowCircleUpTwoToneIcon from '@mui/icons-material/ArrowCircleUpTwoTone';
-
+/**
+ * ButtonGoTop Component:
+ *
+ * Provides a button for scrolling to the top of the page.
+ *
+ * Behavior:
+ * - When the page is scrolled beyond a certain point, the button becomes visible.
+ * - On button click, scrolls the page smoothly to the top.
+ *
+ * @param {number} scrollPosition The current scroll position of the page.
+ * @returns {JSX.Element} The JSX for the ButtonGoTop button.
+ */
 export default function ButtonGoTop({ scrollPosition }) {
   return (
     <>

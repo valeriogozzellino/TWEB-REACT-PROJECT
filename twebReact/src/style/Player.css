@@ -2,26 +2,26 @@
   display: flex;
   justify-content: space-evenly;
   align-items: flex-start; /* Align items to the start of the container */
-  height: 500px;
+  min-height: 100vh;
   color: inherit;
 }
 
 .overall-info-container > div {
   flex: 1;
   display: flex;
+  background-color: #1a1a2e;
   flex-direction: column;
   align-items: center;
   padding: 10px;
 }
 
 .grid-container {
-  margin-top: 100px;
-  margin-left: 300px;
-  position: relative;
-  justify-content: space-evenly;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
-  height: auto;
-  width: auto;
+  min-height: 100vh;
 }
 
 .player-container {
@@ -37,7 +37,7 @@
 }
 
 .print-color {
-  color: rgb(52, 170, 255);
+  color: rgb(232, 239, 243);
 }
 
 .tabs {
@@ -45,10 +45,10 @@
   justify-content: center;
   align-items: center;
 }
-
+/* 
 .middle-container {
   height: 800px;
-}
+} */
 
 .overall-info-container {
   margin-top: 20px;
@@ -56,6 +56,11 @@
   justify-content: space-evenly;
   align-items: flex-start;
   height: 500px;
+}
+
+.single-player-card:hover {
+  transform: translateY(-9px);
+  transition: transform 0.3s ease-in-out;
 }
 
 .single-player-card {

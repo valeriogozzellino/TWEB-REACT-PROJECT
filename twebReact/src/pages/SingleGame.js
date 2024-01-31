@@ -19,12 +19,25 @@ import Modal from '../components/Modal';
 import LoadingComponent from '../components/Loading';
 import ArrowBack from '../components/atoms/ArrowBack';
 import TopAppBar from '../components/TopAppBar';
+/**
+ * SingleGame Component:
+ *
+ * Displays the details of a single game. It includes player appearances, game events,
+ * and the ability to view detailed information about each player and event.
+ *
+ * Behavior:
+ * - On load, fetches the game details, player appearances, and game events using respective services.
+ * - Displays the game information, players involved, and game events in a structured format.
+ * - Users can click on a player to view more details or interact with the game events.
+ *
+ * @returns {JSX.Element} The JSX for the SingleGame page.
+ */
 
 const SingleGame = () => {
   const links = [true, true, true];
   const navigate = useNavigate();
   const { gameId } = useParams();
-  const [error, setError] = useState(null);
+
   const [playersAppearances, setPlayerAppearances] = useState(null);
   const [gameEvents, setGameEvents] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -84,8 +97,8 @@ const SingleGame = () => {
           const sortedData = response.data.sort((a, b) => a.minute - b.minute);
           setGameEvents(sortedData);
         })
-        .catch((err) => {
-          setError(err);
+        .catch((error) => {
+          console.error(error);
         }),
 
       playerService
@@ -93,8 +106,8 @@ const SingleGame = () => {
         .then((response) => {
           setPlayerAppearances(response.data);
         })
-        .catch((err) => {
-          alert(JSON.stringify(err));
+        .catch((error) => {
+          console.error(error);
         }),
 
       gameService
@@ -102,8 +115,8 @@ const SingleGame = () => {
         .then((response) => {
           setGame(response.data[0]);
         })
-        .catch((err) => {
-          setError(err);
+        .catch((error) => {
+          console.error(error);
         })
     );
 
@@ -141,10 +154,6 @@ const SingleGame = () => {
     if (!playersAppearances) return 'Loading player data';
     const player = playersAppearances.find((p) => p.player_id === playerId);
     return player ? player.player_name : 'Player not found';
-  }
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
   }
 
   if (isLoading) {
@@ -281,9 +290,9 @@ const SingleGame = () => {
                     >
                       {renderGoalsIcons(player.goals)}
                       {player.assists > 0 && '🅰️ '}
-                      {player.yellow_cards === 1 && '🟡   '}
+                      {player.yellow_cards === 1 && '🟨   '}
                       {(player.yellow_cards > 1 || player.red_cards > 0) &&
-                        '🔴   '}
+                        '🟥   '}
                       {player.player_name}
                     </button>
                     <Modal

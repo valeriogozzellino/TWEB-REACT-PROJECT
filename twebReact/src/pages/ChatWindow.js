@@ -16,12 +16,28 @@ import MenuIcon from '@mui/icons-material/Menu';
 import IconButton from '@mui/material/IconButton';
 import ArrowBack from '../components/atoms/ArrowBack';
 
+/**
+ * ChatWindow Component:
+ *
+ * Provides a real-time chat interface where users can send and receive messages.
+ * It supports multiple chat rooms and displays messages based on the selected room.
+ * Users can switch between different chat rooms using a drawer menu.
+ *
+ * Behavior:
+ * - On load, connects to the socket server and joins the chat room based on the URL parameter.
+ * - Fetches and displays the chat history for the selected room.
+ * - Users can send new messages, and they will be broadcast to other users in real-time.
+ * - Supports navigation between different chat rooms.
+ *
+ * @returns {JSX.Element} The JSX for the ChatWindow page.
+ */
+
 export default function ChatWindow() {
   const { user } = useAuth(); //user details from AuthContext
   const links = [true, true, true];
   const [drawerOpen, setDrawerOpen] = React.useState(false);
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const bottomRef = useRef(null);
+  // const [scrollPosition, setScrollPosition] = useState(0);
+  // const bottomRef = useRef(null);
   const [view, setView] = useState(0); //view of the chat window
   const { chatRoom } = useParams();
   const [currentRoom, setCurrentRoom] = useState('/' + chatRoom);
@@ -80,10 +96,6 @@ export default function ChatWindow() {
 
     //definition of the receiver of the message
     selectedSocket.on('chat_message', (room, newMessage) => {
-      console.log('newMessage', newMessage);
-      console.log('MESSAGGIO ARRIVATO');
-      console.log('room messaggio in arrivo', room);
-
       if (room === '/PlayersChat' && newMessage.userId !== user.userId) {
         setMessagesPlayers((currentMessages) => [
           ...currentMessages,
@@ -310,7 +322,6 @@ export default function ChatWindow() {
             }}
             // ref={bottomRef}
           >
-            {/* set the view of the chat */}
             {currentView[view]}
           </Box>
           <Box

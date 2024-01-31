@@ -7,6 +7,11 @@ import { CardActionArea } from '@mui/material';
 import Box from '@mui/material/Box';
 import '../../../style/Card.css';
 
+/**
+ *
+ * @param {} param0
+ * @returns
+ */
 export default function GameCard({ game, imageurl1, imageurl2 }) {
   const [clubWinView, setClubWinView] = React.useState(false);
 
