@@ -247,7 +247,6 @@ const SingleGame = () => {
                       className="dropdown-button"
                       onClick={() => handleModalClick(player.player_id)}
                     >
-                      {console.log(player)}
                       {renderGoalsIcons(player.goals)}
                       {player.assists > 0 && '🅰️  '}
                       {player.yellow_cards === 1 && '🟡   '}

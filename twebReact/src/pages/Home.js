@@ -51,7 +51,6 @@ function Home() {
     });
   }, []);
 
-  console.log('elemento 0 nell array', arrayNewsApi[0]);
   const handleClickImage = (param) => {
     if (param === 1) {
       navigate('/teams');

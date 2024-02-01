@@ -35,9 +35,8 @@ export default function TopAppBar(props) {
   };
 
   useEffect(() => {
-    console.log('INIZIALIZZO LO USER');
     getUser();
-  }, [getUser]);
+  }, []);
 
   const redirectToPage = (page) => () => {
     if (page === 'Home') {

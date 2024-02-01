@@ -33,11 +33,10 @@ import ArrowBack from '../components/atoms/ArrowBack';
  */
 
 export default function ChatWindow() {
-  const { user } = useAuth(); //user details from AuthContext
+  const { user, getUser } = useAuth(); //user details from AuthContext
   const links = [true, true, true];
   const [drawerOpen, setDrawerOpen] = React.useState(false);
-  // const [scrollPosition, setScrollPosition] = useState(0);
-  // const bottomRef = useRef(null);
+  const messagesEndRef = useRef(null);
   const [view, setView] = useState(0); //view of the chat window
   const { chatRoom } = useParams();
   const [currentRoom, setCurrentRoom] = useState('/' + chatRoom);
@@ -66,13 +65,16 @@ export default function ChatWindow() {
   // add an event listener for the "Enter" key
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
-      // Prevent the default form submission behavior
       event.preventDefault();
       window.scrollTo({ bottom: 0, behavior: 'smooth' });
-      // Se il tasto premuto è "Invio", esegui la funzione handleSendMessage
       handleSendMessage();
     }
   };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
   //connect to the socket and join the room
   useEffect(() => {
     console.log('currentRoom', currentRoom);
@@ -111,7 +113,6 @@ export default function ChatWindow() {
           ]);
         }
       }
-      // handleScroll();
     });
 
     //definition of notification of new user joined
@@ -141,18 +142,7 @@ export default function ChatWindow() {
           ]);
         }
       }
-      // handleScroll();
     });
-
-    // const handleScroll = () => {
-    //   // Qui puoi gestire lo scroll del div
-    //   if (bottomRef.current) {
-    //     bottomRef.current.scrollIntoView({ behavior: 'smooth' });
-    //   }
-    // };
-
-    // // Aggiungi l'event listener di scroll al div
-    // bottomRef.current.addEventListener('scroll', handleScroll);
 
     //socket disconnected when compponents are unmounted
     return () => {
@@ -169,6 +159,16 @@ export default function ChatWindow() {
     user.firstName,
     user.userId,
   ]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messagesPlayers, messagesTeams, messagesGames]);
+  /**
+   * Scrolls to the bottom of the chat to show the most recent messages.
+   */
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   //send message to the server and update the view
   const handleSendMessage = () => {
@@ -281,112 +281,107 @@ export default function ChatWindow() {
   }, [messagesPlayers, messagesTeams, messagesGames, user]);
 
   return (
-    <>
-      <div id="chat-box">
+    <div id="chat-box">
+      <div className="container-background-color" style={{ minHeight: '80vh' }}>
+        <TopAppBar links={links} />
         <div
-          className="container-background-color"
-          style={{ minHeight: '120vh' }}
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            margin: '15px',
+            minHeight: '10vh',
+          }}
         >
-          <TopAppBar links={links} />
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'center',
-              margin: '15px',
-              minHeight: '10vh',
-            }}
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2, marginBottom: 3 }}
+            onClick={handleDrawerOpen} // Aggiungi l'evento onClick per aprire il DrawerVault
           >
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2, marginBottom: 3 }}
-              onClick={handleDrawerOpen} // Aggiungi l'evento onClick per aprire il DrawerVault
-            >
-              <MenuIcon />
-            </IconButton>
-            <h1>{currentRoom.replace('/', '')}</h1>
-          </div>
-          <Box
-            sx={{
-              width: '90%',
-              overflowY: 'scroll',
-              minHeight: 350,
-              marginTop: 2,
-              marginLeft: 10,
-              borderRadius: '10px',
-              backgroundColor: '#08325792',
-              maxHeight: '60vh',
-            }}
-            // ref={bottomRef}
-          >
-            {currentView[view]}
-          </Box>
-          <Box
-            component="form"
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              marginTop: 10,
-              marginBottom: 30,
-              color: 'white',
-            }}
-          >
-            <TextField
-              sx={{
-                width: '60%',
-                marginBottom: 2,
-                '& .MuiOutlinedInput-root': {
-                  '& fieldset': {
-                    borderColor: 'white', // Colore del bordo del TextField
-                  },
-                  '&:hover fieldset': {
-                    borderColor: 'white', // Colore del bordo del TextField durante l'hover
-                  },
-                  '&.Mui-focused fieldset': {
-                    borderColor: 'white', // Colore del bordo del TextField quando è focalizzato
-                  },
-                },
-                '& .MuiInputBase-input': {
-                  color: 'white', // Colore del testo all'interno del TextField
-                },
-              }}
-              label="Scrivi un messaggio"
-              color="primary"
-              variant="outlined"
-              value={newMessage.text}
-              onKeyDown={handleKeyDown}
-              onChange={(e) =>
-                setNewMessage({
-                  ...newMessage,
-                  text: e.target.value,
-                  sender: user.firstName + ' ' + user.lastName,
-                  time: new Date().toISOString(),
-                })
-              }
-            />
-            <Button
-              variant="contained"
-              sx={{ marginLeft: 1 }}
-              onClick={handleSendMessage}
-            >
-              Send message
-            </Button>
-          </Box>
+            <MenuIcon />
+          </IconButton>
+          <h1>{currentRoom.replace('/', '')}</h1>
         </div>
-        <Drawer
-          open={drawerOpen}
-          onClose={handleDrawerClose}
-          onChangeRoom={handleChangeRoom}
-          chattingRooms={['PlayersChat', 'TeamsChat', 'GamesChat']}
-        />
-        <ArrowBack />
-        <Footer />
+        <Box
+          sx={{
+            width: '90%',
+            overflowY: 'scroll',
+            minHeight: 350,
+            marginTop: 2,
+            marginLeft: 10,
+            borderRadius: '10px',
+            backgroundColor: '#08325792',
+            maxHeight: '60vh',
+          }}
+        >
+          {currentView[view]}
+          <div ref={messagesEndRef} />
+        </Box>
+        <Box
+          component="form"
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginTop: 10,
+            marginBottom: 30,
+            color: 'white',
+          }}
+        >
+          <TextField
+            sx={{
+              width: '60%',
+              marginBottom: 2,
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: 'white', // Colore del bordo del TextField
+                },
+                '&:hover fieldset': {
+                  borderColor: 'white', // Colore del bordo del TextField durante l'hover
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: 'white', // Colore del bordo del TextField quando è focalizzato
+                },
+              },
+              '& .MuiInputBase-input': {
+                color: 'white', // Colore del testo all'interno del TextField
+              },
+            }}
+            label="Scrivi un messaggio"
+            color="primary"
+            variant="outlined"
+            value={newMessage.text}
+            onKeyDown={handleKeyDown}
+            onChange={(e) =>
+              setNewMessage({
+                ...newMessage,
+                text: e.target.value,
+                sender: user.firstName + ' ' + user.lastName,
+                time: new Date().toISOString(),
+              })
+            }
+          />
+          <Button
+            variant="contained"
+            sx={{ marginLeft: 1 }}
+            onClick={handleSendMessage}
+          >
+            Send message
+          </Button>
+        </Box>
       </div>
-    </>
+      <Drawer
+        open={drawerOpen}
+        onClose={handleDrawerClose}
+        onChangeRoom={handleChangeRoom}
+        chattingRooms={['PlayersChat', 'TeamsChat', 'GamesChat']}
+      />
+      <ArrowBack />
+      <Footer />
+    </div>
   );
 }

@@ -69,8 +69,6 @@ function SignUp() {
   };
 
   const getTeams = (filterCountry, filterSeason) => {
-    console.log('filterCountry and filterSeason');
-    console.log(filterSeason, filterCountry);
     const apiUrl = `http://localhost:3001/teams/get-teams-by-season-and-country?filterCountry=${filterCountry}&filterSeason=${filterSeason}`;
     axios
       .get(apiUrl)
@@ -107,7 +105,6 @@ function SignUp() {
   }, []);
 
   const handleInputChange = (e) => {
-    console.log(e.target.value);
     const { name, value } = e.target;
     switch (name) {
       case 'nome':
@@ -163,7 +160,6 @@ function SignUp() {
       email: email,
       password: password,
     };
-    console.log(data);
     axios
       .post('http://localhost:3001/users/sign-up', data)
       .then((response) => {

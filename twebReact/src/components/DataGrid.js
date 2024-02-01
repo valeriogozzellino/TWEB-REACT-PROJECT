@@ -12,7 +12,6 @@ import '../style/DataGrid.css';
 export default function DataGridElement({ gridData, onRowClick }) {
   const handleCellClick = (params, event) => {
     const rowId = params.id;
-    console.log('Riga selezionata:', rowId);
     onRowClick(rowId, true);
   };
   const getRowClassName = (params) => {

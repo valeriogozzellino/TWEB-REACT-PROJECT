@@ -45,7 +45,7 @@ export default function ChatIcon() {
         transform: 'translateZ(0px)',
         flexGrow: 1,
         position: 'fixed',
-        top: 700,
+        top: 650,
         right: 16,
       }}
     >

@@ -71,7 +71,6 @@ export default function Player() {
             assists: appearance.assists,
             minutes_played: appearance.minutes_played,
           }));
-          console.log(appearancesData.slice(0, 10));
           setPlayerAppearances(appearancesData);
         })
         .catch((error) => {

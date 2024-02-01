@@ -63,8 +63,7 @@ export default function LogIn({ handleLogIN }) {
       password = data.get('password');
     login(email, password);
     if (checkCredentials) {
-      console.log('isUserLogged LogIn--->', checkCredentials);
-      window.history.back(); //modificare e iserire la pagina che l'ha chiamato
+      window.history.back();
     }
   };
 

@@ -16,7 +16,7 @@ export default function ButtonLogOut() {
     <>
       <div
         style={{
-          width: '80px',
+          width: '90px',
           height: '80px',
           display: 'flex',
           justifyContent: 'center',
@@ -27,8 +27,7 @@ export default function ButtonLogOut() {
         <Button
           style={{
             color: 'white',
-            // borderRadius: '50%',
-            width: '40px',
+            width: '80px',
             height: '40px',
           }}
           onClick={() => {
