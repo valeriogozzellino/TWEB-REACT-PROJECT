@@ -1,0 +1,27 @@
+CREATE TABLE IF NOT EXISTS public.players
+(
+    player_id bigint NOT NULL DEFAULT nextval('players_player_id_seq'::regclass),
+    first_name character varying(255) COLLATE pg_catalog."default",
+    last_name character varying(255) COLLATE pg_catalog."default",
+    name character varying(255) COLLATE pg_catalog."default",
+    last_season integer,
+    current_club_id integer,
+    player_code character varying(50) COLLATE pg_catalog."default",
+    country_of_birth character varying(100) COLLATE pg_catalog."default",
+    city_of_birth character varying(100) COLLATE pg_catalog."default",
+    country_of_citizenship character varying(100) COLLATE pg_catalog."default",
+    date_of_birth date,
+    sub_position character varying(50) COLLATE pg_catalog."default",
+    "position" character varying(50) COLLATE pg_catalog."default",
+    foot character varying(10) COLLATE pg_catalog."default",
+    height_in_cm integer,
+    market_value_in_eur numeric(15,2),
+    highest_market_value_in_eur numeric(15,2),
+    contract_expiration_date date,
+    agent_name character varying(255) COLLATE pg_catalog."default",
+    image_url character varying(255) COLLATE pg_catalog."default",
+    url character varying(255) COLLATE pg_catalog."default",
+    current_club_domestic_competition_id character varying(10) COLLATE pg_catalog."default",
+    current_club_name character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT players_pkey PRIMARY KEY (player_id)
+)
