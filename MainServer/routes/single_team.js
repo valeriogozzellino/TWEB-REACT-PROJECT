@@ -5,13 +5,13 @@ const axios = require("axios");
 const {log} = require("debug");
 
 
-router.get('/', function(req, res) {
-    const teamsFilePath = path.join(__dirname, '../public/single_team.html');
-    res.sendFile(teamsFilePath);
-});
-
-module.exports = router;
-
+/**
+ * GET details of a specific team by team ID (club ID).
+ *
+ * @route GET /get-team-by-id/:clubId
+ * @param {number} clubId - The ID of the club (team).
+ * @returns {JSON} Team object details for the specified team ID.
+ */
 router.get('/get-team-by-id/:clubId', function(req, res) {
     const teamCode = req.params.clubId;
 

@@ -4,14 +4,15 @@ const path = require('path');
 const axios = require("axios");
 
 
-// router.get('/', function(req, res) {
-//     const competitionsFilePath = path.join(__dirname, '../public/player.html');
-//     res.sendFile(competitionsFilePath);
-// });
-
-
-router.get('/all-competitions', function(req, res) {
-    const { filter } = req.query;
+/**
+ * GET a filtered list of all competitions.
+ *
+ * @route GET /all-competitions
+ * @param {string} filter - Query param to filter competitions.
+ * @returns {JSON} An array of competition objects filtered based on the provided filter.
+ */
+router.get('/all-competitions', function (req, res) {
+    const {filter} = req.query;
 
     axios.get(`http://localhost:8081/all-competitions?filter=${filter}`)
         .then(response => {
@@ -19,12 +20,18 @@ router.get('/all-competitions', function(req, res) {
         })
         .catch(error => {
             console.error(error);
-            res.status(500).json({ error: 'Internal Server Error' });
+            res.status(500).json({error: 'Internal Server Error'});
         });
 })
-
-router.get('/get-competitions-by-id', function(req, res) {
-    const { competitionId } = req.query;
+/**
+ * GET competition details by competition ID.
+ *
+ * @route GET /get-competitions-by-id
+ * @param {number} competitionId - Query param for the competition ID.
+ * @returns {JSON} Competition object for the specified competition ID.
+ */
+router.get('/get-competitions-by-id', function (req, res) {
+    const {competitionId} = req.query;
 
     axios.get(`http://localhost:8081/get-competitions-by-id?competitionId=${competitionId}`)
         .then(response => {
@@ -32,18 +39,23 @@ router.get('/get-competitions-by-id', function(req, res) {
         })
         .catch(error => {
             console.error(error);
-            res.status(500).json({ error: 'Internal Server Error' });
+            res.status(500).json({error: 'Internal Server Error'});
         });
 })
-
-router.get('/get-competitions-country', function(req, res) {
+/**
+ * GET a list of competitions categorized by country.
+ *
+ * @route GET /get-competitions-country
+ * @returns {JSON} An array of competition objects categorized by country.
+ */
+router.get('/get-competitions-country', function (req, res) {
     axios.get(`http://localhost:8081/get-competitions-country`)
         .then(response => {
             res.json(response.data)
         })
         .catch(error => {
             console.error(error);
-            res.status(500).json({ error: 'Internal Server Error' });
+            res.status(500).json({error: 'Internal Server Error'});
         });
 })
 

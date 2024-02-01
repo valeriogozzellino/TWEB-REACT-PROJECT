@@ -2,12 +2,13 @@ var express = require('express');
 const axios = require("axios");
 var router = express.Router();
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
-
-
+/**
+ * POST user sign-up information.
+ *
+ * @route POST /sign-up
+ * @param {JSON} data - User sign-up information including but not limited to username, email, and password.
+ * @returns {JSON} Confirmation of successful sign-up or error message.
+ */
 router.post('/sign-up', function(req, res) {
   const data = req.body; // Utilizza req.body per ottenere i dati dal corpo della richiesta
 
