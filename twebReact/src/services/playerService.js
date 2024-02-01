@@ -1,10 +1,10 @@
 import axios from 'axios';
 const BASE_URL = 'http://localhost:3001/player';
 /**
- * Fetches details for a specific club by its ID.
+ * Fetches appearances details for a specific player by their ID.
  *
- * @param {number} playerId - The unique identifier of the player to retrieve details for.
- * @returns {Promise<Array>} A promise that resolves with an array containing detailed information about the player Appearences.
+ * @param {number} playerId - The unique identifier of the player to retrieve appearances for.
+ * @returns {Promise<Array>} A promise that resolves with an array containing detailed information about the appearances of the specified player.
  */
 export const getAppearancesByPlayerId = (playerId) => {
   return axios.get(
@@ -12,28 +12,28 @@ export const getAppearancesByPlayerId = (playerId) => {
   );
 };
 /**
- * Fetches details for a specific club by its ID.
+ * Fetches appearances details for a specific game by its ID.
  *
- * @param {number} gameId - The unique identifier of the club to retrieve details for.
- * @returns {Promise<object>} A promise that resolves with an object containing detailed information about the specified club.
+ * @param {number} gameId - The unique identifier of the game to retrieve appearances for.
+ * @returns {Promise<object>} A promise that resolves with an object containing detailed information about the appearances in the specified game.
  */
 export const getAppearancesByGameId = (gameId) => {
   return axios.get(`${BASE_URL}/get-player-appearances-by-game-id/${gameId}`);
 };
 /**
- * Fetches details for a specific club by its ID.
+ * Fetches details for a specific player by their ID.
  *
- * @param {number} id - The unique identifier of the club to retrieve details for.
- * @returns {Promise<object>} A promise that resolves with an object containing detailed information about the specified club.
+ * @param {number} playerId - The unique identifier of the player to retrieve details for.
+ * @returns {Promise<object>} A promise that resolves with an object containing detailed information about the specified player.
  */
 export const getPlayerByPlayerId = (playerId) => {
   return axios.get(`${BASE_URL}/get-player-by-playerId?filter=${playerId}`);
 };
 /**
- * Fetches details for a specific club by its ID.
+ * Fetches details for players of a specific team by the team's ID.
  *
- * @param {number} id - The unique identifier of the club to retrieve details for.
- * @returns {Promise<object>} A promise that resolves with an object containing detailed information about the specified club.
+ * @param {number} clubId - The unique identifier of the team to retrieve player details for.
+ * @returns {Promise<Array>} A promise that resolves with an array containing details of players who are part of the specified team.
  */
 export const getPlayerByTeamId = (clubId) => {
   return axios.get(`${BASE_URL}/get-player-by-team?filter=${clubId}`);

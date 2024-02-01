@@ -6,7 +6,7 @@ const apiUrl =
   apiKey;
 
 /**
- * Fetches details for a specific club by its ID.
+ * Fetches details about footbal news.
  *
  * @returns {Promise<Array>} A promise that resolves with an array containing news fetching by external API.
  */

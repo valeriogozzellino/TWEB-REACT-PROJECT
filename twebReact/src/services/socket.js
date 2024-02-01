@@ -2,30 +2,26 @@
 import { io } from 'socket.io-client';
 
 /**
- * Fetches details for a specific club by its ID.
+ * Connects the socket to a specific room.
  *
- * @param {number} id - The unique identifier of the club to retrieve details for.
- * @returns {Promise<object>} A promise that resolves with an object containing detailed information about the specified club.
+ * @param {string} currentRoom - The name of the room to connect to.
+ * @param {object} socket - The socket instance to connect.
  */
 export const connectToRoom = (currentRoom, socket) => {
-  // Aggiungi la stanza al percorso del server durante la connessione
   socket.connect();
 };
 
 /**
- * Fetches details for a specific club by its ID.
+ * Disconnects the provided socket.
  *
- * @param {number} id - The unique identifier of the club to retrieve details for.
- * @returns {Promise<object>} A promise that resolves with an object containing detailed information about the specified club.
+ * @param {object} socket - The socket instance to disconnect.
  */
 export const disconnectSocket = (socket) => {
   socket.disconnect();
 };
 /**
- * Fetches details for a specific club by its ID.
- *
- * @param {number} id - The unique identifier of the club to retrieve details for.
- * @returns {Promise<object>} A promise that resolves with an object containing detailed information about the specified club.
+ * Collection of socket instances connected to different namespaces.
+ * Each socket is connected to a separate namespace for a specific chat room.
  */
 export const sockets = {
   teamSock: io(`http://localhost:3001/TeamsChat`),
