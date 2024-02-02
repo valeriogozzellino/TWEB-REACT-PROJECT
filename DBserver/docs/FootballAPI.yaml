@@ -1,0 +1,225 @@
+swagger: '2.0'
+info:
+  version: '1.0.0'
+  title: 'MongoDB Server API'
+  description: 'API for retrieving information about games and appearances.'
+
+host: 'localhost:3000'
+basePath: '/'
+schemes:
+  - 'http'
+
+paths:
+  /games/all-games:
+    get:
+      summary: 'Get All Games'
+      description: 'Retrieve information about all games.'
+      responses:
+        '200':
+          description: 'An array of games.'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Game'
+        '500':
+          description: 'Internal Server Error'
+
+  /games/get-game-by-id/{game_id}:
+    get:
+      summary: 'Get Game By ID'
+      description: 'Retrieve information about a specific game by its ID.'
+      parameters:
+        - name: 'game_id'
+          in: 'path'
+          required: true
+          type: 'integer'
+      responses:
+        '200':
+          description: 'Details of the game.'
+          schema:
+            $ref: '#/definitions/Game'
+        '404':
+          description: 'Game not found'
+        '500':
+          description: 'Internal Server Error'
+
+  /games/get-club-games-by-id/{clubId}:
+    get:
+      summary: 'Get Club Games By ID'
+      description: 'Retrieve information about games associated with a specific club ID.'
+      parameters:
+        - name: 'clubId'
+          in: 'path'
+          required: true
+          type: 'integer'
+      responses:
+        '200':
+          description: 'An array of games for the club.'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Game'
+        '404':
+          description: 'Games not found'
+        '500':
+          description: 'Internal Server Error'
+
+  /games/get-game-events-by-id/{game_id}:
+    get:
+      summary: 'Get All Game Events'
+      description: 'Retrieve all events for a specific game using its game ID.'
+      parameters:
+        - name: 'game_id'
+          in: 'path'
+          required: true
+          type: 'integer'
+      responses:
+        '200':
+          description: 'An array of game events for the specified game.'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/GameEvent'
+        '500':
+          description: 'Internal Server Error'
+
+  /appearances/get-player-appearances-by-player-id/{player_id}:
+    get:
+      summary: 'Get Player Appearances By Player ID'
+      description: 'Retrieve appearances for a specific player using their player ID.'
+      parameters:
+        - name: 'player_id'
+          in: 'path'
+          required: true
+          type: 'integer'
+      responses:
+        '200':
+          description: 'An array of appearances for the specified player.'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Appearance'
+        '500':
+          description: 'Internal Server Error appearances'
+
+  /appearances/get-player-appearances-by-game-id/{game_id}:
+    get:
+      summary: 'Get Player Appearances By Game ID'
+      description: 'Retrieve appearances for players in a specific game using its game ID.'
+      parameters:
+        - name: 'game_id'
+          in: 'path'
+          required: true
+          type: 'integer'
+      responses:
+        '200':
+          description: 'An array of appearances in the specified game.'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Appearance'
+        '500':
+          description: 'Internal Server Error appearances BY GAME ID'
+
+definitions:
+  Game:
+    type: object
+    properties:
+      game_id:
+        type: integer
+      competition_id:
+        type: string
+      season:
+        type: integer
+      round:
+        type: string
+      date:
+        type: string
+        format: date-time
+      home_club_id:
+        type: integer
+      away_club_id:
+        type: integer
+      home_club_goals:
+        type: integer
+      away_club_goals:
+        type: integer
+      home_club_position:
+        type: integer
+      away_club_position:
+        type: integer
+      home_club_manager_name:
+        type: string
+      away_club_manager_name:
+        type: string
+      stadium:
+        type: string
+      attendance:
+        type: integer
+      referee:
+        type: string
+      url:
+        type: string
+      home_club_name:
+        type: string
+      away_club_name:
+        type: string
+      aggregate:
+        type: string
+      competition_type:
+        type: string
+
+  GameEvent:
+    type: object
+    properties:
+      game_event_id:
+        type: string
+      date:
+        type: string
+        format: date-time
+      game_id:
+        type: integer
+      minute:
+        type: integer
+      type:
+        type: string
+      club_id:
+        type: integer
+      player_id:
+        type: integer
+      description:
+        type: string
+
+  Appearance:
+    type: object
+    properties:
+      _id:
+        type: string
+      appearance_id:
+        type: string
+      game_id:
+        type: integer
+      player_id:
+        type: integer
+      player_club_id:
+        type: integer
+      player_current_club_id:
+        type: integer
+      date:
+        type: string
+        format: date-time
+      player_name:
+        type: string
+      competition_id:
+        type: string
+      yellow_cards:
+        type: integer
+      red_cards:
+        type: integer
+      goals:
+        type: integer
+      assists:
+        type: integer
+      minutes_played:
+        type: integer
+

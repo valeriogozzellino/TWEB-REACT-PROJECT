@@ -5,9 +5,11 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('js-yaml');
+const fs = require('fs');
 
 var indexRouter = require('./routes/index');
-// var usersRouter = require('./routes/users');
 var teamsRouter = require('./routes/teams');
 var singleTeamRouter = require('./routes/single_team');
 var playerRouter = require('./routes/player');
@@ -19,10 +21,6 @@ var userRouter = require('./routes/users');
 
 var app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -30,7 +28,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 app.use('/', indexRouter);
-// app.use('/users', usersRouter);
 app.use('/teams', teamsRouter);
 app.use('/single-team', singleTeamRouter);
 app.use('/player', playerRouter);
@@ -39,23 +36,36 @@ app.use('/logIn', logInRouter);
 app.use('/games', gamesRouter);
 app.use('/single-game', singleGameRouter);
 app.use('/users', userRouter);
-// Rimuovi i commenti da questa parte
 
+// Load Swagger YAML files
+function loadYAMLFiles(...filePaths) {
+  return filePaths.reduce((acc, filePath) => {
+    const content = YAML.load(fs.readFileSync(filePath, 'utf8'));
+    return { ...acc, ...content };
+  }, {});
+}
+
+const swaggerDocument = loadYAMLFiles(
+    path.join(__dirname, 'docs/FootballAPI.yaml'),
+);
+
+// Setup Swagger UI
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// error handler
+// Error handler to return JSON
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  const errorResponse = {
+    message: err.message,
+    error: req.app.get('env') === 'development' ? err : {}
+  };
 
-  // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.json(errorResponse);
 });
 
 module.exports = app;
