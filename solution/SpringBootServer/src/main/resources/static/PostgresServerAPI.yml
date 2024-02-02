@@ -1,0 +1,179 @@
+
+host: 'localhost:8081'
+basePath: '/'
+schemes:
+  - 'http'
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Postgres Server API
+  description: API for Competitions, Players and Users
+
+
+paths:
+  /get-player-by-team:
+    get:
+      tags:
+        - Server
+      summary: Get players by team
+      parameters:
+        - name: filter
+          in: query
+          description: Team filter
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Players'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /get-player-by-playerId:
+    get:
+      tags:
+        - Server
+      summary: Get player by ID
+      parameters:
+        - name: filter
+          in: query
+          description: Player ID filter
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Players'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /get-all-players:
+    get:
+      tags:
+        - Server
+      summary: Get all players
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Players'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /get-competitions-country:
+    get:
+      tags:
+        - Server
+      summary: Get competitions by country
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            type: array
+            items:
+              type: string
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /sign-up:
+    post:
+      tags:
+        - Server
+      summary: Save user to database
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: newUser
+          description: User data for sign-up
+          required: true
+          schema:
+            $ref: '#/definitions/Users'
+      responses:
+        '200':
+          description: Successful response
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /check-credentials:
+    get:
+      tags:
+        - Server
+      summary: Check user credentials
+      parameters:
+        - name: email
+          in: query
+          description: User email for credentials check
+          required: true
+          type: string
+        - name: password
+          in: query
+          description: User password for credentials check
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Users'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /all-competitions:
+    get:
+      tags:
+        - Server
+      summary: Get all competitions
+      parameters:
+        - name: filter
+          in: query
+          description: Competition filter
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Competitions'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+
+definitions:
+  Players:
+    type: object
+  
+  Users:
+    type: object
+  
+  Competitions:
+    type: object
+  
+  Error:
+    type: object
+    properties:
+      error:
+        type: string
