@@ -16,7 +16,8 @@ import axios from 'axios';
 export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [checkCredentials, setCheckCredentials] = useState(false);
-  const [user, setUser] = useState(null); // fare in modo che se è loggato mostri il nome utente e altre cose devo ritonarle dalla chiamata
+  const [user, setUser] = useState(null);
+
   /**
    * Controlla le credenziali dell'utente e imposta lo stato e i dati dell'utente se le credenziali sono corrette.
    *

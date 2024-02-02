@@ -1,0 +1,1 @@
+curl -X GET "http://localhost:3000/appearances/get-player-appearances-by-player-id/10" 
