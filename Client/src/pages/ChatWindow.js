@@ -150,7 +150,7 @@ export default function ChatWindow() {
       selectedSocket.off('joined');
       disconnectSocket(selectedSocket);
     };
-  }, [currentRoom, messagesGames, messagesPlayers, messagesTeams]);
+  }, [currentRoom, messagesGames, messagesPlayers, messagesTeams, navigate]);
 
   useEffect(() => {
     scrollToBottom();
