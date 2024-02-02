@@ -8,7 +8,7 @@ import ListItemText from '@mui/material/ListItemText';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import '../style/global.css';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../components/AuthContext';
 import { connectToRoom, disconnectSocket, sockets } from '../services/socket';
 import Drawer from '../components/DrawerVault';
@@ -33,7 +33,7 @@ import ArrowBack from '../components/atoms/ArrowBack';
  */
 
 export default function ChatWindow() {
-  const { user, getUser } = useAuth(); //user details from AuthContext
+  const { user } = useAuth(); //user details from AuthContext
   const links = [true, true, true];
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const messagesEndRef = useRef(null);
@@ -49,7 +49,7 @@ export default function ChatWindow() {
     sender: '',
     time: '',
   });
-
+  const navigate = useNavigate();
   const handleDrawerOpen = () => {
     setDrawerOpen(true);
   };
@@ -71,26 +71,26 @@ export default function ChatWindow() {
     }
   };
 
-  useEffect(() => {
-    getUser();
-  }, []);
-
   //connect to the socket and join the room
   useEffect(() => {
-    console.log('currentRoom', currentRoom);
+    const userJSONString = localStorage.getItem('user');
+    const user = JSON.parse(userJSONString);
+    if (!user) {
+      // Redirect to login page or handle unauthorized access
+      // You can replace this with your own logic
+      navigate('/login');
+      return;
+    }
     let selectedSocket;
     if (currentRoom === '/PlayersChat') {
       selectedSocket = sockets.playerSock;
       setView(0);
-      console.log('messageplayer', messagesPlayers);
     } else if (currentRoom === '/TeamsChat') {
       selectedSocket = sockets.teamSock;
       setView(1);
-      console.log('messageteam', messagesTeams);
     } else {
       selectedSocket = sockets.gameSock;
       setView(2);
-      console.log('messagegame', messagesGames);
     }
 
     connectToRoom(currentRoom, selectedSocket);
@@ -149,16 +149,8 @@ export default function ChatWindow() {
       selectedSocket.off('chat_message');
       selectedSocket.off('joined');
       disconnectSocket(selectedSocket);
-      // bottomRef.current.removeEventListener('scroll', handleScroll);
     };
-  }, [
-    currentRoom,
-    messagesGames,
-    messagesPlayers,
-    messagesTeams,
-    user.firstName,
-    user.userId,
-  ]);
+  }, [currentRoom, messagesGames, messagesPlayers, messagesTeams]);
 
   useEffect(() => {
     scrollToBottom();
@@ -180,15 +172,12 @@ export default function ChatWindow() {
         time: newMessage.time,
       };
       if (currentRoom === '/PlayersChat') {
-        console.log('message player', currentRoom, message);
         setMessagesPlayers([...messagesPlayers, message]);
         sockets.playerSock.emit('send_message', currentRoom, message);
       } else if (currentRoom === '/TeamsChat') {
-        console.log('message team', message);
         setMessagesTeams([...messagesTeams, message]);
         sockets.teamSock.emit('send_message', currentRoom, message);
       } else {
-        console.log('message game', currentRoom, message);
         setMessagesGames([...messagesGames, message]);
         sockets.gameSock.emit('send_message', currentRoom, message);
       }

@@ -38,3 +38,12 @@ export const getPlayerByPlayerId = (playerId) => {
 export const getPlayerByTeamId = (clubId) => {
   return axios.get(`${BASE_URL}/get-player-by-team?filter=${clubId}`);
 };
+
+/**
+ * Richiede e riceve l'elenco di tutti i giocatori dal server.
+ *
+ * @returns {Promise<object>} Una promise che si risolve con un oggetto contenente l'elenco dei giocatori.
+ */
+export const getAllPlayers = () => {
+  return axios.get(`${BASE_URL}/get-all-players`);
+};

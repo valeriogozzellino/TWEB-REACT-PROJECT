@@ -29,7 +29,6 @@ export default function TopAppBar(props) {
   const links = props.links;
   const { checkCredentials, user, getUser } = useAuth();
   const navigate = useNavigate();
-
   const rerouteHome = () => {
     window.location.href = '/';
   };

@@ -1,0 +1,38 @@
+[
+  {
+    "competitionId": "CIT",
+    "competitionCode": "italy-cup",
+    "name": "italy-cup",
+    "subType": "domestic_cup",
+    "type": "domestic_cup",
+    "countryId": 75,
+    "countryName": "Italy",
+    "domesticLeagueCode": "IT1",
+    "confederation": "europa",
+    "url": "https://www.transfermarkt.co.uk/italy-cup/startseite/wettbewerb/CIT"
+  },
+  {
+    "competitionId": "IT1",
+    "competitionCode": "serie-a",
+    "name": "serie-a",
+    "subType": "first_tier",
+    "type": "domestic_league",
+    "countryId": 75,
+    "countryName": "Italy",
+    "domesticLeagueCode": "IT1",
+    "confederation": "europa",
+    "url": "https://www.transfermarkt.co.uk/serie-a/startseite/wettbewerb/IT1"
+  },
+  {
+    "competitionId": "SCI",
+    "competitionCode": "supercoppa-italiana",
+    "name": "supercoppa-italiana",
+    "subType": "domestic_super_cup",
+    "type": "other",
+    "countryId": 75,
+    "countryName": "Italy",
+    "domesticLeagueCode": "IT1",
+    "confederation": "europa",
+    "url": "https://www.transfermarkt.co.uk/supercoppa-italiana/startseite/wettbewerb/SCI"
+  }
+]

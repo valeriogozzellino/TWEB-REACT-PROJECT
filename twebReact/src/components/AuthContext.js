@@ -17,7 +17,12 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [checkCredentials, setCheckCredentials] = useState(false);
   const [user, setUser] = useState(null); // fare in modo che se è loggato mostri il nome utente e altre cose devo ritonarle dalla chiamata
-
+  /**
+   * Controlla le credenziali dell'utente e imposta lo stato e i dati dell'utente se le credenziali sono corrette.
+   *
+   * @param {string} email - Email dell'utente per il login.
+   * @param {string} password - Password dell'utente per il login.
+   */
   const login = (email, password) => {
     const apiUrl = `http://localhost:3001/logIn/check-credentials?email=${email}&password=${password}`;
     axios
@@ -28,7 +33,6 @@ export const AuthProvider = ({ children }) => {
       .then(
         (response) => {
           setUser(response.data);
-          // Save the JSON string in local storage
           const userJSONString = JSON.stringify(response.data);
           localStorage.setItem('user', userJSONString);
 
@@ -43,7 +47,10 @@ export const AuthProvider = ({ children }) => {
         }
       );
   };
-
+  const saveUser = (user) => {
+    const userJSONString = JSON.stringify(user);
+    localStorage.setItem('user', userJSONString);
+  };
   const getUser = () => {
     if (localStorage.getItem('user')) {
       setCheckCredentials(true);
@@ -59,7 +66,15 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ checkCredentials, login, logout, user, setUser, getUser }}
+      value={{
+        checkCredentials,
+        login,
+        logout,
+        user,
+        setUser,
+        getUser,
+        saveUser,
+      }}
     >
       {children}
     </AuthContext.Provider>

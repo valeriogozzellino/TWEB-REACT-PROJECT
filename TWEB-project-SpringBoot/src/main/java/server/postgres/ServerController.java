@@ -110,8 +110,8 @@ public class ServerController {
      * @param newUser The Users object containing the user's details.
      */
     @PostMapping("/sign-up")
-    public void  saveUserDB(@RequestBody Users newUser) {
-        usersService.saveUserDB(newUser);
+    public boolean  saveUserDB(@RequestBody Users newUser) {
+        return usersService.saveUserDB(newUser);
     }
 
     /**

@@ -12,4 +12,8 @@ public interface UsersRepository extends JpaRepository<Users, String> {
             "FROM users " + "WHERE email = :email AND password = :password",
             nativeQuery = true)
     Users checkCredentials(String email, String password);
+    @Query(value = "SELECT DISTINCT * " +
+            "FROM users " + "WHERE email = :email",
+            nativeQuery = true)
+    Users checkUser(String email);
 }

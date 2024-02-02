@@ -1,17 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Button, TextField } from '@mui/material';
 import { useAuth } from '../components/AuthContext';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import axios from 'axios';
 import Autocomplete from '@mui/material/Autocomplete';
 import SensorOccupiedTwoToneIcon from '@mui/icons-material/SensorOccupiedTwoTone';
 import '../style/SignUp.css';
 import imagePlayers from '../Images/messiVSRonaldo.jpeg';
 import { Link, useNavigate } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
+import AlertError from '../components/atoms/AlertError';
+import * as userServices from '../services/userService';
+import * as playerService from '../services/playerService';
+import * as teamService from '../services/teamService';
+
 /**
  * SignUp Component:
  *
@@ -29,8 +33,8 @@ import HomeIcon from '@mui/icons-material/Home';
 
 function SignUp() {
   const [activeStep, setActiveStep] = useState(0);
-  const { setUser } = useAuth();
-  const [nome, setNome] = useState(null);
+  const { setUser, saveUser } = useAuth();
+  const [nome, setNome] = useState('');
   const [surname, setSurname] = useState('');
   const [annoDiNascita, setAnnoDiNascita] = useState('');
   const [paeseDiProvenienza, setPaeseDiProvenienza] = useState('');
@@ -42,7 +46,9 @@ function SignUp() {
   const [players, setPlayers] = useState([]);
   const uniquePlayerNames = new Set();
   const [isFocused, setIsFocused] = useState(false);
-
+  const [alertError, setAlertError] = useState(false);
+  const [alertmessage, setAlertMessage] = useState('');
+  const memorizedPlayer = useMemo(() => players, [players]);
   // Filter out players with the same name
 
   const steps = [
@@ -68,30 +74,7 @@ function SignUp() {
     setIsFocused(false);
   };
 
-  const getTeams = (filterCountry, filterSeason) => {
-    const apiUrl = `http://localhost:3001/teams/get-teams-by-season-and-country?filterCountry=${filterCountry}&filterSeason=${filterSeason}`;
-    axios
-      .get(apiUrl)
-      .then((response) => {
-        setClubs(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-  const getPlayers = () => {
-    const apiUrl = `http://localhost:3001/player/get-all-players`;
-    axios
-      .get(apiUrl)
-      .then((response) => {
-        setPlayers(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  const filteredPlayers = players.filter((player) => {
+  const filteredPlayers = memorizedPlayer.filter((player) => {
     if (!uniquePlayerNames.has(player.name)) {
       uniquePlayerNames.add(player.name);
       return true;
@@ -100,8 +83,22 @@ function SignUp() {
   });
 
   useEffect(() => {
-    getTeams('All', 0);
-    getPlayers();
+    teamService
+      .getTeamsBySeasonAndCountry('All', 0)
+      .then((response) => {
+        setClubs(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    playerService
+      .getAllPlayers()
+      .then((response) => {
+        setPlayers(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
 
   const handleInputChange = (e) => {
@@ -120,9 +117,12 @@ function SignUp() {
         setPaeseDiProvenienza(value);
         break;
       case 'squadraCalcioPreferita':
+        console.log(value.name);
         setSquadraCalcioPreferita(value);
         break;
       case 'giocatorePreferito':
+        console.log(value);
+        console.log(value.name);
         setGiocatorePreferito(value);
         break;
       case 'email':
@@ -137,6 +137,7 @@ function SignUp() {
   };
 
   const handleSubmit = () => {
+    setAlertError(false);
     if (
       !nome ||
       !surname ||
@@ -145,11 +146,24 @@ function SignUp() {
       !email ||
       !password
     ) {
-      alert(
-        'Compila tutti i campi obbligatori prima di procedere con la registrazione.'
-      );
+      setAlertError(true);
+      setAlertMessage('Compila tutti i campi obbligatori *.');
       return; // Non procedere con la registrazione se i campi obbligatori sono vuoti
     }
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      setAlertError(true);
+      setAlertMessage('Inserisci un indirizzo email valido.');
+      return; // Non procedere se l'email non è valida
+    }
+
+    // Controlla la lunghezza della password
+    if (password.length < 4) {
+      setAlertError(true);
+      setAlertMessage('La password deve essere lunga almeno 4 caratteri.');
+      return;
+    }
+
     const data = {
       firstName: nome,
       lastName: surname,
@@ -160,12 +174,17 @@ function SignUp() {
       email: email,
       password: password,
     };
-    axios
-      .post('http://localhost:3001/users/sign-up', data)
+    userServices
+      .sendUserData(data)
       .then((response) => {
-        alert('Utente registrato con successo');
-        setUser(data);
-        navigate('/');
+        if (response.data === true) {
+          saveUser(data);
+          setUser(data);
+          navigate('/');
+        } else {
+          setAlertError(true);
+          setAlertMessage('Utente già registrato');
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -206,7 +225,7 @@ function SignUp() {
           <div id="containerLabel">
             <h6>Informazioni Personali</h6>
 
-            <Grid sx={{ marginLeft: '10px' }} xs={9}>
+            <Grid item xs={9}>
               <TextField
                 required
                 label="Nome"
@@ -223,10 +242,10 @@ function SignUp() {
                 value={surname}
                 onChange={handleInputChange}
                 fullWidth
-                margin="surname"
+                margin="normal"
               />
             </Grid>
-            <Grid xs={6}>
+            <Grid item xs={6}>
               <TextField
                 required
                 label={isFocused || annoDiNascita ? 'Anno di Nascita' : ''}
@@ -255,7 +274,7 @@ function SignUp() {
           <div id="containerFavourite">
             <h6>Preferenze Calcistiche</h6>
 
-            <Grid xs={8}>
+            <Grid item xs={8}>
               <Autocomplete
                 id="combo-box-demo"
                 nome="squadraCalcioPreferita"
@@ -267,13 +286,13 @@ function SignUp() {
                 )}
               />
             </Grid>
-            <Grid sx={{ marginTop: '15px' }} xs={8}>
+            <Grid item sx={{ marginTop: '15px' }} xs={8}>
               <Autocomplete
                 id="combo-box-demo"
                 nome="giocatorePreferito"
                 options={filteredPlayers}
                 getOptionLabel={(option) => option.name}
-                getOptionSelected={(option, value) =>
+                isOptionEqualToValue={(option, value) =>
                   option.playerId === value.playerId
                 } // Specifica come confrontare gli oggetti
                 style={{ width: 300 }}
@@ -286,7 +305,7 @@ function SignUp() {
         ) : (
           <div id="contaninerCredentials">
             <h6>Credenziali</h6>
-            <Grid xs={9}>
+            <Grid item xs={9}>
               <TextField
                 required
                 label="Email"
@@ -308,6 +327,11 @@ function SignUp() {
                 margin="normal"
               />
             </Grid>
+            {alertError && (
+              <div>
+                <AlertError message={alertmessage} />
+              </div>
+            )}
           </div>
         )}
         <div id="containerButton">

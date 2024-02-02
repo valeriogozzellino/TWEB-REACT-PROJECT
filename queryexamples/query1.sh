@@ -1,0 +1,1 @@
+curl -X GET "http://localhost:8081/all-competitions?filter=Italy"
