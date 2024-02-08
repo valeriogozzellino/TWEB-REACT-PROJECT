@@ -84,7 +84,6 @@ function Teams() {
 
     window.addEventListener('scroll', handleScroll);
 
-    // Pulisci il listener quando il componente viene smontato
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };

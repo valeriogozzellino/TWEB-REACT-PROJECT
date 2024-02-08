@@ -45,8 +45,8 @@ export default function ChatIcon() {
         transform: 'translateZ(0px)',
         flexGrow: 1,
         position: 'fixed',
-        top: 650,
-        right: 16,
+        top: '90%',
+        left: '96%',
       }}
     >
       <Backdrop open={open} />

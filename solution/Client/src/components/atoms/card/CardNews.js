@@ -8,9 +8,9 @@ import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 
 /**
- *
- * @param {} param0
- * @returns
+ * Componente che visualizza una singola card di notizia.
+ * @param {Object} newsApi - Oggetto che rappresenta i dati della notizia.
+ * @returns {JSX.Element} Elemento JSX che rappresenta la card della notizia.
  */
 export default function CardNews({ newsApi }) {
   return (

@@ -147,3 +147,11 @@
 .column:last-child {
   border-right: none;
 }
+
+.container-date {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 2px;
+  font-size: large;
+}

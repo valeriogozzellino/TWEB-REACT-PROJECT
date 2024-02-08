@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext, useCallback } from 'react';
 import axios from 'axios';
 
 /**
@@ -52,14 +52,15 @@ export const AuthProvider = ({ children }) => {
     const userJSONString = JSON.stringify(user);
     localStorage.setItem('user', userJSONString);
   };
-  const getUser = () => {
+  const getUser = useCallback(() => {
     if (localStorage.getItem('user')) {
       setCheckCredentials(true);
       const userJSONString = localStorage.getItem('user');
       const userObject = JSON.parse(userJSONString);
       setUser(userObject);
     }
-  };
+  }, []); // Vuoto, perché non ci sono dipendenze.
+
   const logout = (email, password) => {
     setCheckCredentials(false);
     localStorage.removeItem(user);

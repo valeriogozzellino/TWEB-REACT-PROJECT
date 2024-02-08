@@ -4,9 +4,25 @@ import '../../../style/global.css';
 import { useNavigate } from 'react-router-dom';
 
 /**
+ * CardPlayers Component:
  *
- * @param {} param0
- * @returns
+ * This component is used for displaying a card for each player, providing a brief overview
+ * of their information. It's designed to be visually appealing and interactive, allowing users
+ * to navigate to a detailed view of the player's profile.
+ *
+ * Props:
+ *  @param {number} Id - Unique identifier for the player.
+ *  @param {string} firstName - The player's first name.
+ *  @param {string} lastName - The player's last name.
+ *  @param {string} position - The player's position in the team.
+ *  @param {string} image - URL of the player's image or avatar.
+ *
+ * Behavior:
+ *  - The card is styled with a dark background, a hover effect, and it's clickable.
+ *  - Clicking the card navigates the user to a route with detailed information about that specific player.
+ *  - The card displays the player's image, name, and position, with predefined styles for dimensions, alignment, and appearance.
+ *
+ * @returns {JSX.Element} A styled card component displaying the player's image, name, and position with click-to-navigate functionality.
  */
 export default function CardPlayers({
   Id,

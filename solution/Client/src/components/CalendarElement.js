@@ -18,7 +18,6 @@ import '../style/calendar.css';
  */
 
 export default function CalendarElement({ gameDates, onDateClick }) {
-  // Calcola se la data è nel weekend
   const isWeekend = (date) => {
     const day = date.getDay();
     return day === 0 || day === 6; // 0 = Domenica, 6 = Sabato

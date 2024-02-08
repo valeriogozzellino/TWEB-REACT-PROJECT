@@ -70,6 +70,7 @@ export default function Player() {
             goals: appearance.goals,
             assists: appearance.assists,
             minutes_played: appearance.minutes_played,
+            game_id: appearance.game_id,
           }));
           setPlayerAppearances(appearancesData);
         })

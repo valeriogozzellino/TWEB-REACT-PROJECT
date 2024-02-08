@@ -21,11 +21,10 @@ export default function ButtonGoTop({ scrollPosition }) {
           className="go-top"
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           style={{
-            width: '100px',
-            height: '100px',
             position: 'fixed',
             bottom: '60px',
-            right: '655px',
+            left: '50%',
+            transform: 'translateX(-50%)',
             zIndex: '100',
           }}
         >

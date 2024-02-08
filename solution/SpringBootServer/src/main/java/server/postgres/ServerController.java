@@ -66,7 +66,6 @@ public class ServerController {
      */
     @GetMapping("/get-competitions-country")
     public List<String> getCompetitionsCountry() {
-
         return competitionsService.getCountry();
     }
 

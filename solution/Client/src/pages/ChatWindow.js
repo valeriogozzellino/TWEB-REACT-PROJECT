@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import Box from '@mui/material/Box';
 import TopAppBar from '../components/TopAppBar';
-import Footer from '../components/Footer';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -71,33 +70,33 @@ export default function ChatWindow() {
     }
   };
 
-  //connect to the socket and join the room
   useEffect(() => {
-    const userJSONString = localStorage.getItem('user');
-    const user = JSON.parse(userJSONString);
     if (!user) {
-      // Redirect to login page or handle unauthorized access
-      // You can replace this with your own logic
       navigate('/login');
       return;
     }
+
     let selectedSocket;
-    if (currentRoom === '/PlayersChat') {
-      selectedSocket = sockets.playerSock;
-      setView(0);
-    } else if (currentRoom === '/TeamsChat') {
-      selectedSocket = sockets.teamSock;
-      setView(1);
-    } else {
-      selectedSocket = sockets.gameSock;
-      setView(2);
+
+    switch (currentRoom) {
+      case '/PlayersChat':
+        selectedSocket = sockets.playerSock;
+        setView(0);
+        break;
+      case '/TeamsChat':
+        selectedSocket = sockets.teamSock;
+        setView(1);
+        break;
+      default:
+        selectedSocket = sockets.gameSock;
+        setView(2);
+        break;
     }
 
     connectToRoom(currentRoom, selectedSocket);
     selectedSocket.emit('joined', currentRoom, user.firstName, user.userId);
 
-    //definition of the receiver of the message
-    selectedSocket.on('chat_message', (room, newMessage) => {
+    const chatMessageHandler = (room, newMessage) => {
       if (room === '/PlayersChat' && newMessage.userId !== user.userId) {
         setMessagesPlayers((currentMessages) => [
           ...currentMessages,
@@ -113,10 +112,9 @@ export default function ChatWindow() {
           ]);
         }
       }
-    });
+    };
 
-    //definition of notification of new user joined
-    selectedSocket.on('joined', (room, firstName, userId) => {
+    const chatMessageHandlerJoined = (room, firstName, userId) => {
       const joinMessage = {
         userId: 'userId',
         sender: 'System',
@@ -142,19 +140,24 @@ export default function ChatWindow() {
           ]);
         }
       }
-    });
+    };
 
+    // Aggiungi i listener per i messaggi e le notifiche di join
+    selectedSocket.on('chat_message', chatMessageHandler);
+    selectedSocket.on('joined', chatMessageHandlerJoined);
     //socket disconnected when compponents are unmounted
     return () => {
       selectedSocket.off('chat_message');
       selectedSocket.off('joined');
       disconnectSocket(selectedSocket);
     };
-  }, [currentRoom, messagesGames, messagesPlayers, messagesTeams, navigate]);
+  }, [currentRoom, navigate, user]);
 
+  //scroll to the bottom of the chat when the messages are updated
   useEffect(() => {
     scrollToBottom();
   }, [messagesPlayers, messagesTeams, messagesGames]);
+
   /**
    * Scrolls to the bottom of the chat to show the most recent messages.
    */
@@ -271,7 +274,7 @@ export default function ChatWindow() {
 
   return (
     <div id="chat-box">
-      <div className="container-background-color" style={{ minHeight: '80vh' }}>
+      <div className="container-background-color" style={{ height: '100vh' }}>
         <TopAppBar links={links} />
         <div
           style={{
@@ -303,7 +306,7 @@ export default function ChatWindow() {
             marginLeft: 10,
             borderRadius: '10px',
             backgroundColor: '#08325792',
-            maxHeight: '60vh',
+            maxHeight: '50vh',
           }}
         >
           {currentView[view]}
@@ -370,7 +373,7 @@ export default function ChatWindow() {
         chattingRooms={['PlayersChat', 'TeamsChat', 'GamesChat']}
       />
       <ArrowBack />
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

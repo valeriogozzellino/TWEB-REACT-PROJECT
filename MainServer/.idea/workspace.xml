@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1a63b41c-4d32-4c72-b26d-e2df096efca5" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../DataAnalysis/DataSet/AssignmentData/appearances.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DataAnalysis/DataSet/AssignmentData/club_games.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DataAnalysis/DataSet/AssignmentData/clubs.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DataAnalysis/DataSet/AssignmentData/competitions.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DataAnalysis/DataSet/AssignmentData/game_events.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DataAnalysis/DataSet/AssignmentData/game_lineups.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DataAnalysis/DataSet/AssignmentData/games.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DataAnalysis/DataSet/AssignmentData/player_valuations.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DataAnalysis/DataSet/AssignmentData/players.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2baal8oIzhgywW8NObXPUWRNMhI" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/valeriogozzellino/Documents/Terzo anno/Ium Tweb/Progetti/tweb/TWEB-react-project.git/MainServer",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "configurable.group.editor",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1a63b41c-4d32-4c72-b26d-e2df096efca5" name="Changes" comment="" />
+      <created>1706455791616</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1706455791616</updated>
+      <workItem from="1706455793592" duration="879000" />
+      <workItem from="1706456871786" duration="2745000" />
+      <workItem from="1706687410740" duration="273000" />
+      <workItem from="1706807711810" duration="2035000" />
+      <workItem from="1706823803997" duration="523000" />
+      <workItem from="1706881989924" duration="1774000" />
+      <workItem from="1706897524020" duration="559000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

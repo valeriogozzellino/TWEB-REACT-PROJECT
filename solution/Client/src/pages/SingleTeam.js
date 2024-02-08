@@ -56,7 +56,7 @@ export default function SingleTeam() {
   };
 
   useEffect(() => {
-    let promises: Promise[] = [];
+    let promises = [];
     promises.push(
       singleTeamService
         .getTeamById(clubId)
@@ -172,77 +172,92 @@ export default function SingleTeam() {
           {view === 0 ? (
             <div className="container-data-team">
               <div id="players-card">
-                {players.slice(0, showPlayer).map((player) => (
-                  <Tooltip title={player.position} key={player.playerId}>
-                    <div onClick={() => handlePlayerClick(player)}>
-                      <CardPlayers
-                        Id={player.playerId}
-                        image={player.imageUrl}
-                        firstName={player.firstName}
-                        lastName={player.lastName}
-                        position={player.subPosition}
-                      />
-                    </div>
-                  </Tooltip>
-                ))}
+                {players.length > 0 ? (
+                  players.slice(0, showPlayer).map((player) => (
+                    <Tooltip title={player.position} key={player.playerId}>
+                      <div onClick={() => handlePlayerClick(player)}>
+                        <CardPlayers
+                          Id={player.playerId}
+                          image={player.imageUrl}
+                          firstName={player.firstName}
+                          lastName={player.lastName}
+                          position={player.subPosition}
+                        />
+                      </div>
+                    </Tooltip>
+                  ))
+                ) : (
+                  <p>There are no players available to display in this club.</p>
+                )}
               </div>
-              <div id="buttons">
-                <Button
-                  variant="outlined"
-                  size="medium"
-                  sx={{ marginRight: '21px' }}
-                  onClick={() => handleNumberPlayer(0)}
-                >
-                  Show Less
-                </Button>
-                <Button
-                  variant="outlined"
-                  size="medium"
-                  onClick={() => handleNumberPlayer(1)}
-                >
-                  Show More
-                </Button>
-              </div>
+              {players.length > 0 && (
+                <div id="buttons">
+                  <Button
+                    variant="outlined"
+                    size="medium"
+                    sx={{ marginRight: '21px' }}
+                    onClick={() => handleNumberPlayer(0)}
+                  >
+                    Show Less
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    size="medium"
+                    onClick={() => handleNumberPlayer(1)}
+                  >
+                    Show More
+                  </Button>
+                </div>
+              )}
             </div>
           ) : view === 1 ? (
             <div className="container-data-team">
               <div id="games-card">
-                {clubGames.slice(0, showGames).map((game) => (
-                  <div onClick={() => handleGameClick(game)} key={game.game_id}>
-                    <GameCard
-                      game={game}
-                      imageurl1={
-                        'https://tmssl.akamaized.net/images/wappen/head/' +
-                        clubId +
-                        '.png?'
-                      }
-                      imageurl2={
-                        'https://tmssl.akamaized.net/images/wappen/head/' +
-                        game.away_club_id +
-                        '.png?'
-                      }
-                    />
-                  </div>
-                ))}
+                {clubGames.length > 0 ? (
+                  clubGames.slice(0, showGames).map((game) => (
+                    <div
+                      onClick={() => handleGameClick(game)}
+                      key={game.game_id}
+                    >
+                      <GameCard
+                        game={game}
+                        imageurl1={
+                          'https://tmssl.akamaized.net/images/wappen/head/' +
+                          clubId +
+                          '.png?'
+                        }
+                        imageurl2={
+                          'https://tmssl.akamaized.net/images/wappen/head/' +
+                          game.away_club_id +
+                          '.png?'
+                        }
+                      />
+                    </div>
+                  ))
+                ) : (
+                  <p>There are no games available to display.</p>
+                )}
               </div>
 
-              <div id="buttons">
-                <Button
-                  variant="outlined"
-                  size="medium"
-                  onClick={() => handleNumberGame(1)}
-                  sx={{ marginRight: '21px' }}
-                >
-                  Show Less
-                </Button>
-                <Button
-                  variant="outlined"
-                  size="medium"
-                  onClick={() => handleNumberGame(0)}
-                >
-                  Show More
-                </Button>
-              </div>
+              {clubGames.length > 0 && (
+                <div id="buttons">
+                  <Button
+                    variant="outlined"
+                    size="medium"
+                    sx={{ marginRight: '21px' }}
+                    onClick={() => handleNumberGame(0)}
+                  >
+                    Show Less
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    size="medium"
+                    onClick={() => handleNumberGame(1)}
+                  >
+                    Show More
+                  </Button>
+                </div>
+              )}
             </div>
           ) : (
             <div className="football-field">{/* Remove this  */}</div>

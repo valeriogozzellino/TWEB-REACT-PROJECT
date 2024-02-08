@@ -9,8 +9,11 @@ import ArrowBack from '../components/atoms/ArrowBack';
 import * as gameService from '../services/gameService';
 import LoadingComponent from '../components/Loading';
 /**
+ * The Games component provides an interface to display games filtered by date.
+ * It uses an external service to fetch the games data and allows the user to
+ * navigate to the detail page of a specific game.
  *
- * @returns
+ * @returns {JSX.Element} The JSX for the games page.
  */
 export default function Games() {
   const [games, setGames] = useState([]); // return all country and set them for the filter

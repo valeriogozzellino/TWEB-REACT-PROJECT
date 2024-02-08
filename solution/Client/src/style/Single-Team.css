@@ -154,11 +154,9 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  margin-left: 110px;
 }
 
 #games-card > div {
-  flex: 0 0 33.333%; /* Each game card will take up a third of the container width */
   box-sizing: border-box;
   padding: 10px; /* Adjust as needed for spacing */
 }
@@ -172,8 +170,8 @@
 }
 
 #players-card > div {
-  flex: 0 0 33.333%; /* Each game card will take up a third of the container width */
   box-sizing: border-box;
+  margin: 20px;
   padding: 10px; /* Adjust as needed for spacing */
 }
 

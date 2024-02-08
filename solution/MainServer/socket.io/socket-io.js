@@ -9,7 +9,7 @@ exports.init = function (io) {
             });
 
             socket.on('send_message', function (room, message, userId) {
-                teamsChat.to(room).emit('chat_message',room,  message, userId);
+                playersChat.to(room).emit('chat_message',room,  message, userId);
             });
 
             socket.on('disconnect', function () {
@@ -25,12 +25,10 @@ exports.init = function (io) {
             try {
                 socket.on('joined', function (room, firstName, userId) {
                     socket.join(room);
-                    console.log("JOINED THE ROOOOM");
                     teamsChat.to(room).emit('joined', room, firstName, userId);
                 });
 
                 socket.on('send_message', function (room, message, userId) {
-                    console.log("INVIO MESSAGGIO");
                     teamsChat.to(room).emit('chat_message',room, message, userId);
                 });
 

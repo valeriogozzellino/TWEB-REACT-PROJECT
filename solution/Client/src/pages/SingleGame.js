@@ -19,6 +19,8 @@ import Modal from '../components/Modal';
 import LoadingComponent from '../components/Loading';
 import ArrowBack from '../components/atoms/ArrowBack';
 import TopAppBar from '../components/TopAppBar';
+import { format } from 'date-fns';
+
 /**
  * SingleGame Component:
  *
@@ -166,16 +168,29 @@ const SingleGame = () => {
         <TopAppBar links={links} />
       </div>
       <div className="container-background-color">
+        <div className="container-date">
+          <b>
+            <h1>{format(new Date(game.date), 'dd-MM-yyyy')}</h1>
+          </b>
+        </div>
         <div className="page-title-container">
           <div className="page-header-club">
-            <img src={clubHomeLogo} alt={game.home_club_name} />
+            <img
+              src={clubHomeLogo}
+              alt={game.home_club_name}
+              onClick={() => navigate(`/single-team/${game.home_club_id}`)}
+            />
             <h1 className="page-title">{game.home_club_name}</h1>
           </div>
           <div>
             <h1>| {game.aggregate} |</h1>
           </div>
           <div className="page-header-club">
-            <img src={clubAwayLogo} alt={game.away_club_name} />
+            <img
+              src={clubAwayLogo}
+              alt={game.away_club_name}
+              onClick={() => navigate(`/single-team/${game.away_club_id}`)}
+            />
             <h1 className="page-title">{game.away_club_name}</h1>
           </div>
         </div>
